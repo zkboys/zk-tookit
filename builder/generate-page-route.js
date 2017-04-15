@@ -40,13 +40,19 @@ exports.generateAllPageRoute = function () {
 
 function writeAllPageRoute(paths, pathNames, targetFileName) {
     var fileString = '';
+    var utilsPath = path.join(__dirname, '../utils');
+    var connectPath = path.join(__dirname, '../redux/store/connectComponent.js');
+    fileString = "import connectComponent from '" + connectPath + "';\n"
+        + "import {startFetchingComponent, endFetchingComponent, shouldComponentMount} from '" + utilsPath + "/route-utils';"
+        + '\n';
+
     fileString += 'export default [';
     pathNames.forEach(function (im, i) {
         fileString += '\n    {\n        ';
         fileString += 'path: \'' + paths[i] + '\',\n        ';
-        getComponentString(im);
+        fileString += getComponentString(im);
         // fileString += 'asyncComponent: \'' + im + '\',\n    ';
-        // fileString += '},'
+        fileString += '},'
     });
     fileString += '\n];\n';
     fs.writeFileSync(targetFileName, fileString);
