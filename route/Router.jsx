@@ -15,10 +15,10 @@ let onRouterDidMount;
 export function initRouter(options) {
     Error404 = options.Error404;
     Frame = options.Frame;
-    Home = options.Frame;
+    Home = options.Home;
     historyListen = options.historyListen;
-    cfgOnLeave = options.cfgOnLeave;
-    cfgOnEnter = options.cfgOnEnter;
+    cfgOnLeave = options.onLeave;
+    cfgOnEnter = options.onEnter;
     onRouterDidMount = options.onRouterDidMount;
 }
 
