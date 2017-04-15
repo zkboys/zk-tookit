@@ -13,7 +13,7 @@ var defaultConfigFile = './zk-config'; // 默认配置文件名，要放在脚�
 var configPath = path.join(dest, program.config || defaultConfigFile);
 var config = require(configPath);
 
-fs.writeFileSync(path.join(config.projectRoot, 'config.js'), fs.readFileSync(configPath));
+fs.writeFileSync(path.join(__dirname, '../config.js'), fs.readFileSync(configPath));
 
 var srcPath = config.srcPath;
 module.exports = {
