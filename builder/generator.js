@@ -1,6 +1,6 @@
 var chokidar = require('chokidar');
 var fs = require('fs');
-var config = require('../config');
+var config = require('./config');
 var generateAllRoutes = require('./generate-all-routes');
 var generatePageRoute = require('./generate-page-route');
 var generatePageInitState = require('./generate-page-init-state');

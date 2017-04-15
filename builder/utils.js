@@ -1,6 +1,6 @@
 var path = require('path');
 var glob = require('glob');
-var config = require('../config');
+var config = require('./config');
 
 function assetsPath(_path) {
     var assetsSubDirectory = process.env.NODE_ENV === 'production'

@@ -1,6 +1,6 @@
 var path = require('path')
 var webpack = require('webpack')
-var config = require('../config')
+var config = require('./config')
 var utils = require('./utils')
 var projectRoot = config.projectRoot;
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
