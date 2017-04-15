@@ -1,14 +1,26 @@
-var config = require('./config')
+var config = require('../config')
 var webpack = require('webpack')
 var merge = require('webpack-merge')
 var utils = require('./utils')
 var baseWebpackConfig = require('./webpack.base.conf')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 
-// add hot-reload related code to entry chunks
+var HtmlWebpackPlugins = [];
 Object.keys(baseWebpackConfig.entry).forEach(function (name) {
-    baseWebpackConfig.entry[name] = ['./builder/dev-client'].concat(baseWebpackConfig.entry[name])
-})
+    // add hot-reload related code to entry chunks
+    baseWebpackConfig.entry[name] = ['./builder/dev-client'].concat(baseWebpackConfig.entry[name]);
+    var htmlOptions = config.htmlOptions[name];
+    HtmlWebpackPlugins.push(
+        new HtmlWebpackPlugin({
+            chunks: [name],
+            favicon: htmlOptions.favicon,
+            filename: htmlOptions.fileName,
+            template: htmlOptions.template,
+            inject: true,
+            title: htmlOptions.title,
+        })
+    );
+});
 
 module.exports = merge(baseWebpackConfig, {
     // eval-source-map is faster for development
@@ -20,21 +32,5 @@ module.exports = merge(baseWebpackConfig, {
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin(),
         // https://github.com/ampedandwired/html-webpack-plugin
-        new HtmlWebpackPlugin({
-            chunks: ['app'],
-            favicon: 'favicon.png',
-            filename: 'index.html',
-            template: 'index.html',
-            inject: true,
-            csrf: '<%= csrf %>'
-        }),
-        new HtmlWebpackPlugin({
-            chunks: ['signIn'],
-            favicon: 'favicon.png',
-            filename: 'signin.html',
-            template: 'signin.html',
-            inject: true,
-            csrf: '<%= csrf %>'
-        })
-    ]
+    ].concat(HtmlWebpackPlugins),
 })

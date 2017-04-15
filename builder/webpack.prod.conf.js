@@ -1,14 +1,37 @@
 var path = require('path')
-var config = require('./config')
+var config = require('../config')
 var utils = require('./utils')
 var webpack = require('webpack')
 var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.base.conf')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
-var env = process.env.NODE_ENV === 'testing'
-    ? require('./config/test.env')
-    : config.build.env
+var env = process.env.NODE_ENV;
+
+var HtmlWebpackPlugins = [];
+Object.keys(baseWebpackConfig.entry).forEach(function (name) {
+    // add hot-reload related code to entry chunks
+    baseWebpackConfig.entry[name] = ['./builder/dev-client'].concat(baseWebpackConfig.entry[name]);
+    var htmlOptions = config.htmlOptions[name];
+    HtmlWebpackPlugins.push(
+        new HtmlWebpackPlugin({
+            chunks: ['vendor', 'manifest'].push(name),
+            favicon: htmlOptions.favicon,
+            filename: htmlOptions.fileName,
+            template: htmlOptions.template,
+            inject: true,
+            minify: {
+                removeComments: true,
+                collapseWhitespace: true,
+                removeAttributeQuotes: true
+                // more options:
+                // https://github.com/kangax/html-minifier#options-quick-reference
+            },
+            // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+            chunksSortMode: 'dependency',
+            title: htmlOptions.title,
+        })
+    );
+});
 
 var webpackConfig = merge(baseWebpackConfig, {
     devtool: config.build.productionSourceMap ? '#source-map' : false,
@@ -25,48 +48,6 @@ var webpackConfig = merge(baseWebpackConfig, {
             compress: {
                 warnings: false
             }
-        }),
-        // extract css into its own file
-        // generate dist index.html with correct asset hash for caching.
-        // you can customize output by editing /index.html
-        // see https://github.com/ampedandwired/html-webpack-plugin
-        new HtmlWebpackPlugin({
-            chunks: ['app', 'vendor', 'manifest'],
-            favicon: 'favicon.png',
-            filename: process.env.NODE_ENV === 'testing'
-                ? 'index.html'
-                : config.build.index,
-            template: 'index.html',
-            inject: true,
-            minify: {
-                removeComments: true,
-                collapseWhitespace: true,
-                removeAttributeQuotes: true
-                // more options:
-                // https://github.com/kangax/html-minifier#options-quick-reference
-            },
-            // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-            chunksSortMode: 'dependency',
-            csrf: '<%= csrf %>',
-        }),
-        new HtmlWebpackPlugin({
-            chunks: ['signIn', 'vendor', 'manifest'],
-            favicon: 'favicon.png',
-            filename: process.env.NODE_ENV === 'testing'
-                ? 'signin.html'
-                : config.build.sigin,
-            template: 'signin.html',
-            inject: true,
-            minify: {
-                removeComments: true,
-                collapseWhitespace: true,
-                removeAttributeQuotes: true
-                // more options:
-                // https://github.com/kangax/html-minifier#options-quick-reference
-            },
-            // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-            chunksSortMode: 'dependency',
-            csrf: '<%= csrf %>',
         }),
         // split vendor js into its own file
         new webpack.optimize.CommonsChunkPlugin({
@@ -88,7 +69,7 @@ var webpackConfig = merge(baseWebpackConfig, {
             name: 'manifest',
             chunks: ['vendor']
         })
-    ]
+    ].concat(HtmlWebpackPlugins),
 })
 
 if (config.build.productionGzip) {

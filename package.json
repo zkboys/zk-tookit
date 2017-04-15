@@ -5,8 +5,7 @@
   "author": "wangshubin",
   "private": true,
   "scripts": {
-    "dll": "node builder/build-dll.js",
-    "dev": "cross-env NODE_ENV=development node builder/dev-server.js",
+    "dev": "cross-env NODE_ENV=development node builder/dev-server.js --config ./zk-config.js",
     "build": "cross-env NODE_ENV=production node builder/build.js",
     "gen": "cross-env NODE_ENV=development node builder/generator.js",
     "unit": "karma start test/unit/karma.conf.js --single-run",
@@ -34,6 +33,7 @@
     "babel-runtime": "^6.0.0",
     "chokidar": "^1.6.1",
     "classnames": "^2.2.5",
+    "commander": "^2.9.0",
     "connect-history-api-fallback": "^1.1.0",
     "cross-env": "^4.0.0",
     "css-loader": "^0.23.1",

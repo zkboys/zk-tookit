@@ -37,6 +37,7 @@ module.exports = function (source, other) {
         }
     }
     if (isRoutes) {
+        // TODO 这个路径要改 webpack.base.conf.js 中的 alias 配置
         routesStrTemp = "import connectComponent from 'src/utils/connectComponent.js';\n"
             + "import {startFetchingComponent, endFetchingComponent, shouldComponentMount} from 'src/utils/route-utils';"
             + routesStrTemp;

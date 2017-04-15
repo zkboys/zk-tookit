@@ -1,11 +1,11 @@
 var path = require('path')
 var webpack = require('webpack')
-var config = require('./config')
+var config = require('../config')
 var utils = require('./utils')
-var projectRoot = path.resolve(__dirname, '../')
+var projectRoot = config.projectRoot;
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-var babelPlugins = ['add-module-exports', 'typecheck', 'transform-runtime', ["import", [{ "libraryName": "antd", "style": "css" }]]];
+var babelPlugins = ['add-module-exports', 'typecheck', 'transform-runtime', ["import", config.babelImport]];
 if (process.env.NODE_ENV === 'testing') {
     babelPlugins.unshift('__coverage__');
 }
@@ -19,10 +19,7 @@ var babelQuery = {
 
 module.exports = {
     cache: true,
-    entry: {
-        app: './src/App.jsx',
-        signIn: './src/pages/sign-in/sign-in.js'
-    },
+    entry: config.webpack.base.entry,
     output: {
         path: config.build.assetsRoot,
         publicPath: process.env.NODE_ENV === 'production' ? config.build.assetsPublicPath : config.dev.assetsPublicPath,

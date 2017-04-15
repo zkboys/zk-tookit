@@ -3,7 +3,7 @@ var fs = require('fs');
 var path = require('path');
 var utils = require('./utils');
 
-var config = require('./config');
+var config = require('../config');
 
 var sourceFilePath = config.sourceFilePath;
 var sourceFileName = config.routesFileName;

@@ -1,31 +1,34 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
-var path = require('path')
+var path = require('path');
+var program = require('commander');
 
-var proxyTables = {
-    // '/api/organization/users': 'http://localhost:3001', // 开发过程中，可以代理具体的url到后端开发机器上。
-    // '/user/**': 'http://172.16.20.57:8080',
-    // '/admins': 'http://172.16.20.57:8080',
-    // '/admins/**': 'http://172.16.20.57:8080',
-    // '/systems': 'http://172.16.20.57:8080',
-    // '/systems/**': 'http://172.16.20.57:8080',
-    // '/role/**': 'http://172.16.14.157:8080',
-    // '/permission/**': 'http://172.16.14.157:8080',
-};
-var sourceFilePath = path.join(__dirname, '../../src');
+// 从命令行里面获取配置文件
+var dest = process.cwd();//返回运行当前脚本的工作目录的路径。
+program
+    .option('-c, --config <value>', 'set config')
+    .parse(process.argv);
+
+var configPath = path.join(dest, program.config);
+var config = require(configPath);
+
+var srcPath = config.srcPath;
 module.exports = {
-    sourceFilePath: sourceFilePath,
-    routesFileName: path.join(sourceFilePath, '**/routes.js'),
-    allRoutesFileName: path.join(sourceFilePath, 'all-routes.js'),
-    jsxFileName: path.join(sourceFilePath, '**/*.jsx'),
-    pageInitStateFileName: path.join(sourceFilePath, 'page-init-state.js'),
-    pageRouteFileName: path.join(sourceFilePath, 'page-routes.js'),
+    staticPath: config.staticPath,
+    projectRoot: config.projectRoot,
+    babelImport: config.babelImport,
+    htmlOptions: config.htmlOptions,
+    webpack: config.webpack,
+    sourceFilePath: srcPath,
+    routesFileName: path.join(srcPath, '**/routes.js'),
+    allRoutesFileName: path.join(srcPath, 'all-routes.js'),
+    jsxFileName: path.join(srcPath, '**/*.jsx'),
+    pageInitStateFileName: path.join(srcPath, 'page-init-state.js'),
+    pageRouteFileName: path.join(srcPath, 'page-routes.js'),
     build: {
-        env: require('./prod.env.js'),
-        index: path.resolve(__dirname, '../../public/index.html'),
-        sigin: path.resolve(__dirname, '../../public/signin.html'),
-        assetsRoot: path.resolve(__dirname, '../../public'),
+        env: '"production"',
+        assetsRoot: config.assetsRoot,
         assetsSubDirectory: 'static',
-        assetsPublicPath: '/',
+        assetsPublicPath: config.assetsPublicPath,
         productionSourceMap: true,
         // Gzip off by default as many popular static hosts such as
         // Surge or Netlify already gzip all static assets for you.
@@ -35,11 +38,11 @@ module.exports = {
         productionGzipExtensions: ['js', 'css']
     },
     dev: {
-        env: require('./dev.env.js'),
+        env: '"development"',
         port: 8080,
         assetsSubDirectory: 'static',
         assetsPublicPath: '/',
-        proxyTable: proxyTables,
+        proxyTable: config.proxyTables,
         // CSS Sourcemaps off by default because relative paths are "buggy"
         // with this option, according to the CSS-Loader README
         // (https://github.com/webpack/css-loader#sourcemaps)

@@ -1,14 +1,10 @@
 import * as utils from './utils';
 import * as app from './app';
-import * as setting from './system/setting';
-import * as profileMessage from './system/profile';
 import * as page from './page';
 
 const actions = {
     page,
-    profileMessage,
     app,
-    setting,
     utils,
 };
 const actionsFunctions = {};
