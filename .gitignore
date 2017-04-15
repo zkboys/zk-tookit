@@ -22,9 +22,9 @@ desktop.ini
 
 .idea
 public
-src/all-routes.js
-src/page-init-state.js
-src/page-routes.js
+all-routes.js
+page-init-state.js
+page-routes.js
 build/config/proxy-table.js
 *.sublime-project
 *.sublime-workspace
