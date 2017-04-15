@@ -1,6 +1,6 @@
 import {createAction} from 'redux-actions';
-import * as types from '../constants/actionTypes';
-import * as Storage from '../utils/storage';
+import * as types from '../actionTypes';
+import * as Storage from '../../utils/storage';
 import pageInitState from '../page-init-state';
 
 // 显示提示信息

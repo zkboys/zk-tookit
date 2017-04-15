@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {Router, browserHistory, RouterContext} from 'react-router';
-import allPageRoutes from './all-routes';
+import allPageRoutes from '../route/all-routes';
 import * as AppFrame from './components/app-frame/AppFrame';
 import * as Home from './pages/home/Home';
-import connectComponent from './utils/connectComponent.js';
-import * as Utils from './utils';
-import PubSub from './utils/pubsubmsg.js';
-import pageRoutes from './page-routes';
+import connectComponent from '../redux/store/connectComponent.js';
+import * as Utils from '../utils';
+import PubSub from '../utils/pubsubmsg.js';
+import pageRoutes from '../route/page-routes';
 import {isLogin, toLogin} from './commons/index';
 
 export class LayoutComponent extends Component {

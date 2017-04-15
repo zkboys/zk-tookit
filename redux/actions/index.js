@@ -1,12 +1,11 @@
 import * as utils from './utils';
-import * as app from './app';
 import * as page from './page';
 
 const actions = {
     page,
-    app,
     utils,
 };
+
 const actionsFunctions = {};
 
 // 检测是否有同名action

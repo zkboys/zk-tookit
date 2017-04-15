@@ -1,4 +1,4 @@
-import {session} from '../utils/storage';
+import {session} from '../../utils/storage';
 import config from '../configs';
 
 export function setCurrentLoginUser(user) {

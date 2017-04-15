@@ -1,6 +1,6 @@
 import {isFSA} from 'flux-standard-action';
-import * as types from '../constants/actionTypes';
-import * as storage from '../utils/storage';
+import * as types from '../actionTypes';
+import * as storage from '../../utils/storage';
 
 export default ({dispatch, getState}) => next => action => {
     setTimeout(() => { // 使getState获取到更新后的state

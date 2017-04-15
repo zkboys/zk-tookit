@@ -66,7 +66,8 @@ function getPathName(pathName) {
     if (process.platform.indexOf('win') >= 0) {
         pathName = pathName.replace(/\\/g, "\/");
     }
-    return pathName.replace('../', './');
+    // pathName = pathName.replace('../', '');
+    return pathName;
 }
 /**
  * 根据文件的相对路径，生成moduleName

@@ -6,8 +6,8 @@ import './style.less';
 import SideBar from './SideBar';
 import Header from './Header';
 import PageHeader from './PageHeader';
-import PubSubMsg from '../../utils/pubsubmsg';
-import connectComponent from '../../utils/connectComponent.js';
+import PubSubMsg from '../../../utils/pubsubmsg';
+import connectComponent from '../../../redux/store/connectComponent.js';
 import * as _AppContent from './AppContent';
 
 const AppContent = connectComponent(_AppContent);

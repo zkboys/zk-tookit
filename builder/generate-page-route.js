@@ -15,7 +15,9 @@ exports.handlePageRouteWatch = function (event, pathName) {
     const routePath = getRoutePath(pathName);
 
     if (!routePath) return;
-    pathName = pathName.replace(sourceFilePath, '..');
+
+    // pathName= path.relative(targetFileName, pathName);
+
     console.log('page-route:', event, pathName);
     var pn = utils.getPathName(pathName);
     if (event === 'add') {

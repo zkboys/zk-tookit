@@ -12,7 +12,7 @@ var imports = [];
 var modules = [];
 exports.handlePageInitStateWatch = function (event, pathName) {
     if (!hasInitState(pathName)) return;
-    pathName = pathName.replace(sourceFilePath, '..');
+    // pathName= path.relative(targetFileName, pathName);
     console.log(event, pathName);
     var im = utils.getImportStr(pathName, true);
     var pn = utils.getModuleName(pathName);

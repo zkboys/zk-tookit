@@ -1,8 +1,8 @@
 import {handleActions} from 'redux-actions';
 import {cloneDeep} from 'lodash/lang';
-import * as types from '../constants/actionTypes';
+import * as types from '../actionTypes';
 import initialState from '../page-init-state';
-import * as utils from '../utils';
+import * as utils from '../../utils';
 
 export default handleActions({
     [types.SET_STATE](state, action) {

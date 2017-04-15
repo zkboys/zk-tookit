@@ -13,6 +13,8 @@
  *     });
  * },
  * */
+var path = require('path');
+
 function getComponentString(componentPath) {
     return "getComponent: (nextState, cb) => {"
         + "startFetchingComponent();"
@@ -38,8 +40,10 @@ module.exports = function (source, other) {
     }
     if (isRoutes) {
         // TODO 这个路径要改 webpack.base.conf.js 中的 alias 配置
-        routesStrTemp = "import connectComponent from 'src/utils/connectComponent.js';\n"
-            + "import {startFetchingComponent, endFetchingComponent, shouldComponentMount} from 'src/utils/route-utils';"
+        var utilsPath = path.join(__dirname, '../utils');
+        var connectPath = path.join(__dirname, '../redux/store/connectComponent.js');
+        routesStrTemp = "import connectComponent from '" + connectPath + "';\n"
+            + "import {startFetchingComponent, endFetchingComponent, shouldComponentMount} from '" + utilsPath + "/route-utils';"
             + routesStrTemp;
         this.callback(null, routesStrTemp, other);
     } else {

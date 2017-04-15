@@ -13,7 +13,7 @@ var imports = [];
 var modules = [];
 exports.handleWatchAllRoutes = function (event, pathName) {
     if (!isRoutesFile(pathName)) return;
-    pathName = pathName.replace(sourceFilePath, '..');
+    // pathName= path.relative(targetFileName, pathName);
     console.log(event, pathName);
     var im = utils.getImportStr(pathName);
     var pn = utils.getModuleName(pathName);

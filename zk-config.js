@@ -36,6 +36,11 @@ module.exports = {
                 app: path.join(__dirname, './src/App.jsx'),
                 signIn: path.join(__dirname, './src/pages/sign-in/sign-in.js'),
             },
+            alias: {
+                src: path.resolve(__dirname, './src'),
+                assets: path.resolve(__dirname, './src/assets'),
+                components: path.resolve(__dirname, './src/components'),
+            },
         },
     },
     babelImport: [{libraryName: 'antd', style: 'css'}],

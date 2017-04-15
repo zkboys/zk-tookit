@@ -2,14 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import './global.less';
-import configureStore from './store/configure-store';
+import configureStore from '../redux/store/configure-store';
 import * as Routers from './Router';
-import connectComponent from './utils/connectComponent.js';
-// import config from './configs';
-
-// if (config.debug) {
-//     require('./mock/index');
-// }
+import connectComponent from '../redux/store/connectComponent.js';
 
 const Router = connectComponent(Routers);
 const store = configureStore();

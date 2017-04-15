@@ -1,8 +1,8 @@
 import axios from 'axios';
 import {message} from 'antd';
-import '../utils/promise-extends'; // 扩展了 done 和 finally 方法
+import '../../utils/promise-extends'; // 扩展了 done 和 finally 方法
 import config from '../configs';
-import {mosaicUrl} from '../utils';
+import {mosaicUrl} from '../../utils';
 import {getCurrentLoginUser, toLogin} from './index';
 
 if (config.debug) {
