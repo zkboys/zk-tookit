@@ -52,7 +52,7 @@ module.exports = {
             {
                 test: /\.js(x)*$/,
                 loader: 'babel',
-                include: projectRoot,
+                // include: projectRoot,
                 exclude: /node_modules/,
                 query: babelQuery
             },

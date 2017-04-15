@@ -1,5 +1,6 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 var path = require('path');
+var fs = require('fs');
 var program = require('commander');
 
 // 从命令行里面获取配置文件
@@ -11,6 +12,8 @@ program
 var defaultConfigFile = './zk-config'; // 默认配置文件名，要放在脚本运行目录下。
 var configPath = path.join(dest, program.config || defaultConfigFile);
 var config = require(configPath);
+
+fs.writeFileSync(path.join(config.projectRoot, 'config.js'), fs.readFileSync(configPath));
 
 var srcPath = config.srcPath;
 module.exports = {

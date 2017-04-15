@@ -1,23 +1,13 @@
 {
   "name": "assets",
   "version": "1.0.0",
-  "description": "A React.js project",
+  "description": "A React.js project framework",
   "author": "wangshubin",
-  "private": true,
-  "scripts": {
-    "dev": "cross-env NODE_ENV=development node builder/dev-server.js --config ./zk-config.js",
-    "build": "cross-env NODE_ENV=production node builder/build.js",
-    "gen": "cross-env NODE_ENV=development node builder/generator.js",
-    "unit": "karma start test/unit/karma.conf.js --single-run",
-    "unit:watch": "karma start test/unit/karma.conf.js",
-    "e2e": "node test/e2e/runner.js",
-    "test": "npm run unit && npm run e2e",
-    "lint": "eslint --ext .js,.jsx src"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zkboys/zk-react.git"
   },
   "dependencies": {
-    "antd": "^2.9.0",
-    "axios": "^0.15.3",
-    "axios-mock-adapter": "^1.8.1",
     "babel-core": "^6.24.0",
     "babel-eslint": "^6.1.2",
     "babel-loader": "^6.0.0",

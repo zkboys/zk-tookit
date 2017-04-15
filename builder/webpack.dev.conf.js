@@ -8,7 +8,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var HtmlWebpackPlugins = [];
 Object.keys(baseWebpackConfig.entry).forEach(function (name) {
     // add hot-reload related code to entry chunks
-    baseWebpackConfig.entry[name] = ['./builder/dev-client'].concat(baseWebpackConfig.entry[name]);
+    baseWebpackConfig.entry[name] = ['../builder/dev-client'].concat(baseWebpackConfig.entry[name]);
     var htmlOptions = config.htmlOptions[name];
     HtmlWebpackPlugins.push(
         new HtmlWebpackPlugin({
