@@ -1,0 +1,341 @@
+@import '../../variables.less';
+
+/*头部样式*/
+.app-header {
+  position: fixed;
+  z-index: 9999;
+  width: 100%;
+  height: @headerHeight;
+  background-color: @primaryColor;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  .logo {
+    float: left;
+    box-sizing: border-box;
+    width: @sideBarMaxWidth;
+    height: @headerHeight;
+    line-height: @headerHeight;
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+    transition: 300ms;
+    overflow: hidden;
+    &.collapsed {
+      width: @sideBarMinWidth;
+      font-size: 14px;
+    }
+    a {
+      color: #fff;
+    }
+  }
+  /*收起展开菜单按钮*/
+  .app-sidebar-toggle {
+    display: inline-block;
+    padding: 0 15px;
+    height: 100%;
+    line-height: @headerHeight;
+    font-size: 14px;
+    color: @sideBarToggleButtonFontColor;
+    vertical-align: middle;
+    float: left;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+  /*头部导航*/
+  .navigation {
+    float: left;
+    margin-top: 6px;
+    font-size: 14px;
+    .ant-menu-item {
+      background: @primaryColor;
+      a {
+        color: #fff;
+      }
+      i {
+        margin-right: 8px;
+      }
+      &.ant-menu-item-active, &.ant-menu-item-selected {
+        border-color: #fff;
+      }
+      &:hover {
+        background: @primaryColor;
+      }
+    }
+  }
+  /*头部右侧按钮*/
+  .menu {
+    float: right;
+    li {
+      display: inline-block;
+      height: @headerHeight;
+      line-height: @headerHeight;
+      font-size: 14px;
+      color: #fff;
+      cursor: pointer;
+      &:hover {
+        background: rgba(0, 0, 0, 0.1);
+      }
+      i {
+        margin-right: 8px;
+      }
+      a {
+        display: inline-block;
+        padding: 0 16px;
+        height: 100%;
+        width: 100%;
+        color: #fff;
+      }
+      .user-avatar {
+        display: inline-block;
+        margin-top: -2px;
+        margin-right: 8px;
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        border-radius: 50%;
+        vertical-align: middle;
+        text-align: center;
+        color: #fff;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+/*侧边栏菜单*/
+.app-sidebar {
+  position: fixed;
+  z-index: 9999;
+  top: @headerHeight;
+  bottom: 0;
+  left: 0;
+  width: @sideBarMaxWidth;
+  background-color: @sideBarBgColor;
+  overflow: hidden;
+  box-sizing: border-box;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  transition: 300ms;
+  &.collapsed,
+  &.collapsed .app-sidebar-inner {
+    width: @sideBarMinWidth;
+    overflow: visible;
+
+  }
+  &.expanded {
+    width: @sideBarMaxWidth;
+    overflow: hidden;
+    .app-sidebar-inner {
+      width: @sideBarMaxWidth;
+      overflowY: 'scroll'
+    }
+  }
+  &.hidden {
+    width: 0 !important;
+    overflow: hidden;
+  }
+  .app-sidebar-inner {
+    position: relative;
+    z-index: 999;
+    height: 100%;
+    overflow-x: visible;
+    overflow-y: scroll;
+    transition: 300ms;
+    & > .ant-menu-vertical > .ant-menu-item {
+      transition: width 300ms;
+      &.ant-menu-item-active {
+        width: 150px;
+        background-color: @sideBarMenuActiveBgColor;
+        a span {
+          display: inline-block;
+        }
+      }
+    }
+    .ant-menu,
+    .ant-menu-submenu > .ant-menu {
+      color: @sideBarMenuFontColor;
+      background-color: @sideBarMenuBgColor;
+      border-right: none;
+      .fa {
+        margin-right: 5px;
+      }
+      .ant-menu-item {
+        //border-right: 3px solid @sideBarMenuBgColor;
+        left: 0;
+        margin-left: 0;
+        padding-right: 0; /*扩大Link可点击区域*/
+        a {
+          color: @sideBarMenuFontColor;
+        }
+      }
+    }
+    .ant-menu-submenu-title {
+      color: @sideBarSubMenuFontColor;
+      &:hover {
+        background-color: @sideBarMenuActiveBgColor;
+        color: @sideBarMenuActiveFontColor;
+      }
+    }
+    .ant-menu-item-active {
+      background-color: lighten(@sideBarMenuActiveBgColor, 5%);
+      //border-right-color: lighten(@sideBarMenuActiveFontColor, 10%) !important;
+      a {
+        color: lighten(@sideBarMenuActiveFontColor, 20%) !important;
+      }
+    }
+    .ant-menu-submenu-active {
+      background-color: lighten(@sideBarMenuActiveBgColor, 2%);
+    }
+    .ant-menu-item-selected {
+      background-color: @sideBarMenuActiveBgColor;
+      //border-right-color: @sideBarMenuActiveFontColor !important;
+      a {
+        color: @sideBarMenuActiveFontColor !important;
+      }
+    }
+
+    & > .ant-menu-vertical > .ant-menu-submenu-vertical > .ant-menu-submenu-title {
+      padding-left: 20px;
+      font-size: 18px;
+      & > span > span { //隐藏文字
+        display: none;
+      }
+      &:after { //隐藏箭头
+        content: ''
+      }
+    }
+    & > .ant-menu-vertical > .ant-menu-item > a { // Link标签样式
+      & > i {
+        margin-left: 3px;
+        font-size: 16px;
+      }
+      & > span { //隐藏文字
+        display: none;
+      }
+
+    }
+  }
+}
+
+/*主体内容容器*/
+.app-content {
+  position: absolute;
+  left: @sideBarMaxWidth;
+  top: @headerHeight;
+  right: 0;
+  padding: 0 @contentPadding @contentPadding @contentPadding;
+  transition: left 300ms, opacity 150ms, transform 150ms;
+  &.page-header-fixed {
+    top: 124px;
+  }
+  &.page-header-hidden {
+    top: @headerHeight;
+  }
+  &.collapsed {
+    left: @sideBarMinWidth;
+  }
+  &.full {
+    left: 0;
+  }
+
+  .switch-animation();
+  #app-frame-page {
+    height: 100%;
+  }
+
+}
+
+.loading-component {
+  display: none;
+  position: fixed;
+  left: @sideBarMaxWidth;
+  top: @headerHeight;
+  right: 0;
+  bottom: 0;
+  box-sizing: border-box;
+  padding: 0;
+  z-index: 9999;
+  text-align: center;
+  background: rgba(255, 255, 255, 1);
+  &.collapsed {
+    left: @sideBarMinWidth;
+  }
+  &.full {
+    left: 0;
+  }
+  &.show {
+    display: block;
+  }
+  & .ant-spin {
+    position: absolute;
+    left: 50%;
+    top: 30%;
+  }
+}
+
+/*页面头部*/
+.page-header {
+  border-bottom: 1px solid @borderColor;
+  padding-top: 16px;
+  padding-bottom: 8px;
+  margin-bottom: @contentPadding;
+  transition: left 300ms, opacity 150ms, transform 150ms, background-color 1000ms;
+  .ant-tabs-bar {
+    margin-bottom: 0;
+    i.fa {
+      margin-right: 8px;
+    }
+  }
+  &.fixed {
+    position: fixed;
+    top: @headerHeight;
+    right: 0;
+    left: @sideBarMaxWidth;
+    padding-left: @contentPadding;
+    padding-right: @contentPadding;
+    z-index: 1000;
+    background-color: #fff;
+    &.collapsed {
+      left: @sideBarMinWidth;
+    }
+    &.full {
+      left: 0;
+    }
+  }
+  &.collapsed {
+    left: @sideBarMinWidth + @contentPadding;
+  }
+  &.full {
+    left: @contentPadding;
+  }
+  &.hidden {
+    display: none;
+  }
+  .switch-animation();
+  .header-title {
+    font-weight: normal;
+    font-size: 16px;
+    display: inline-block;
+  }
+  .back-button {
+    margin-right: 8px;
+  }
+  .ant-breadcrumb {
+    float: right;
+    margin-top: 4px;
+    & > span {
+      color: #999;
+      a {
+        color: #999;
+        &:hover {
+          color: #57c5f7;
+        }
+      }
+      &:last-child {
+        color: #666;
+      }
+    }
+  }
+  .breadcrumb-icon {
+    margin-right: 4px;
+  }
+}

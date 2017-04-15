@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <meta content="_csrf" name="csrf-param">
+    <meta content="<%= htmlWebpackPlugin.options.csrf %>" name="csrf-token">
+</head>
+<body>
+<div id="framework">
+    <div data-reactroot="" class="login-wrap">
+        <div class="img-box loaded">
+            <div class="des-img"></div>
+            <label class="circle-label small yellow position1">服务</label>
+            <label class="circle-label large blue position2">创新</label>
+            <label class="circle-label large red position3">管理</label>
+            <label class="circle-label large purple position4">安全</label>
+            <div class="massage position2">
+                <span>发展的灵魂</span>
+                <div class="line"></div>
+            </div>
+            <div class="massage position3">
+                <span>高效的管理</span>
+                <div class="line"></div>
+            </div>
+            <div class="massage position4">
+                <span>安全可靠的技术支持</span>
+                <div class="line"></div>
+            </div>
+        </div>
+        <div class="login-box" id="login-box" style="display: block;">
+            <h1 class="login-title">用户登录</h1>
+            <div class="form-item">
+                <label for="name">用户名：</label>
+                <input type="text" id="name" placeholder="请输入登录名" autofocus>
+            </div>
+            <div class="form-item">
+                <label for="pass">密码：</label>
+                <input type="password" id="pass" placeholder="请输入密码">
+            </div>
+            <div class="error" id="login-error"></div>
+            <div class="button " id="login-btn">登录</div>
+        </div>
+        <div class="login-box" id="first-login-box" style="display: none;">
+            <h1 class="login-title" style="margin-bottom: 0px; padding-bottom: 10px;">首次登录</h1>
+            <div style="text-align: center; padding-bottom: 15px;">您为首次登录，请修改您的初始密码</div>
+            <div class="form-item">
+                <label for="new-pass">新密码：</label>
+                <input type="password" id="new-pass" placeholder="请输入新密码">
+            </div>
+            <div class="form-item">
+                <label for="re-new-pass">确认密码：</label>
+                <input type="password" id="re-new-pass" placeholder="请输入确认新密码">
+            </div>
+            <div class="error" id="reset-pass-error"></div>
+            <div class="button " id="reset-pass-btn">确认</div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
