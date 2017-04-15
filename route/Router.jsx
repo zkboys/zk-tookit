@@ -3,9 +3,24 @@ import {Router, browserHistory} from 'react-router';
 import allPageRoutes from '../route/all-routes';
 import connectComponent from '../redux/store/connectComponent.js';
 import pageRoutes from '../route/page-routes';
-import allConfig from '../builder/config';
 
-const config = allConfig.oriConfig;
+let Error404;
+let Frame;
+let Home;
+let historyListen;
+let cfgOnLeave;
+let cfgOnEnter;
+let onRouterDidMount;
+
+export function initRouter(options) {
+    Error404 = options.Error404;
+    Frame = options.Frame;
+    Home = options.Frame;
+    historyListen = options.historyListen;
+    cfgOnLeave = options.cfgOnLeave;
+    cfgOnEnter = options.cfgOnEnter;
+    onRouterDidMount = options.onRouterDidMount;
+}
 
 export default class extends Component {
     constructor(props) {
@@ -15,11 +30,7 @@ export default class extends Component {
         allRoutes.push(
             {
                 path: '*',
-                getComponent: (location, cb) => {
-                    require.ensure([], (require) => {
-                        cb(null, connectComponent(require(config.router.error404PagePath)));
-                    });
-                },
+                component: connectComponent(Error404),
             }
         );
 
@@ -38,9 +49,9 @@ export default class extends Component {
 
         this.routes = {
             path: '/',
-            component: connectComponent(require(config.router.frameComponentPath)),
+            component: connectComponent(Frame),
             indexRoute: {
-                component: connectComponent(require(config.router.homePagePath)),
+                component: connectComponent(Home),
                 onEnter: this.onEnter,
                 onLeave: this.onLeave,
             },
@@ -48,19 +59,15 @@ export default class extends Component {
         };
 
         browserHistory.listen((...args) => {
-            if (config.router.historyListen) {
-                config.router.historyListen(...args);
+            if (historyListen) {
+                historyListen(...args);
             }
         });
     }
 
 
     onLeave = (prevState, oriOnLeave) => {
-        const {
-            onLeave = () => {
-            },
-        } = config.router;
-        onLeave(prevState);
+        if (cfgOnLeave) cfgOnLeave(prevState);
 
         if (oriOnLeave) {
             oriOnLeave(prevState);
@@ -68,11 +75,7 @@ export default class extends Component {
     }
 
     onEnter = (nextState, replace, callback, oriOnEnter) => {
-        const {
-            onEnter = () => {
-            },
-        } = config.router;
-        onEnter(nextState, replace, callback);
+        if (cfgOnEnter) cfgOnEnter(nextState, replace, callback);
 
         if (oriOnEnter) {
             oriOnEnter(nextState, replace, callback);
@@ -91,11 +94,7 @@ export default class extends Component {
     }
 
     componentDidMount() {
-        const {
-            onRouterDidMount = () => {
-            },
-        } = config.router;
-        onRouterDidMount();
+        if (onRouterDidMount) onRouterDidMount();
     }
 
     render() {

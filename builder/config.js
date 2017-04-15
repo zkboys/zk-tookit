@@ -25,12 +25,6 @@ var htmlOptionsPaths = [
     'favicon',
 ];
 
-var routePaths = [
-    'error404PagePath',
-    'frameComponentPath',
-    'homePagePath',
-];
-
 absolutePath(pathConfigs, config);
 
 if (config.htmlOptions) {
@@ -48,10 +42,6 @@ if (config.webpack && config.webpack.base && config.webpack.base.alias) {
     absolutePath(Object.keys(config.webpack.base.alias), config.webpack.base.alias);
 }
 
-if (config.router) {
-    absolutePath(routePaths, config.router);
-}
-
 function absolutePath(paths, obj) {
     paths.forEach(function (p) {
         var pathValue = obj[p];
@@ -61,9 +51,12 @@ function absolutePath(paths, obj) {
     })
 }
 
+
+fs.writeFileSync(path.join(__dirname, '../config.js'), fs.readFileSync(configPath));
+
+
 var srcPath = config.srcPath;
 module.exports = {
-    oriConfig: config,
     staticPath: config.staticPath,
     projectRoot: config.projectRoot,
     babelImport: config.babelImport,
