@@ -83,8 +83,8 @@ function getPathsAndPathNames(sourceFilePath, targetFileName, filter) {
             var file = files[i];
             var p = filter(file);
             if (p && p !== true) {
-                var filePath = path.relative(targetFileName, file);
-                var moduleName = utils.getPathName(filePath);
+                // var filePath = path.relative(targetFileName, file);
+                var moduleName = utils.getPathName(file);
                 paths.push(p);
                 pathNames.push(moduleName);
             }

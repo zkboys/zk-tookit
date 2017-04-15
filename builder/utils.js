@@ -26,9 +26,9 @@ function getImportsAndModules(sourceFilePath, targetFileName, filter, star) {
         for (var i = 0; i < files.length; i++) {
             var file = files[i];
             if (filter && filter(file)) {
-                var filePath = path.relative(targetFileName, file);
-                var importStr = getImportStr(filePath, star);
-                var moduleName = getModuleName(filePath);
+                // var filePath = path.relative(targetFileName, file);
+                var importStr = getImportStr(file, star);
+                var moduleName = getModuleName(file);
                 imports.push(importStr);
                 modules.push(moduleName);
             }
