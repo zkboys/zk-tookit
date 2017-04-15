@@ -10,8 +10,6 @@ if (process.env.NODE_ENV === 'testing') {
     babelPlugins.unshift('__coverage__');
 }
 
-const zkReactPath = path.join(__dirname, '../../zk-react');
-
 var babelQuery = {
     cacheDirectory: true,
     presets: ['es2015', 'react', 'stage-0'],
@@ -54,8 +52,8 @@ module.exports = {
             {
                 test: /\.js(x)*$/,
                 loader: 'babel',
-                include: [projectRoot, zkReactPath],
-                exclude: /node_modules/,
+                include: projectRoot,
+                exclude: /node_modules\/(?!(zk-react)\/).*/, // zk-react需要webpack构建 exclude: /node_modules\/(?!(MY-MODULE|ANOTHER-ONE)\/).*/,
                 query: babelQuery
             },
             {
