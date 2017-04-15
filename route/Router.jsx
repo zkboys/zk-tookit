@@ -3,7 +3,9 @@ import {Router, browserHistory} from 'react-router';
 import allPageRoutes from '../route/all-routes';
 import connectComponent from '../redux/store/connectComponent.js';
 import pageRoutes from '../route/page-routes';
-import config from '../config';
+import allConfig from '../builder/config';
+
+const config = allConfig.oriConfig;
 
 export default class extends Component {
     constructor(props) {

@@ -13,10 +13,57 @@ var defaultConfigFile = './zk-config'; // 默认配置文件名，要放在脚�
 var configPath = path.join(dest, program.config || defaultConfigFile);
 var config = require(configPath);
 
-fs.writeFileSync(path.join(__dirname, '../config.js'), fs.readFileSync(configPath));
+var pathConfigs = [
+    'projectRoot',
+    'srcPath',
+    'staticPath',
+    'assetsRoot',
+];
+
+var htmlOptionsPaths = [
+    'template',
+    'favicon',
+];
+
+var routePaths = [
+    'error404PagePath',
+    'frameComponentPath',
+    'homePagePath',
+];
+
+absolutePath(pathConfigs, config);
+
+if (config.htmlOptions) {
+    Object.keys(config.htmlOptions).forEach(function (m) {
+        var html = config.htmlOptions[m];
+        absolutePath(htmlOptionsPaths, html);
+    });
+}
+
+if (config.webpack && config.webpack.base && config.webpack.base.entry) {
+    absolutePath(Object.keys(config.webpack.base.entry), config.webpack.base.entry);
+}
+
+if (config.webpack && config.webpack.base && config.webpack.base.alias) {
+    absolutePath(Object.keys(config.webpack.base.alias), config.webpack.base.alias);
+}
+
+if (config.router) {
+    absolutePath(routePaths, config.router);
+}
+
+function absolutePath(paths, obj) {
+    paths.forEach(function (p) {
+        var pathValue = obj[p];
+        if (pathValue && !path.isAbsolute(pathValue)) {
+            obj[p] = path.join(dest, pathValue);
+        }
+    })
+}
 
 var srcPath = config.srcPath;
 module.exports = {
+    oriConfig: config,
     staticPath: config.staticPath,
     projectRoot: config.projectRoot,
     babelImport: config.babelImport,
