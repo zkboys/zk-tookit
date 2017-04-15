@@ -52,8 +52,8 @@ module.exports = {
             {
                 test: /\.js(x)*$/,
                 loader: 'babel',
-                // include: projectRoot,
-                // exclude: /node_modules/,
+                include: [projectRoot, /zk-react/],
+                exclude: /node_modules/,
                 query: babelQuery
             },
             {
