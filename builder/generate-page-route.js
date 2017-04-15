@@ -44,13 +44,25 @@ function writeAllPageRoute(paths, pathNames, targetFileName) {
     pathNames.forEach(function (im, i) {
         fileString += '\n    {\n        ';
         fileString += 'path: \'' + paths[i] + '\',\n        ';
-        fileString += 'asyncComponent: \'' + im + '\',\n    ';
-        fileString += '},'
+        getComponentString(im);
+        // fileString += 'asyncComponent: \'' + im + '\',\n    ';
+        // fileString += '},'
     });
     fileString += '\n];\n';
     fs.writeFileSync(targetFileName, fileString);
 }
 
+
+function getComponentString(componentPath) {
+    return "getComponent: (nextState, cb) => {"
+        + "startFetchingComponent();"
+        + "require.ensure([], (require) => {"
+        + "if (!shouldComponentMount(nextState)) return;"
+        + "endFetchingComponent();"
+        + "cb(null, connectComponent(require('" + componentPath + "')));"
+        + "});"
+        + "},";
+}
 
 function getRoutePath(file) {
     try {

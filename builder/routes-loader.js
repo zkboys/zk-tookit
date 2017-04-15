@@ -39,7 +39,6 @@ module.exports = function (source, other) {
         }
     }
     if (isRoutes) {
-        // TODO 这个路径要改 webpack.base.conf.js 中的 alias 配置
         var utilsPath = path.join(__dirname, '../utils');
         var connectPath = path.join(__dirname, '../redux/store/connectComponent.js');
         routesStrTemp = "import connectComponent from '" + connectPath + "';\n"
