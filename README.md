@@ -476,9 +476,9 @@ export default undoable(organization, {
 ### 页面级别Redux写法
 上述action，不仅仅将数据共享，action也进行了共享，对于页面来说如果仅仅需要共享数据，并不需要共享action，可以使用如下写法：
 ```
-// 在具体的jsx页面中定义如下两个常量：
-export const PAGE_SCOPE = 'someUniqueString';
+// 在具体的jsx页面中定义如下常量：
 export const INIT_STATE = {
+    scope: 'someUniqueString',
     sync: true,
     a: 3,
     b: 4,
@@ -487,25 +487,24 @@ export const INIT_STATE = {
 ```
 说明：
 
-1. 如果要使用 actions.setState方法，PAGE_SCOPE，INIT_STATE，必须定义， 必须定义，必须定义
-1. PAGE_SCOPE：用来限制存放在store中的本页面state的作用于，防止页面过多，产生冲突，命名约定：各个级别模块名+文件名，驼峰命名
+1. 如果要使用 actions.setState方法，INIT_STATE，必须定义， 必须定义，必须定义
 1. INIT_STATE：初始化state，这个会被脚本抓取，最终生成src/page-init-state.js，两个作用：
     1. 初始化放入store中的state
-    2. 可以很明确看出当前页面用到的state结构
-    3. sync: true 属性，标记当前页面state与localStorage同步，当前页面state变化将自动保存到localStorage中，页面启动时，会把localStorage中数据自动同步到redux中。
+    1. 可以很明确看出当前页面用到的state结构
+    1. scope：用来限制存放在store中的本页面state的作用于，防止页面过多，产生冲突，命名约定：各个级别模块名+文件名，驼峰命名
+    1. sync: true 属性，标记当前页面state与localStorage同步，当前页面state变化将自动保存到localStorage中，页面启动时，会把localStorage中数据自动同步到redux中。
 1. 使用`this.props.actions.setState(scope, payload)`方法将数据存于store
 1. 如果修改当前页面数据，可以直接使用`this.props.actions.setState(payload)`，不必指定scope
 1. 修改其他页面数据，则要指定scope，
     ```js
     // 比如UserAdd.jsx页面要修改UserList.jsx页面所用到的state
-    import {PAGE_SCOPE as USER_LIST_PAGE_SCOPE} from './UserList.jsx';
-    this.props.actions.setState(USER_LIST_PAGE_SCOPE, payload);
+    this.props.actions.setState('userListPageScope', payload);
     ```
 1. store中的state注入本组件：
     ```js
     export function mapStateToProps(state) {
         return {
-            ...state.pageState[PAGE_SCOPE],
+            ...state.pageState.someUniqueString, // someUniqueString 为当前页面scope
         };
     }
     // 通过this.props获取：
@@ -515,8 +514,8 @@ export const INIT_STATE = {
     // 注入多个页面state时，防止冲突，可以用如下写法
     export function mapStateToProps(state) {
         return {
-            page1: state.pageState[PAGE1_PAGE_SCOPE],
-            page2: state.pageState[PAGE2_PAGE_SCOPE],
+            page1: state.pageState.page1Scope,
+            page2: state.pageState.page2Scope,
         };
     }
     // 通过this.props获取：
