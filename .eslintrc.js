@@ -49,6 +49,7 @@ module.exports = {
         "no-console": 0, // 便于开发调试，不输出warning
         "no-unused-expressions": 0, // fun && fun() // 允许这种写法
         "linebreak-style": 0, // windows Linux 换行监测
+        "import/no-extraneous-dependencies": 0
     }
 }
 

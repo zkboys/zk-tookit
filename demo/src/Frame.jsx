@@ -1,7 +1,11 @@
 import React, {Component} from 'react';
 
-export default class extends Component {
+export class LayoutComponent extends Component {
     state = {}
+
+    componentDidMount() {
+        this.props.actions.getStateFromStorage();
+    }
 
     render() {
         return (
@@ -10,4 +14,11 @@ export default class extends Component {
             </div>
         );
     }
+}
+
+export function mapStateToProps(state) {
+    return {
+        ...state.app,
+        ...state.utils,
+    };
 }

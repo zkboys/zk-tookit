@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-export const PAGE_ROUTE = '/examples/page1';
+export const PAGE_ROUTE = '/example/page1';
 
 export default class extends Component {
     state = {}
