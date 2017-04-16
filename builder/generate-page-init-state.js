@@ -13,7 +13,7 @@ var finalString = {};
 exports.handlePageInitStateWatch = function (event, pathName) {
     if (!hasInitState(pathName)) return;
     // pathName= path.relative(targetFileName, pathName);
-    console.log('page-init-state:', event, pathName);
+    console.log('init-state:', event, pathName);
     var initString = getPageInitString(pathName);
     var scope = getPageInitScope(initString);
     var scopeInit = scope + ': ' + initString;

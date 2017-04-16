@@ -11,6 +11,6 @@
   "dependencies": {
     "antd": "^2.9.1",
     "cross-env": "^4.0.0",
-    "zk-react": "^1.0.27"
+    "zk-react": "^1.0.28"
   }
 }
