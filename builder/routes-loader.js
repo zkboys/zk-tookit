@@ -13,18 +13,7 @@
  *     });
  * },
  * */
-var path = require('path');
-
-function getComponentString(componentPath) {
-    return "getComponent: (nextState, cb) => {"
-        + "startFetchingComponent();"
-        + "require.ensure([], (require) => {"
-        + "if (!shouldComponentMount(nextState)) return;"
-        + "endFetchingComponent();"
-        + "cb(null, connectComponent(require('" + componentPath + "')));"
-        + "});"
-        + "},";
-}
+var utils = require('./utils');
 
 module.exports = function (source, other) {
     this.cacheable();
@@ -35,15 +24,11 @@ module.exports = function (source, other) {
     while ((block = patt.exec(source)) !== null) {
         isRoutes = block[0] && block[1];
         if (isRoutes) {
-            routesStrTemp = routesStrTemp.replace(block[0], getComponentString(block[1]));
+            routesStrTemp = routesStrTemp.replace(block[0], utils.getComponentString(block[1]));
         }
     }
     if (isRoutes) {
-        var utilsPath = path.join(__dirname, '../utils');
-        var connectPath = path.join(__dirname, '../redux/store/connectComponent.js');
-        routesStrTemp = "import connectComponent from '" + connectPath + "';\n"
-            + "import {startFetchingComponent, endFetchingComponent, shouldComponentMount} from '" + utilsPath + "/route-utils';"
-            + routesStrTemp;
+        routesStrTemp = utils.getRouteAddtionsImportString() + routesStrTemp;
         this.callback(null, routesStrTemp, other);
     } else {
         this.callback(null, source, other);

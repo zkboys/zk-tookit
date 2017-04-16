@@ -10,11 +10,11 @@ const options = {
 
 export default function connectComponent(component) {
     const {
-        PAGE_SCOPE = 'commonPageScope',
+        INIT_STATE = {},
         mapStateToProps = () => ({}),
         mapDispatchToProps = (dispatch) => {
             const ac = bindActionCreators(actions, dispatch);
-
+            const PAGE_SCOPE = INIT_STATE.scope || 'commonPageScope';
             ac.setState = (pageScope, payload) => {
                 if (typeof pageScope === 'string') {
                     ac.setScopeState(pageScope, payload);

@@ -5,30 +5,40 @@ var glob = require('glob');
 var utils = require('./utils');
 var config = require('./config');
 
-var sourceFilePath = config.sourceFilePath;
 var sourceFileName = config.jsxFileName;
 var targetFileName = config.pageRouteFileName;
 
-var paths = [];
-var pathNames = [];
+var paths = {};
+var pathNames = {};
 exports.handlePageRouteWatch = function (event, pathName) {
     const routePath = getRoutePath(pathName);
 
     if (!routePath) return;
-
-    // pathName= path.relative(targetFileName, pathName);
-
     console.log('page-route:', event, pathName);
     var pn = utils.getPathName(pathName);
-    if (event === 'add') {
-        paths.push(routePath);
-        pathNames.push(pn);
-        writeAllPageRoute(paths, pathNames, targetFileName);
+    if (event === 'add' || event === 'change') {
+        paths[pathName] = routePath;
+        pathNames[pathName] = pn;
+
+        var ps = Object.keys(paths).map(function (key) {
+            return paths[key];
+        });
+        var pns = Object.keys(pathNames).map(function (key) {
+            return pathNames[key];
+        });
+        writeAllPageRoute(ps, pns, targetFileName);
     }
     if (event === 'unlink') {
-        utils.arrayRemove(paths, routePath);
-        utils.arrayRemove(pathNames, pn);
-        writeAllPageRoute(paths, pathNames, targetFileName);
+        delete paths[pathName];
+        delete pathNames[pathName];
+
+        var ps2 = Object.keys(paths).map(function (key) {
+            return paths[key];
+        });
+        var pns2 = Object.keys(pathNames).map(function (key) {
+            return pathNames[key];
+        });
+        writeAllPageRoute(ps2, pns2, targetFileName);
     }
 }
 exports.generateAllPageRoute = function () {
@@ -40,17 +50,13 @@ exports.generateAllPageRoute = function () {
 
 function writeAllPageRoute(paths, pathNames, targetFileName) {
     var fileString = '';
-    var utilsPath = path.join(__dirname, '../utils');
-    var connectPath = path.join(__dirname, '../redux/store/connectComponent.js');
-    fileString = "import connectComponent from '" + connectPath + "';\n"
-        + "import {startFetchingComponent, endFetchingComponent, shouldComponentMount} from '" + utilsPath + "/route-utils';"
-        + '\n';
+    fileString = utils.getRouteAddtionsImportString();
 
     fileString += 'export default [';
     pathNames.forEach(function (im, i) {
         fileString += '\n    {\n        ';
         fileString += 'path: \'' + paths[i] + '\',\n        ';
-        fileString += getComponentString(im);
+        fileString += utils.getComponentString(im);
         // fileString += 'asyncComponent: \'' + im + '\',\n    ';
         fileString += '},'
     });
@@ -58,17 +64,6 @@ function writeAllPageRoute(paths, pathNames, targetFileName) {
     fs.writeFileSync(targetFileName, fileString);
 }
 
-
-function getComponentString(componentPath) {
-    return "getComponent: (nextState, cb) => {"
-        + "startFetchingComponent();"
-        + "require.ensure([], (require) => {"
-        + "if (!shouldComponentMount(nextState)) return;"
-        + "endFetchingComponent();"
-        + "cb(null, connectComponent(require('" + componentPath + "')));"
-        + "});"
-        + "},";
-}
 
 function getRoutePath(file) {
     try {

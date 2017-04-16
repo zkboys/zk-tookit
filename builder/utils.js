@@ -112,6 +112,35 @@ function arrayRemove(arr, item) {
     }
 }
 
+/**
+ * 获取asyncComponent 转换之后的字符串
+ * @param componentPath
+ * @returns {string}
+ */
+function getComponentString(componentPath) {
+    return "getComponent: (nextState, cb) => {"
+        + "startFetchingComponent();"
+        + "require.ensure([], (require) => {"
+        + "if (!shouldComponentMount(nextState)) return;"
+        + "endFetchingComponent();"
+        + "cb(null, connectComponent(require('" + componentPath + "')));"
+        + "});"
+        + "},";
+}
+/**
+ * 获取路由异步加载控制所需的import字符串
+ * @returns {string}
+ */
+function getRouteAddtionsImportString() {
+
+    var utilsPath = path.join(__dirname, '../utils');
+    var connectPath = path.join(__dirname, '../redux/store/connectComponent.js');
+    return "import connectComponent from '" + connectPath + "';\n"
+        + "import {startFetchingComponent, endFetchingComponent, shouldComponentMount} from '" + utilsPath + "/route-utils';"
+        + '\n\n';
+}
+exports.getRouteAddtionsImportString = getRouteAddtionsImportString;
+exports.getComponentString = getComponentString;
 exports.assetsPath = assetsPath;
 exports.arrayRemove = arrayRemove;
 exports.getImportStr = getImportStr;

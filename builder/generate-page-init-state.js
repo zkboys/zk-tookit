@@ -1,52 +1,55 @@
 /* eslint-disable */
 var fs = require('fs');
 var path = require('path');
+var glob = require('glob');
 var utils = require('./utils');
 var config = require('./config');
 
-var sourceFilePath = config.sourceFilePath;
+
 var sourceFileName = config.jsxFileName;
 var targetFileName = config.pageInitStateFileName;
 
-var imports = [];
-var modules = [];
+var finalString = {};
 exports.handlePageInitStateWatch = function (event, pathName) {
     if (!hasInitState(pathName)) return;
     // pathName= path.relative(targetFileName, pathName);
-    console.log(event, pathName);
-    var im = utils.getImportStr(pathName, true);
-    var pn = utils.getModuleName(pathName);
-    if (event === 'add') {
-        imports.push(im);
-        modules.push(pn);
-        writeAllInitState(imports, modules, targetFileName);
+    console.log('page-init-state:', event, pathName);
+    var initString = getPageInitString(pathName);
+    var scope = getPageInitScope(initString);
+    var scopeInit = scope + ': ' + initString;
+    if (event === 'add' || event === 'change') {
+        finalString[scope] = scopeInit;
+        writeAllInitState(finalString, targetFileName);
     }
     if (event === 'unlink') {
-        utils.arrayRemove(imports, im);
-        utils.arrayRemove(modules, pn);
-        writeAllInitState(imports, modules, targetFileName);
+        delete finalString[scope];
+        writeAllInitState(finalString, targetFileName);
     }
 }
 
 exports.generateAllInitState = function () {
-    var result = utils.getImportsAndModules(sourceFileName, targetFileName, hasInitState, true);
-    var imports = result.imports;
-    var modules = result.modules;
-    writeAllInitState(imports, modules, targetFileName);
+    var finalString = {};
+    var files = glob.sync(sourceFileName);
+    if (files && files.length) {
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            if (hasInitState && hasInitState(file)) {
+                var initString = getPageInitString(file);
+                var scope = getPageInitScope(initString);
+                finalString[scope] = initString
+            }
+        }
+    }
+    writeAllInitState(finalString, targetFileName);
 }
 
-function writeAllInitState(imports, routesNames, targetFileName) {
+function writeAllInitState(finalString, targetFileName) {
     // 拼接写入文件的内容
-    var fileString = imports.join('\n');
-    routesNames = routesNames.map(getExportItem);
-    fileString += '\n\nexport default {\n    ';
-    fileString += routesNames.join(',\n    ');
-    fileString += '\n};\n';
+    var finalStrings = Object.keys(finalString).map(function (key) {
+        return finalString[key];
+    })
+    var fileString = 'export default {\n    ' + finalStrings.join(',\n    ') + '};';
     fs.writeFileSync(targetFileName, fileString);
-}
-
-function getExportItem(rn) {
-    return '[' + rn + '.PAGE_SCOPE]: ' + rn + '.INIT_STATE';
 }
 
 function hasInitState(file) {
@@ -56,5 +59,29 @@ function hasInitState(file) {
         return fileStr.indexOf('export const INIT_STATE') > 0;
     } catch (e) {
         return true; // 文件被移除之后，也算他没有INIT_STATE
+    }
+}
+
+function getPageInitString(filePath) {
+    // FIXME 这个算法不准确
+    var fileString = fs.readFileSync(filePath, 'utf-8');
+    var initStart = fileString.indexOf('export const INIT_STATE = ');
+    if (initStart > -1) {
+        var initString = fileString.substring(initStart);
+        var initEnd = initString.indexOf('};');
+        initString = initString.substring(0, initEnd + 1);
+        return initString.replace('export const INIT_STATE = ', '');
+    }
+}
+
+function getPageInitScope(initString) {
+    var patt = /scope:[ ]*['"]([^'"]+)['"][,]/gm;
+    var isScope = false;
+    var block = null;
+    while ((block = patt.exec(initString)) !== null) {
+        isScope = block[0] && block[1];
+        if (isScope) {
+            return block[1];
+        }
     }
 }

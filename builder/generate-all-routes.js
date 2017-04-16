@@ -5,7 +5,6 @@ var utils = require('./utils');
 
 var config = require('./config');
 
-var sourceFilePath = config.sourceFilePath;
 var sourceFileName = config.routesFileName;
 var targetFileName = config.allRoutesFileName;
 
@@ -14,7 +13,7 @@ var modules = [];
 exports.handleWatchAllRoutes = function (event, pathName) {
     if (!isRoutesFile(pathName)) return;
     // pathName= path.relative(targetFileName, pathName);
-    console.log(event, pathName);
+    console.log('all-routes:', event, pathName);
     var im = utils.getImportStr(pathName);
     var pn = utils.getModuleName(pathName);
     if (event === 'add') {
