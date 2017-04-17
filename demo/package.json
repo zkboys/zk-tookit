@@ -5,7 +5,7 @@
   "author": "wangshubin",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development node ./node_modules/zk-react/builder/dev-server.js --config ./zk-config.js",
+    "dev": "cross-env NODE_ENV=development node ./node_modules/zk-react/builder/dev-server.js --config ./zk-build-config.js",
     "build": "cross-env NODE_ENV=production node ./node_modules/zk-react/builder/build.js"
   },
   "dependencies": {

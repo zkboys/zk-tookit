@@ -9,7 +9,7 @@ program
     .option('-c, --config <value>', 'set config')
     .parse(process.argv);
 
-var defaultConfigFile = './zk-config.js'; // 默认配置文件名，要放在脚本运行目录下。
+var defaultConfigFile = './zk-build-config.js'; // 默认配置文件名，要放在脚本运行目录下。
 var configPath = path.join(dest, program.config || defaultConfigFile);
 var config = require(configPath);
 
