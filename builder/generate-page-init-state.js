@@ -36,7 +36,7 @@ exports.generateAllInitState = function () {
             if (hasInitState && hasInitState(file)) {
                 var initString = getPageInitString(file);
                 var scope = getPageInitScope(initString);
-                finalString[scope] = initString
+                finalString[scope] = scope + ': ' + initString;
             }
         }
     }
