@@ -59,6 +59,15 @@ export class LayoutComponent extends Component {
                     <br/>
                     <span>{this.props.a.b.c2}</span>
                 </p>
+                <p>
+                    <Button onClick={() => {
+                        this.props.actions.demo('我是demo');
+                    }}>
+                        测试共享操作action
+                    </Button>
+                    <br/>
+                    <span>this.props.demo.message</span>
+                </p>
             </div>
         );
     }
@@ -67,5 +76,6 @@ export class LayoutComponent extends Component {
 export function mapStateToProps(state) {
     return {
         ...state.pageState.actionsSetState,
+        demo: state.demo,
     };
 }

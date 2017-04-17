@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-import {store, Router, initRouter} from 'zk-react';
+import {configureStore, Router, initRouter, initActions, initReducers} from 'zk-react';
+import * as demoAction from './actions/demo';
+import demo from './reducers/demo';
 import './global.less';
 import * as Error404 from './error/Error404';
 import * as Frame from './Frame';
@@ -20,6 +22,12 @@ initRouter({
     onRouterDidMount: () => {
     },
 });
+
+initActions({demoAction});
+initReducers({demo});
+
+const store = configureStore();
+
 function App() {
     return (
         <Provider store={store}>
