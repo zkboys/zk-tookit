@@ -1,4 +1,4 @@
-import {createStore, applyMiddleware} from 'redux';
+import {createStore, applyMiddleware, combineReducers} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import promiseMiddleware from './promise-middleware';
 import asyncActionCallbackMiddleware from './async-action-callback-middleware';
@@ -18,5 +18,5 @@ let middlewares = [
 export default function configureStore(initialState) {
     return applyMiddleware(
         ...middlewares
-    )(createStore)(reducers, initialState);
+    )(createStore)(combineReducers(reducers), initialState);
 }

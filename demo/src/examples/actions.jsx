@@ -66,7 +66,7 @@ export class LayoutComponent extends Component {
                         测试共享操作action
                     </Button>
                     <br/>
-                    <span>this.props.demo.message</span>
+                    <span>{this.props.demo.message}</span>
                 </p>
             </div>
         );

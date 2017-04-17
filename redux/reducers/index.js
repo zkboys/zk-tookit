@@ -1,15 +1,21 @@
-import {combineReducers} from 'redux';
 import utils from './utils';
 import pageState from './page';
 
-let reducers = {
+const reducers = {
     pageState,
     utils,
 };
 
+
 export function initReducers(newReducers) {
-    // TODO 重复key检测
-    reducers = {...reducers, ...newReducers};
+    Object.keys(newReducers).forEach(key => {
+        const oriReducer = reducers[key];
+        if (oriReducer) {
+            throw Error(`不予许定义同名的reducer：${key}`);
+        } else {
+            reducers[key] = newReducers[key];
+        }
+    });
 }
 
-export default combineReducers(reducers);
+export default reducers;
