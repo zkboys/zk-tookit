@@ -15,7 +15,7 @@ export function endFetchingComponent() {
 
 /**
  * 根据地址栏判断是否应该渲染组件，开速切换，由于组件异步，有可能出现窜页情况
- * @param nextState
+ * @param {object} nextState
  * @returns {boolean}
  */
 export function shouldComponentMount(nextState) {

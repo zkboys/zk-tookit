@@ -5,14 +5,19 @@
       "./antd"
     ],
     "exclude": [
+      "./utils/route-utils.js"
     ],
     "includePattern": ".+\\.js(doc)?$",
     "excludePattern": "(^|\\/|\\\\)_"
   },
   "opts": {
     "encoding": "utf8",
-    "destination": "./document/",
+    "destination": "./docs/",
     "recurse": true,
-    "readme": "./README.md"
+    "readme": "./README.md",
+    "template": "node_modules/docdash"
+  },
+  "docdash": {
+    "sort": false
   }
 }
