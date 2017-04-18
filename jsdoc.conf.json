@@ -1,0 +1,18 @@
+{
+  "source": {
+    "include": [
+      "./utils",
+      "./antd"
+    ],
+    "exclude": [
+    ],
+    "includePattern": ".+\\.js(doc)?$",
+    "excludePattern": "(^|\\/|\\\\)_"
+  },
+  "opts": {
+    "encoding": "utf8",
+    "destination": "./document/",
+    "recurse": true,
+    "readme": "./README.md"
+  }
+}
