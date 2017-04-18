@@ -1,3 +1,5 @@
+/** @module */
+
 /**
  * 获取cookie
  * @param objName

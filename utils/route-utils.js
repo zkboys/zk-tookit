@@ -1,4 +1,4 @@
-import PubSubMsg from './pubsubmsg';
+import * as PubSubMsg from './pubsubmsg';
 /**
  * 组件开始请求，可以用来显示loading
  */
