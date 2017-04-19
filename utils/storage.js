@@ -19,7 +19,7 @@
  * import {session} from 'path/to/storage';
  * session.setItem('user', userObj);
  *
- * @module
+ * @module 本地存储
  */
 
 const Storage = window.localStorage;

@@ -26,7 +26,7 @@
  * // 可以打断请求
  * getAjax.cancel();
  *
- * @module
+ * @module ajax工具
  * */
 
 import axios from 'axios';

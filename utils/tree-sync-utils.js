@@ -1,6 +1,6 @@
 /**
  * 同步数通用方法
- * @module
+ * @module 同步树工具
  */
 
 import {cloneDeep} from 'lodash/lang';
