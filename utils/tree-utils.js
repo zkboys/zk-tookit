@@ -4,6 +4,7 @@
  */
 
 import {cloneDeep} from 'lodash/lang';
+import {uniqueArray, arrayRemoveAll} from './index';
 
 /**
  * 将数据转换成tree所需格式
@@ -187,6 +188,59 @@ export function getNodeByKeyValue(treeData, key, value) {
  */
 export function getNodeByKey(treeData, key) {
     return getNodeByKeyValue(treeData, 'key', key);
+}
+
+/**
+ * 根据key查找所有后代元素
+ * @param treeData 树状结构数据
+ * @param key
+ * * @returns {Array} 根据key查找到的所有后代节点
+ */
+export function getGenerationalNodesByKey(treeData, key) {
+    const node = getNodeByKey(treeData, key);
+    if (!node.children || !node.children.length) {
+        return [];
+    }
+    const allNodes = [];
+    const loop = (data) => {
+        data.forEach(d => {
+            allNodes.push(d);
+            if (d.children && d.children) {
+                loop(d.children);
+            }
+        });
+    };
+    loop(node.children);
+    return allNodes;
+}
+
+/**
+ * 获取选中节点的keys，点击父节点时，其下所有后代元素将被全被选中，或者全不选中，选中子节点时，其所有祖先节点将被选中
+ * @param treeData 树状结构数据
+ * @param {Array} checkedKeys 点击过之后，树选中的keys
+ * @param {boolean} checked 当前点击时 checked （true）还是 unchecked（false）
+ * @param {String} checkNodeKey 当前点击节点的key
+ * @returns {Array} 选中的keys
+ */
+export function getCheckedKeys(treeData, checkedKeys, checked, checkNodeKey) {
+    const generationalNodes = getGenerationalNodesByKey(treeData, checkNodeKey);
+    const generationalKeys = generationalNodes.map(n => n.key);
+    let allKeys = [];
+    checkedKeys.forEach(checkedKey => {
+        allKeys.push(checkedKey);
+        const node = getNodeByKey(treeData, checkedKey);
+        if (node.parentKeys) {
+            allKeys = allKeys.concat(node.parentKeys);
+        }
+    });
+
+    allKeys = uniqueArray(allKeys);
+    if (checked) {
+        allKeys = allKeys.concat(generationalKeys);
+    } else {
+        arrayRemoveAll(allKeys, generationalKeys.concat(checkNodeKey));
+    }
+    return uniqueArray(allKeys);
 }
 
 /**

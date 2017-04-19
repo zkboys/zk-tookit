@@ -132,10 +132,10 @@ function findObjByKeyPath(obj, keyPath) {
 
 /**
  * 从数组中删除一个元素，此方法具有副作用，修改了原数组
- * @param {array} arr 需要操作的数组
+ * @param {Array} arr 需要操作的数组
  * @param {*} item 要删除的元素，注意：内部是用'==='比对的
  */
-function arrayRemove(arr, item) {
+export function arrayRemove(arr, item) {
     let itemIndex = -1;
     for (let i = 0; i < arr.length; i++) {
         if (arr[i] === item) {
@@ -146,6 +146,17 @@ function arrayRemove(arr, item) {
     if (itemIndex > -1) {
         arr.splice(itemIndex, 1);
     }
+}
+
+/**
+ * 从数组中删除一些元素，此方法具有副作用，修改了原数组
+ * @param {Array} arr 需要操作的数组
+ * @param {Array} items 需要删除的元素
+ */
+export function arrayRemoveAll(arr, items) {
+    items.forEach(item => {
+        arrayRemove(arr, item);
+    });
 }
 
 /**
@@ -246,4 +257,21 @@ export function arrRemoveAll(obj, keyPath, value) {
     while (targetObj.indexOf(value) > -1) {
         arrayRemove(targetObj, value);
     }
+}
+
+/**
+ * 数组去重，此方法不改变原有数据，返回新的数组
+ * @param {Array} array
+ * @returns {Array} 新数组
+ */
+export function uniqueArray(array) {
+    const n = {}; // hash 表
+    const r = []; // 临时数组
+    for (let i = 0; i < array.length; i++) { // 遍历当前数组
+        if (!n[array[i]]) { // 如果hash表中没有当前项
+            n[array[i]] = true; // 存入hash表
+            r.push(array[i]); // 把当前数组的当前项push到临时数组里面
+        }
+    }
+    return r;
 }
