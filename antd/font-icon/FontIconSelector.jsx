@@ -1,10 +1,11 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {Input} from 'antd';
 import {cloneDeep} from 'lodash/lang';
 import './style.less';
 import PageContent from '../page-content/PageContent';
 import FontIcon from '../font-icon/FontIcon';
-import InputCloseSuffix from '../InputCloseSuffix';
+import InputCloseSuffix from '../input-close-suffix/InputCloseSuffix';
 
 // 使用chrome浏览器
 // 提取antd所有图标方法：(注意版本)

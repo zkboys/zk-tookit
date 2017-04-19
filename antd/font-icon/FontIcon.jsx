@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {Icon} from 'antd';
 import './font-awesome/css/font-awesome.css';
 /**
@@ -10,8 +11,8 @@ export default class extends Component {
         className: 'font-icon',
     }
     static propsType = {
-        type: React.PropTypes.string.isRequired,
-        className: React.PropTypes.string,
+        type: PropTypes.string.isRequired,
+        className: PropTypes.string,
     }
 
     render() {

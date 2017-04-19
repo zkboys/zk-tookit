@@ -52,7 +52,7 @@ function absolutePath(paths, obj) {
 }
 
 
-fs.writeFileSync(path.join(__dirname, '../config.js'), fs.readFileSync(configPath));
+// fs.writeFileSync(path.join(__dirname, '../config.js'), fs.readFileSync(configPath));
 
 
 var srcPath = config.srcPath;

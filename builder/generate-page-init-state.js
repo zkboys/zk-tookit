@@ -63,6 +63,7 @@ function hasInitState(file) {
 }
 
 function getPageInitString(filePath) {
+    if (!fs.existsSync(filePath)) return {};
     // FIXME 这个算法不准确
     var fileString = fs.readFileSync(filePath, 'utf-8');
     var initStart = fileString.indexOf('export const INIT_STATE = ');

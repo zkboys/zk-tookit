@@ -1,9 +1,24 @@
-import React from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
-class UserAvatar extends React.Component {
+class UserAvatar extends Component {
     static defaultProps = {
         className: 'user-avatar',
+        user: {
+            name: '匿名',
+            loginName: 'no name',
+            avatar: '',
+        },
     }
+
+    static propTypes = {
+        className: PropTypes.string,
+        user: PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            loginName: PropTypes.string.isRequired,
+            avatar: PropTypes.string.isRequired,
+        }),
+    };
 
     getCurrentLoginUserAvatar() {
         const user = this.props.user;
@@ -11,7 +26,7 @@ class UserAvatar extends React.Component {
             const backgroundColor = 'rgb(80, 193, 233)';
             return <span className={this.props.className} style={{backgroundColor}}>?</span>;
         }
-        const userName = user.name || user.loginname;
+        const userName = user.name || user.loginName;
         const avatar = user.avatar;
         if (avatar) {
             return <img className={this.props.className} src={avatar} alt="用户头像"/>;

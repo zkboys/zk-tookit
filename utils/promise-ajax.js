@@ -8,8 +8,8 @@
  * // 在项目的入口文件，根据项目需求，进行初始化
  * promiseAjax.init({
  *     setOptions(instance, isMock) {...},
- *     onShowErrorTip(err, showErrorTip) {...},
- *     onShowSuccessTip(response, showSuccessTip) {...},
+ *     onShowErrorTip(err, errorTip) {...},
+ *     onShowSuccessTip(response, successTip) {...},
  *     isMock(url, data, method, options) {...},
  * })
  *
@@ -63,16 +63,16 @@ let _isMock = () => {
  * 初始化promiseAjax，接受一个options参数，options的具体参数如下：
  *
  * @param {function} setOptions setOptions(instance[, isMock]){...} 设置axios实例属性，如果isMock为true，为mockInstance
- * @param {function} onShowErrorTip onShowErrorTip(err, showErrorTip){...} 如何显示errorTip
- * @param {function} onShowSuccessTip onShowSuccessTip(response, showSuccessTip){...} 如何显示successTip
+ * @param {function} onShowErrorTip onShowErrorTip(err, errorTip){...} 如何显示errorTip
+ * @param {function} onShowSuccessTip onShowSuccessTip(response, successTip){...} 如何显示successTip
  * @param {function} isMock isMock(url, data, method, options){...} 判断请求是否为mock请求
  */
 export function init({
     setOptions = (/* instance, isMock */) => {
     },
-    onShowErrorTip = (/* err, showErrorTip */) => {
+    onShowErrorTip = (/* err, errorTip */) => {
     },
-    onShowSuccessTip = (/* response, showSuccessTip */) => {
+    onShowSuccessTip = (/* response, successTip */) => {
     },
     isMock = (/* url, data, method, options */) => {
     },
@@ -112,8 +112,6 @@ _setOptions(mockInstance);
 
 function fetch(url, data, method = 'get', options = {}) {
     let {successTip = false, errorTip = method === 'get' ? '获取数据失败！' : '操作失败！'} = options;
-    let showSuccessTip = successTip !== false;
-    let showErrorTip = errorTip !== false;
     const CancelToken = axios.CancelToken;
     let cancel;
     const isGet = method === 'get';
@@ -142,12 +140,12 @@ function fetch(url, data, method = 'get', options = {}) {
             cancelToken: new CancelToken(c => cancel = c),
             ...options,
         }).then(response => {
-            _onShowSuccessTip(response, showSuccessTip);
+            _onShowSuccessTip(response, successTip);
             resolve(response.data);
         }, err => {
             const isCanceled = err && err.message && err.message.canceled;
             if (isCanceled) return; // 如果是用户主动cancel，不做任何处理，不会触发任何函数
-            _onShowErrorTip(err, showErrorTip);
+            _onShowErrorTip(err, errorTip);
             reject(err);
         }).catch(error => {
             reject(error);

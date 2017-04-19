@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {Button, Modal} from 'antd';
 import FontIcon from './FontIcon';
 import FontIconSelector from './FontIconSelector';
