@@ -4,7 +4,7 @@
  */
 
 import {cloneDeep} from 'lodash/lang';
-import {uniqueArray, arrayRemoveAll} from './index';
+import {uniqueArray, arrayRemoveAll, arrayRemove} from './index';
 
 /**
  * 将数据转换成tree所需格式
@@ -223,24 +223,46 @@ export function getGenerationalNodesByKey(treeData, key) {
  * @returns {Array} 选中的keys
  */
 export function getCheckedKeys(treeData, checkedKeys, checked, checkNodeKey) {
+    let allKeys = [...checkedKeys];
     const generationalNodes = getGenerationalNodesByKey(treeData, checkNodeKey);
     const generationalKeys = generationalNodes.map(n => n.key);
-    let allKeys = [];
-    checkedKeys.forEach(checkedKey => {
-        allKeys.push(checkedKey);
-        const node = getNodeByKey(treeData, checkedKey);
+
+    if (checked) {
+        // 选中所有后代节点
+        allKeys = allKeys.concat(generationalKeys);
+
+        // 选中有祖先节点
+        const node = getNodeByKey(treeData, checkNodeKey);
         if (node.parentKeys) {
             allKeys = allKeys.concat(node.parentKeys);
         }
-    });
-
-    allKeys = uniqueArray(allKeys);
-    if (checked) {
-        allKeys = allKeys.concat(generationalKeys);
     } else {
+        // 取消选中所有后代节点
         arrayRemoveAll(allKeys, generationalKeys.concat(checkNodeKey));
+
+        // 判断其父节点是否还有子节点选中了，如果没有，父节点也不选中
+        const node = getNodeByKey(treeData, checkNodeKey);
+        if (node.parentKeys) {
+            const pks = [...node.parentKeys];
+            pks.reverse();
+            pks.forEach(key => {
+                const pNode = getNodeByKey(treeData, key);
+                if (pNode.children && pNode.children.length) {
+                    let hasCheckedChild = false;
+                    for (let pCNode of pNode.children) {
+                        if (allKeys.indexOf(pCNode.key) > -1) {
+                            hasCheckedChild = true;
+                            break;
+                        }
+                    }
+                    if (!hasCheckedChild) {
+                        arrayRemove(allKeys, key);
+                    }
+                }
+            });
+        }
     }
-    return uniqueArray(allKeys);
+    return allKeys;
 }
 
 /**
@@ -323,7 +345,7 @@ export function updateNode(treeData, newNode) {
 export function getTopNodeByNode(treeData, node) {
     if (node && !node.parentKey) return node;
     let parentNode = null;
-    const loop = (data) => {
+    const loop = (data) => { // 查找node的父节点
         for (let item of data) {
             if (item.key === node.parentKey) {
                 parentNode = {...item};
@@ -335,7 +357,7 @@ export function getTopNodeByNode(treeData, node) {
         }
     };
     loop(treeData);
-    return getTopNodeByNode(treeData, parentNode);
+    return getTopNodeByNode(treeData, parentNode); // 继续查找parentNode的父节点
 }
 
 /**
