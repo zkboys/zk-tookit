@@ -83,7 +83,7 @@ export function appendChildrenByKey(treeData, key, child) {
 
 /**
  * 检测某个节点是否有parent节点
- * @param {array} rows 所有节点，扁平数据，非树状结构
+ * @param {Array} rows 所有节点，扁平数据，非树状结构
  * @param {object} row 需要判断得节点
  * @returns {boolean}
  */
@@ -94,11 +94,11 @@ export function hasParent(rows, row) {
 
 /**
  * js构造树方法。
- * @param {array} rows 具有key，parentKey关系的扁平数据结构，标题字段为text
- * @param {object} parentNode 开始节点
- * @returns {array}
+ * @param {Array} rows 具有key，parentKey关系的扁平数据结构，标题字段为text
+ * @param {object} [parentNode=null] 开始节点
+ * @returns {Array}
  */
-export function convertToTree(rows, parentNode) {
+export function convertToTree(rows, parentNode = null) {
     // 这个函数会被多次调用，对rows做深拷贝，否则会产生副作用。
     rows = cloneDeep(rows);
     parentNode = cloneDeep(parentNode);

@@ -8,7 +8,7 @@ const unConsumedMsg = {}; // key 对应主题，value对应消息数据
 /**
  * 发布一个消息
  * @param {String} topic 消息名称
- * @param {*} args 消息数据
+ * @param {*} [args] 消息数据
  */
 export function publish(topic, args) {
     /*

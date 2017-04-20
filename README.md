@@ -29,6 +29,17 @@ yarn run build
 - 项目中使用eslint结合webpack进行强制规范，编码过程中，可能会经常出现eslint相关的错误。
 - 浏览器console中尽量不要出现任何输出，包括调试性信息，warning等。
 
+## 系统事件
+
+```
+import * as PubSubMsg from '../../utils/pubsubmsg';
+PubSubMsg.publish(message, options);
+PubSubMsg.subscribe('message', function(options){...});
+
+message // error success 等提示信息
+start-fetching-component // 开始加载异步组件
+end-fetching-component // 结束加载异步组件
+```
 
 ## React ES6+写法
 ```javascript

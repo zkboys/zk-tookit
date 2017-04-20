@@ -1,9 +1,7 @@
-import utils from './utils';
 import pageState from './page';
 
 const reducers = {
     pageState,
-    utils,
 };
 
 
