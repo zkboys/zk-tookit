@@ -1,6 +1,6 @@
 /**
- * 同步数通用方法
- * @module 同步树工具
+ * 树操作通用方法，将一些常用方法提炼出来，方便使用。
+ * @module 树操作工具
  */
 
 import {cloneDeep} from 'lodash/lang';
@@ -93,7 +93,7 @@ export function hasParent(rows, row) {
 }
 
 /**
- * js构造树方法。
+ * js构造树方法。会给节点添加parentKeys,parentNodes,parentTexts属性，方便后期数据提取
  * @param {Array} rows 具有key，parentKey关系的扁平数据结构，标题字段为text
  * @param {object} [parentNode=null] 开始节点
  * @returns {Array}
@@ -156,13 +156,13 @@ export function convertToTree(rows, parentNode = null) {
 }
 
 /**
- * 根据指定数据的键值对，查找node，比如根据path查找： getNodeByKeyValue(treeData, 'path', '/user/list')
- * @param treeData 树状结构数据
- * @param key key值，比如'path'，'text'等节点数据属性
- * @param value 节点属性所对应的数据
+ * 根据指定数据的键值对，查找node，比如根据path查找： getNodeByPropertyAndValue(treeData, 'path', '/user/list')
+ * @param {Array} treeData 树状结构数据
+ * @param {String} key key值，比如'path'，'text'等节点数据属性
+ * @param {*} value 节点属性所对应的数据， 内部 === 比对
  * @returns {object} 返回根据 key value查找到的节点
  */
-export function getNodeByKeyValue(treeData, key, value) {
+export function getNodeByPropertyAndValue(treeData, key, value) {
     if (!treeData || !treeData.length) return null;
     let node = null;
     const loop = (data) => {
@@ -182,18 +182,18 @@ export function getNodeByKeyValue(treeData, key, value) {
 
 /**
  * 根据key查找节点
- * @param treeData 树状结构数据
- * @param key
+ * @param {Array} treeData 树状结构数据
+ * @param {String} key
  * @returns {object} 根据key查找到的节点
  */
 export function getNodeByKey(treeData, key) {
-    return getNodeByKeyValue(treeData, 'key', key);
+    return getNodeByPropertyAndValue(treeData, 'key', key);
 }
 
 /**
  * 根据key查找所有后代元素
- * @param treeData 树状结构数据
- * @param key
+ * @param {Array} treeData 树状结构数据
+ * @param {String} key
  * * @returns {Array} 根据key查找到的所有后代节点
  */
 export function getGenerationalNodesByKey(treeData, key) {
@@ -338,8 +338,8 @@ export function updateNode(treeData, newNode) {
 
 /**
  * 根据某个节点，获取其最顶级节点
- * @param treeData 树状结构数据
- * @param node 节点数据
+ * @param {Array} treeData 树状结构数据
+ * @param {object} node 节点数据
  * @returns {object} 最顶层节点
  */
 export function getTopNodeByNode(treeData, node) {
@@ -374,4 +374,31 @@ export function renderNode(treeData, cb) {
         return cb(item); // 叶子节点
     });
     return loop(treeData);
+}
+
+/**
+ * 查找给定节点，及其后代节点property属性，第一个不为空的值
+ * @param {Array} treeData 树的树状结构数据
+ * @param {object} node 节点数据
+ * @param {String} property 属性，比如 key， path等
+ * @returns {*}
+ */
+export function getFirstValue(treeData, node, property) {
+    if (node[property]) return node[property];
+    let firstValue = null;
+    const loop = data => {
+        for (let item of data) {
+            if (item[property]) {
+                firstValue = item[property];
+                break;
+            }
+            if (item.children && item.children.length) {
+                loop(item.children);
+            }
+        }
+    };
+    if (node.children && node.children.length) {
+        loop(node.children);
+    }
+    return firstValue;
 }

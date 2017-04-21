@@ -49,10 +49,8 @@ class Operator extends Component {
 
             if (hasPer) {
                 if (confirm) {
-                    const placement = confirm.placement || 'topRight';
-                    const title = confirm.title || '您确定？';
                     operators.push(
-                        <Popconfirm placement={placement} title={title} onConfirm={onClick}>
+                        <Popconfirm {...confirm}>
                             <a>{label}</a>
                         </Popconfirm>
                     );
