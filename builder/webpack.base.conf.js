@@ -17,6 +17,27 @@ var babelQuery = {
     comments: false
 };
 
+var preLoaders = [
+    {
+        test: /routes\.js$/,
+        loader: path.join(__dirname, './routes-loader') + '!eslint',
+        include: projectRoot,
+        exclude: /node_modules/
+    }
+];
+
+if (config.useESLint) {
+    preLoaders.push(
+        {
+            test: /\.js(x)*$/,
+            loader: 'eslint',
+            include: projectRoot,
+            exclude: /(node_modules|routs\.js)/
+        }
+    );
+}
+
+
 module.exports = {
     cache: true,
     entry: config.webpack.base.entry,
@@ -34,20 +55,7 @@ module.exports = {
         fallback: [path.join(__dirname, '../node_modules')]
     },
     module: {
-        preLoaders: [
-            {
-                test: /\.js(x)*$/,
-                loader: 'eslint',
-                include: projectRoot,
-                exclude: /(node_modules|routs\.js)/
-            },
-            {
-                test: /routes\.js$/,
-                loader: path.join(__dirname, './routes-loader') + '!eslint',
-                include: projectRoot,
-                exclude: /node_modules/
-            }
-        ],
+        preLoaders: preLoaders,
         loaders: [
             {
                 test: /\.js(x)*$/,

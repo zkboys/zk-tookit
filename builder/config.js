@@ -68,6 +68,7 @@ module.exports = {
     allRoutesFileName: path.join(__dirname, '../route/all-routes.js'),
     pageInitStateFileName: path.join(__dirname, '../redux/page-init-state.js'),
     pageRouteFileName: path.join(__dirname, '../route/page-routes.js'),
+    useESLint: config.useESLint === undefined ? true : config.useESLint,
     build: {
         env: '"production"',
         assetsRoot: config.assetsRoot,
