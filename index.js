@@ -1,6 +1,11 @@
+import * as _promiseAjax from './utils/promise-ajax';
+import * as _PubSubMsg from './utils/pubsubmsg';
+
 export Router, {initRouter} from './route/Router';
 export {initActions} from './redux/actions';
 export {initReducers} from './redux/reducers';
 export configureStore from './redux/store/configure-store';
-export {init as initPromiseAjax} from './utils/promise-ajax';
 export handleAsyncReducer from './redux/store/handle-async-reducer';
+export const promiseAjax = _promiseAjax;
+export const PubSubMsg = _PubSubMsg;
+export const debug = process.env.NODE_ENV !== 'production';

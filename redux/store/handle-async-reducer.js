@@ -1,14 +1,9 @@
 export default function handleAsyncReducer({
-    always = () => {
-    },
-    pending = () => {
-    },
-    resolve = () => {
-    },
-    reject = () => {
-    },
-    complete = () => {
-    },
+    always = (state) => state,
+    pending = (state) => state,
+    resolve = (state) => state,
+    reject = (state) => state,
+    complete = (state) => state,
 }) {
     return (state, action) => {
         const {meta = {}, error} = action;

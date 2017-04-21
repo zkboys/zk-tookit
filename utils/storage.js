@@ -121,3 +121,37 @@ export const session = {
         keys.forEach(key => this.removeItem(key));
     },
 };
+
+/**
+ * 全局存储封装，刷新之后将被清空
+ */
+const globalStorage = {};
+export const global = {
+    setItem(key, value) {
+        key = _keyPrefix + key;
+        globalStorage[key] = value;
+    },
+    getItem(key) {
+        key = _keyPrefix + key;
+        return globalStorage[key];
+    },
+    clear() {
+        Object.keys(globalStorage).forEach(key => {
+            if (key.startsWith(_keyPrefix)) {
+                delete globalStorage[key];
+            }
+        });
+    },
+    removeItem(key) {
+        key = _keyPrefix + key;
+        delete globalStorage[key];
+    },
+    multiGet(keys) {
+        let values = {};
+        keys.forEach(key => values[key] = this.getItem(key));
+        return values;
+    },
+    multiRemove(keys) {
+        keys.forEach(key => this.removeItem(key));
+    },
+};
