@@ -12,6 +12,7 @@ export default class extends Component {
         onSelect: () => {
         },
         height: 400,
+        width: 645,
         showPreview: true,
         value: '',
     }
@@ -40,26 +41,27 @@ export default class extends Component {
     }
 
     render() {
-        const {value, size, disabled, buttonType, height, showPreview} = this.props;
+        const {value, size, disabled, buttonType, height, width, showPreview} = this.props;
         const {iconModalVisible} = this.state;
         return (
             <div className="font-icon-modal-wrap">
-                {
-                    showPreview ?
-                        <div className="pre-view">
-                            <FontIcon type={value} size="lg"/>
-                        </div>
-                        : null
-                }
                 <div className="font-button">
                     <Button
                         type={buttonType}
                         size={size}
                         onClick={() => this.setState({iconModalVisible: true})}
                         disabled={disabled}
-                    >选取图标</Button>
+                    >
+                        {
+                            showPreview ?
+                                <FontIcon type={value}/>
+                                : null
+                        }
+                        选取图标
+                    </Button>
                 </div>
                 <Modal
+                    width={width}
                     visible={iconModalVisible}
                     title="选择一个图标"
                     okText="确定"

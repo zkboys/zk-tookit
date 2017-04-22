@@ -96,7 +96,10 @@ export default class extends Component {
         },
     }
     static propTypes = {
-        height: PropTypes.number,
+        height: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+        ]),
         onSelect: PropTypes.func,
     };
 
