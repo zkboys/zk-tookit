@@ -119,7 +119,7 @@ export function convertToTree(rows, parentNode = null) {
         // 获取子节点。
         rows.forEach(row => {
             if (row.parentKey === node.key) {
-                let child = row;
+                let child = cloneDeep(row);
                 let parentKeys = [node.key];
                 if (node.parentKeys) {
                     parentKeys = node.parentKeys.concat(node.key);
@@ -132,7 +132,7 @@ export function convertToTree(rows, parentNode = null) {
                 }
                 child.parentTexts = parentTexts;
 
-                let parentNodes = [{...node}];
+                let parentNodes = [cloneDeep(node)];
                 if (node.parentNodes) {
                     parentNodes = node.parentNodes.concat(parentNodes);
                 }
