@@ -26,6 +26,6 @@ export default class extends Component {
         // 如果要支持其他库，这里继续扩展
 
         // 没检测到任何前缀，返回antd默认的图标
-        return <Icon type={type} className={sizeStr} style={style}/>;
+        return <Icon type={type} className={`${className} ${sizeStr}`} style={style}/>;
     }
 }
