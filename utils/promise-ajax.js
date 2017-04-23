@@ -136,7 +136,7 @@ function fetch(url, data, method = 'get', options = {}) {
         axiosInstance({
             method,
             url,
-            data: isGet ? {} : data,
+            data,
             cancelToken: new CancelToken(c => cancel = c),
             ...options,
         }).then(response => {
