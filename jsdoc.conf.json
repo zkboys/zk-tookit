@@ -1,8 +1,7 @@
 {
   "source": {
     "include": [
-      "./utils",
-      "./antd"
+      "./utils"
     ],
     "exclude": [
       "./utils/route-utils.js"

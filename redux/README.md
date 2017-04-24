@@ -307,7 +307,7 @@ export const INIT_STATE = {
         };
     }
     // 通过this.props获取：
-    this.props.a;
+    this.props.    a;
     this.props.b
 
     // 注入多个页面state时，防止冲突，可以用如下写法

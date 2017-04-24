@@ -4,7 +4,7 @@
 因此每个模块的路由，写在自己的模块下(以routes.js命名)，无法在各个模块routes.js中定义的router，统一在`src/routes.js`中定义。
 所有的路由最终通过脚本规整到`src/all-routes.js`文件下。
 
-jsx文件头部定义`export const PAGE_ROUTE = '/base-information/business/users';`，可以不必编写`routes.js`文件。但是只是生成如下结构：
+jsx文件头部定义`export const PAGE_ROUTE = '/base-information/business/users';`，可以不必编写`routes.js`文件。只是生成如下结构：
 ```
 {
     path: PagesBaseInformationBusinessUserIndex.PAGE_ROUTE,
@@ -42,3 +42,25 @@ jsx文件头部定义`export const PAGE_ROUTE = '/base-information/business/user
 
     this.props.router.push('/user/add');
     ```
+
+
+## 页面离开提示
+一般可以用于编辑页面，当路由切换到其它页面前，如果有未保存内容，提示用户是否放弃保存。
+```javascript
+...
+static contextTypes = {
+    router: PropTypes.object,
+};
+...
+componentDidMount() {
+    const {route} = this.props;
+    const {router} = this.context; // If contextTypes is not defined, then context will be an empty object.
+
+    router.setRouteLeaveHook(route, (/* nextLocation */) => {
+        // 返回 false 会继续停留当前页面，
+        // 否则，返回一个字符串，会显示给用户，让其自己决定
+        return '您有未保存的内容，确认要离开？';
+    });
+}
+...
+```
