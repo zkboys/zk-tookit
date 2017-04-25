@@ -107,7 +107,9 @@ export const session = {
         return JSON.parse(value);
     },
     // todo 这个清空容易清除其他用户的数据，修改一下，根据_keyPrefix清除
-    clear: sessionStorage.clear,
+    clear() {
+        sessionStorage.clear();
+    },
     removeItem(key) {
         key = _keyPrefix + key;
         sessionStorage.removeItem(key);
