@@ -135,8 +135,13 @@ function getRouteAddtionsImportString() {
 
     var utilsPath = path.join(__dirname, '../utils');
     var connectPath = path.join(__dirname, '../redux/store/connectComponent.js');
+    var routeUtilsPath = path.join(utilsPath, 'route-utils');
+
+    connectPath = getPathName(connectPath);
+    routeUtilsPath = getPathName(routeUtilsPath);
+
     return "import connectComponent from '" + connectPath + "';\n"
-        + "import {startFetchingComponent, endFetchingComponent, shouldComponentMount} from '" + utilsPath + "/route-utils';"
+        + "import {startFetchingComponent, endFetchingComponent, shouldComponentMount} from '" + routeUtilsPath + "';"
         + '\n\n';
 }
 exports.getRouteAddtionsImportString = getRouteAddtionsImportString;
