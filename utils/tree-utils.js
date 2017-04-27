@@ -262,7 +262,7 @@ export function getCheckedKeys(treeData, checkedKeys, checked, checkNodeKey) {
             });
         }
     }
-    return allKeys;
+    return uniqueArray(allKeys);
 }
 
 /**
