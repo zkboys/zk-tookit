@@ -15,8 +15,8 @@ class UserAvatar extends Component {
         className: PropTypes.string,
         user: PropTypes.shape({
             name: PropTypes.string.isRequired,
-            loginName: PropTypes.string.isRequired,
-            avatar: PropTypes.string.isRequired,
+            loginName: PropTypes.string,
+            avatar: PropTypes.string,
         }),
     };
 
