@@ -11,3 +11,5 @@ export InputCloseSuffix from './input-close-suffix/InputCloseSuffix';
 export NoData from './no-data/NoData';
 export Operator from './operator/Operator';
 export UserAvatar from './user-avatar/UserAvatar';
+export ImageCropper from './image-cropper/ImageCropper';
+export Permission from './permission/Permission';

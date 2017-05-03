@@ -69,7 +69,7 @@ var webpackConfig = merge(baseWebpackConfig, {
             chunks: ['vendor']
         })
     ].concat(HtmlWebpackPlugins),
-})
+}, config.webpack.prod);
 
 if (config.build.productionGzip) {
     var CompressionWebpackPlugin = require('compression-webpack-plugin')

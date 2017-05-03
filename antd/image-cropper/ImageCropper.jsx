@@ -185,7 +185,15 @@ export default class extends Component {
         this.cropper.getCroppedCanvas({
             width: resultImageWidth,
         }).toBlob((blob) => {
-            onOK(blob);
+            const size = (blob.size / 1024).toFixed(2);
+            const urlCreator = window.URL || window.webkitURL;
+            const previewImageUrl = urlCreator.createObjectURL(blob);
+
+            let resultImageSize = `${size}KB`;
+            if (size > 1000) {
+                resultImageSize = `${(size / 1024).toFixed(2)}MB`;
+            }
+            onOK({blob, size: resultImageSize, src: previewImageUrl});
         });
     }
 

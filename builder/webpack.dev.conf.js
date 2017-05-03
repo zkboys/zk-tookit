@@ -34,4 +34,4 @@ module.exports = merge(baseWebpackConfig, {
         new webpack.NoErrorsPlugin(),
         // https://github.com/ampedandwired/html-webpack-plugin
     ].concat(HtmlWebpackPlugins),
-})
+}, config.webpack.dev);
