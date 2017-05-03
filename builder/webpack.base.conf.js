@@ -4,6 +4,7 @@ var config = require('./config')
 var utils = require('./utils')
 var projectRoot = config.projectRoot;
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
+var merge = require('webpack-merge')
 
 var babelPlugins = ['add-module-exports', 'typecheck', 'transform-runtime', ["import", config.babelImport]];
 if (process.env.NODE_ENV === 'testing') {
@@ -38,18 +39,15 @@ if (config.useESLint) {
 }
 
 
-module.exports = {
+var baseConf = {
     cache: true,
-    entry: config.webpack.base.entry,
     output: {
         path: config.build.assetsRoot,
         publicPath: process.env.NODE_ENV === 'production' ? config.build.assetsPublicPath : config.dev.assetsPublicPath,
         filename: '[name].js'
     },
     resolve: {
-        extensions: ['', '.js', '.jsx'],
         fallback: [path.join(__dirname, '../node_modules')],
-        alias: config.webpack.base.alias,
     },
     resolveLoader: {
         fallback: [path.join(__dirname, '../node_modules')]
@@ -112,4 +110,6 @@ module.exports = {
      manifest: require('./dll/manifest.json'),
      }),
      ],*/
-}
+};
+
+module.exports = merge(baseConf, config.webpack.base);
