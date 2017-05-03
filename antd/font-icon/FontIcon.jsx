@@ -21,11 +21,11 @@ export default class extends Component {
         const sizeStr = size ? `fa-${size}` : '';
         if (type && type.startsWith('fa-')) {
             classStr = `${className} fa ${type} ${sizeStr}`;
-            return <i className={classStr} style={style}/>;
+            return <i {...this.props} className={classStr} style={style}/>;
         }
         // 如果要支持其他库，这里继续扩展
 
         // 没检测到任何前缀，返回antd默认的图标
-        return <Icon type={type} className={`${className} ${sizeStr}`} style={style}/>;
+        return <Icon {...this.props} type={type} className={`${className} ${sizeStr}`} style={style}/>;
     }
 }
