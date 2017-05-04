@@ -13,7 +13,7 @@ Object.keys(baseWebpackConfig.entry).forEach(function (name) {
     var htmlOptions = config.htmlOptions[name];
     HtmlWebpackPlugins.push(
         new HtmlWebpackPlugin({
-            chunks: ['vendor', 'manifest'].push(name),
+            chunks: ['vendor', 'manifest'].concat(name),
             favicon: htmlOptions.favicon,
             filename: htmlOptions.fileName,
             template: htmlOptions.template,

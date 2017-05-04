@@ -132,7 +132,12 @@ export function convertToTree(rows, parentNode = null) {
                 }
                 child.parentTexts = parentTexts;
 
-                let parentNodes = [cloneDeep(node)];
+                const tempNode = cloneDeep(node);
+                delete tempNode.children;
+                delete tempNode.parentKeys;
+                delete tempNode.parentNodes;
+                delete tempNode.parentTexts;
+                let parentNodes = [tempNode];
                 if (node.parentNodes) {
                     parentNodes = node.parentNodes.concat(parentNodes);
                 }
