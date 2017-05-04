@@ -1,5 +1,6 @@
 var path = require('path');
 var glob = require('glob');
+var os = require('os');
 var config = require('./config');
 
 function assetsPath(_path) {
@@ -39,6 +40,24 @@ function getImportsAndModules(sourceFilePath, targetFileName, filter, star) {
         modules: modules,
     }
 }
+
+/**
+ * 获取本机的ip地址
+ * @returns {*}
+ */
+function getIP() {
+    var interfaces = os.networkInterfaces();
+    for (var k in interfaces) {
+        for (var k2 in interfaces[k]) {
+            var address = interfaces[k][k2];
+            if (address.family === 'IPv4' && !address.internal) {
+                return address.address;
+            }
+        }
+    }
+    return '127.0.0.1';
+}
+
 
 /**
  * 根据文件的相对路径，生成import 所需字符串
@@ -152,3 +171,4 @@ exports.getImportStr = getImportStr;
 exports.getModuleName = getModuleName;
 exports.getPathName = getPathName;
 exports.getImportsAndModules = getImportsAndModules;
+exports.getIP = getIP;
