@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Icon, Popconfirm} from 'antd';
 
-class Operator extends Component {
+export default class Operator extends Component {
     static defaultProps = {
         items: [],
         hasPermission(/* permissionCode */) {
@@ -80,5 +80,3 @@ class Operator extends Component {
         );
     }
 }
-
-export default Operator;

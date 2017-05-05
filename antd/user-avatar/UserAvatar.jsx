@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-class UserAvatar extends Component {
+export default class UserAvatar extends Component {
     static defaultProps = {
         className: 'user-avatar',
         user: {
@@ -50,4 +50,3 @@ class UserAvatar extends Component {
         return this.getCurrentLoginUserAvatar();
     }
 }
-export default UserAvatar;

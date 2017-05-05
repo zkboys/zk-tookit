@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 
-class Permission extends Component {
+export default class Permission extends Component {
     static defaultProps = {}
     static propTypes = {
         code: PropTypes.string.isRequired,
@@ -19,4 +19,3 @@ class Permission extends Component {
         return null;
     }
 }
-export default Permission;

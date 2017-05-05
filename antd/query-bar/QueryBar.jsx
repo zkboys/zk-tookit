@@ -1,7 +1,7 @@
 import React from 'react';
 import './style.less';
 
-export default class extends React.Component {
+export default class QueryBar extends React.Component {
     state = {};
 
     componentDidMount() {

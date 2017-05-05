@@ -4,7 +4,7 @@ import assign from 'object-assign';
 import {Pagination} from 'antd';
 import './style.less';
 
-class PaginationComponent extends Component {
+export default class PaginationComponent extends Component {
     static defaultProps = {
         showSizeChanger: true,
         showQuickJumper: true,
@@ -78,4 +78,3 @@ class PaginationComponent extends Component {
         );
     }
 }
-export default PaginationComponent;

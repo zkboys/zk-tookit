@@ -89,7 +89,7 @@ const faIcons = [{
 }];
 /* eslint-enable*/
 
-export default class extends Component {
+export default class FontIconSelector extends Component {
     static defaultProps = {
         height: 'auto',
         onSelect: () => {

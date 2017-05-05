@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function () {
+export default function NoData() {
     return (
         <div className="ant-table-placeholder" style={{border: 'none'}}>
             <span>

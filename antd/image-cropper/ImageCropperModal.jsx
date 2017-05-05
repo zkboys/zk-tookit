@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Modal} from 'antd';
 import ImageCropper from './ImageCropper';
 
-export default class extends Component {
+export default class ImageCropperModal extends Component {
     static defaultProps = {
         onOK: () => {
         },

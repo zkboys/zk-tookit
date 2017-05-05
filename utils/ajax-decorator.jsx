@@ -20,10 +20,6 @@ import * as promiseAjax from './promise-ajax';
  * @module ajax高阶组件
  */
 
-function getDisplayName(WrappedComponent) {
-    return WrappedComponent.displayName || WrappedComponent.name || 'Component';
-}
-
 function ajax({propName = '$ajax'} = {}) {
     return function (WrappedComponent) {
         class WithSubscription extends Component {
@@ -42,6 +38,8 @@ function ajax({propName = '$ajax'} = {}) {
                 }
             }
 
+            static displayName = `WithSubscription(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
+
             componentWillUnmount() {
                 const _$ajaxTokens = this._$ajaxTokens;
                 _$ajaxTokens.forEach(item => item.cancel());
@@ -55,7 +53,7 @@ function ajax({propName = '$ajax'} = {}) {
                 return <WrappedComponent {...injectProps} {...this.props}/>;
             }
         }
-        WithSubscription.displayName = `WithSubscription(${getDisplayName(WrappedComponent)})`;
+
         return WithSubscription;
     };
 }

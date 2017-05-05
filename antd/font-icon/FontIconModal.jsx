@@ -4,7 +4,7 @@ import {Button, Modal} from 'antd';
 import FontIcon from './FontIcon';
 import FontIconSelector from './FontIconSelector';
 
-export default class extends Component {
+export default class FontIconModal extends Component {
     static defaultProps = {
         size: 'large',
         disabled: false,

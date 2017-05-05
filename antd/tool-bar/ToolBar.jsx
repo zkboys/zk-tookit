@@ -1,7 +1,7 @@
 import React from 'react';
 import './style.less';
 
-export default class extends React.Component {
+export default class ToolBar extends React.Component {
     static defaultProps = {
         className: '',
     }

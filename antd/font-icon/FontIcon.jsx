@@ -5,7 +5,7 @@ import './font-awesome/css/font-awesome.css';
 /**
  * 文字图标，支持fa 和 antd 自带图标
  */
-export default class extends Component {
+export default class FontIcon extends Component {
     static defaultProps = {
         size: '', // lg 2x 3x 4x 5x
         className: 'font-icon',

@@ -5,7 +5,7 @@ import './style.less';
 
 const FormItem = Form.Item;
 
-export default class extends Component {
+export default class EditableCell extends Component {
     static defaultProps = {
         type: 'input', // TODO number textarea password mobile email select select-tree checkbox radio switch
         field: '',

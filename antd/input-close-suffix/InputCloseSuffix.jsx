@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Icon} from 'antd';
 
-export default class extends Component {
+export default class InputCloseSuffix extends Component {
     static defaultProps = {
         form: null,
         field: '',

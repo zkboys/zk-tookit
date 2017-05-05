@@ -8,7 +8,7 @@ import {throttle} from 'lodash/function';
 import './style.less';
 
 const RadioGroup = Radio.Group;
-export default class extends Component {
+export default class ImageCropper extends Component {
     state = {
         resultCanvas: <canvas/>,
         previewImageUrl: '',
