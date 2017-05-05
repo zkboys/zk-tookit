@@ -75,7 +75,7 @@ var baseConf = {
                 loader: ExtractTextPlugin.extract('css?sourceMap!' + 'postcss-loader!' + 'less?{"sourceMap":true,"modifyVars":{}}')
             },
             {
-                test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+                test: /\.(png|jpe?g|gif)(\?.*)?$/,
                 loader: 'url',
                 query: {
                     limit: 10000,
@@ -88,8 +88,8 @@ var baseConf = {
                 query: {
                     limit: 10000,
                     name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
-                }
-            }
+                },
+            },
         ]
     },
     plugins: [
