@@ -6,6 +6,7 @@ export {initActions} from './redux/actions';
 export {initReducers} from './redux/reducers';
 export configureStore from './redux/store/configure-store';
 export handleAsyncReducer from './redux/store/handle-async-reducer';
+export ajax from './utils/ajax-decorator';
 export const promiseAjax = _promiseAjax;
 export const PubSubMsg = _PubSubMsg;
 export const isDev = process.env.NODE_ENV === 'development';

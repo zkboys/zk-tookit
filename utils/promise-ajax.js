@@ -16,8 +16,8 @@
  * @example
  * // 发起get请求
  * this.setState({loading: true}); // 开始显示loading
- * const getAjax = promiseAjax.get('/users', {pageNum: 1, pageSize: 10})
- * .then(res => console.log(res))
+ * const getAjax = promiseAjax.get('/users', {pageNum: 1, pageSize: 10});
+ * getAjax.then(res => console.log(res))
  * .catch(err => console.log(err))
  * .finally(() => {
  *     this.setState({loading: false}); // 结束loading
@@ -125,14 +125,7 @@ function fetch(url, data, method = 'get', options = {}) {
         axiosInstance = mockInstance;
         axiosInstance.defaults.baseURL = '/';
     }
-    /* eslint-disable*/
-    Promise.prototype.cancel = () => {
-        cancel({
-            canceled: true,
-        });
-    };
-    /* eslint-enable*/
-    return new Promise((resolve, reject) => {
+    const fetchPromise = new Promise((resolve, reject) => {
         axiosInstance({
             method,
             url,
@@ -151,6 +144,12 @@ function fetch(url, data, method = 'get', options = {}) {
             reject(error);
         });
     });
+    fetchPromise.cancel = function () {
+        cancel({
+            canceled: true,
+        });
+    };
+    return fetchPromise;
 }
 
 /**
