@@ -12,7 +12,7 @@
 ## 文件命名规范
 - jax文件名驼峰命名法
 - js文件名小写英文+连字符（减号）
-- layouts actions reducers services 通过同名文件夹进行对应，方便后期维护，layouts要严格按照url结构对应，actions reducers services对应到大的模块即可
+- pages actions reducers 通过同名文件夹进行对应，方便后期维护，layouts要严格按照url结构对应，actions reducers services对应到大的模块即可
 
 ## 代码规范
 - 尽量使用es6

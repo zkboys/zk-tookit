@@ -6,7 +6,7 @@ var projectRoot = config.projectRoot;
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var merge = require('webpack-merge')
 
-var babelPlugins = ['add-module-exports', 'typecheck', 'transform-runtime', ["import", config.babelImport]];
+var babelPlugins = ['add-module-exports', 'typecheck', 'transform-runtime', 'transform-decorators-legacy', ["import", config.babelImport]];
 if (process.env.NODE_ENV === 'testing') {
     babelPlugins.unshift('__coverage__');
 }
