@@ -1,11 +1,9 @@
-import * as _imageUtils from './utils/image-utils';
 import * as _utils from './utils';
 import * as _promiseAjax from './utils/promise-ajax';
 import * as _PubSubMsg from './utils/pubsubmsg';
 import * as _storage from './utils/storage';
 import * as _treeUtils from './utils/tree-utils';
 
-export const imageUtils = _imageUtils;
 export const utils = _utils;
 export ajax from './utils/promise-ajax-decorator';
 export const promiseAjax = _promiseAjax;

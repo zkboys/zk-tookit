@@ -53,13 +53,24 @@ static contextTypes = {
 };
 ...
 componentDidMount() {
+
     const {route} = this.props;
     const {router} = this.context; // If contextTypes is not defined, then context will be an empty object.
 
     router.setRouteLeaveHook(route, (/* nextLocation */) => {
+        /* eslint-disable */
+        const truthBeTold = window.confirm('您有未保存的内容，将保存未草稿，确定离开此页面？');
+        /* eslint-enable */
+        if (truthBeTold) {
+            // 点击了确定
+            return true;
+        }
+        // 恢复地址栏
+        window.history.pushState({}, '', route.path);
+        // 离开当前页面
+        return false;
         // 返回 false 会继续停留当前页面，
         // 否则，返回一个字符串，会显示给用户，让其自己决定
-        return '您有未保存的内容，确认要离开？';
     });
 }
 ...
