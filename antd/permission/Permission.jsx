@@ -11,7 +11,7 @@ export default class Permission extends Component {
         const {code, className = '', hasPermission} = this.props;
         if (hasPermission(code)) {
             return (
-                <span className={className}>
+                <span {...this.props} className={className}>
                     {this.props.children}
                 </span>
             );
