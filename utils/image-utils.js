@@ -111,29 +111,53 @@ export function compressImage({
 }
 
 /**
- * 将图片压缩到指定大小，目前算法不够准确
+ * 根据图片base64数据，获取图片文件实际大小
+ * @param base64Data
+ * @returns {number}
+ */
+export function getImageSizeByBase64(base64Data) {
+    let arr = base64Data.split(',');
+    let mime = arr[0].match(/:(.*?);/)[1];
+    let bstr = window.atob(arr[1]);
+    let n = bstr.length;
+    let u8arr = new Uint8Array(n);
+    while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    const file = new File([u8arr], null, {type: mime});
+    return file.size;
+}
+
+/**
+ * 将图片大约压缩到指定大小以下
  * @param {string} data 图片数据 FileReader readAsDataURL方法得到的数据
  * @param {string} [type='image/jpeg'] 处理完之后的图片类型
  * @param {Number} [size=300 * 1024] 压缩后大小
+ * @param {Number} [qualityStep=0.9] 每次压缩比，数值越大越精确，但是压缩时间越长
  * @returns {Promise}
  */
 export function compressImageToSize({
     data,
     type = 'image/jpeg',
-    size = 300 * 1024, // 默认 300K左右
+    size = 300 * 1000, // 默认 300K左右
+    qualityStep = 0.9, // 每次压缩比
 }) {
-    if (data.length < size) {
+    if (getImageSizeByBase64(data) < size) {
         return Promise.resolve(data);
     }
-    // TODO 这个算法不准确，但是可以压缩到size以内
-    // 通过data.length获取的大小，跟图片实际大小不同，data.length要大一些
-
-    const quality = Math.sqrt(size / data.length);
-    return compressImage({
-        data,
-        type,
-        quality,
-    });
+    const loop = (d) => {
+        return compressImage({
+            data: d,
+            type,
+            quality: qualityStep,
+        }).then(result => {
+            if (getImageSizeByBase64(result) < size) {
+                return Promise.resolve(result);
+            }
+            return loop(result);
+        }, err => Promise.reject(err));
+    };
+    return loop(data);
 }
 
 /**
