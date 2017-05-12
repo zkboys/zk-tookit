@@ -110,6 +110,7 @@ function getModuleName(pathName) {
         }
     });
     pName = pName.replace(/\./g, '');
+    pName = pName.replace(':', '');
     return pName;
 }
 

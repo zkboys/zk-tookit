@@ -3,6 +3,59 @@
  * @module 通用工具方法
  * */
 
+
+/**
+ * 获取字符串字节长度，中文占两个字节
+ * @param value
+ * @returns {number}
+ */
+export function getStringByteLength(value) {
+    if (!value) return 0;
+    let length = value.length;
+
+    for (let i = 0; i < value.length; i++) {
+        if (value.charCodeAt(i) > 127) {
+            length++;
+        }
+    }
+
+    return length;
+}
+
+/**
+ * 格式化字符串
+ * @example
+ * stringFormat('H{0}llo W{1}rld!', 'e', 'o');
+ * stringFormat('H{eKey}llo W{oKey}rld!', {eKey: 'e', oKey: 'o'});
+ * @param {String} value 需要格式化的字符串
+ * @param {*} args 对象或者多个参数
+ * @returns {*}
+ */
+export function stringFormat(value, ...args) {
+    if (!value) return value;
+    if (typeof value !== 'string') return value;
+    if (!args || !args.length) return value;
+
+    if (args.length === 1 && typeof (args[0]) === 'object') {
+        const arg = args[0];
+        Object.keys(arg).forEach(key => {
+            if (arg[key] !== undefined) {
+                const reg = new RegExp(`({${key}})`, 'g');
+                value = value.replace(reg, arg[key]);
+            }
+        });
+        return value;
+    }
+
+    for (let i = 0; i < args.length; i++) {
+        if (args[i] !== undefined) {
+            let reg = new RegExp(`({)${i}(})`, 'g');
+            value = value.replace(reg, args[i]);
+        }
+    }
+    return value;
+}
+
 /**
  * 获取cookie
  * @param {String} objName 存储coolie中数据的key
