@@ -34,7 +34,7 @@ import JSZip from 'jszip';
  */
 
 /**
- * 根据文件名，获取图片类型，如果有返回值，说明此文件是图片，只支持jpg、jpeg、gif、png四中图片格式
+ * 根据文件名，获取图片类型，如果有返回值，说明此文件是图片
  * @param fileName
  * @returns {*}
  */
@@ -44,15 +44,31 @@ export function getImageType(fileName) {
         'jpeg',
         'gif',
         'png',
+        'tiff',
+        'svg',
+        'ico',
+        'bmp',
+        'tag',
+        'psd',
+        'tiff',
+        'dds',
+        'pic',
+        'pcx',
+        'cdr',
+        'hdri',
+        'raw',
+        'SVG',
+        'ai',
+        'swf',
+        'svg',
+        'eps',
     ];
     if (fileName) {
-        const nameArr = fileName.split('.');
-        if (nameArr && nameArr.length) {
-            let type = nameArr[nameArr.length - 1];
-            type = type.toLowerCase();
-            if (imageTypes.includes(type)) {
-                return `image/${type}`;
-            }
+        const index = fileName.lastIndexOf('.');
+        let type = fileName.substr(index + 1);
+        type = type.toLowerCase();
+        if (imageTypes.includes(type)) {
+            return `image/${type}`;
         }
     }
     return false;
@@ -169,16 +185,15 @@ export function getImageFileInfo(file, cb) {
     const fileName = file.name;
     const fileSize = file.size;
     const fileType = file.type;
-    const imageType = getImageType(fileName);
-    if (imageType) { // 是图片
+    if (fileType.startsWith('image')) { // 是图片
         getImageData(file).then(data => {
-            cb({
+            cb(null, {
                 name: fileName,
                 size: fileSize,
                 type: fileType,
                 data,
             });
-        }, err => cb(null, err));
+        }, err => cb(err));
         return;
     }
     JSZip.loadAsync(file)
@@ -188,13 +203,13 @@ export function getImageFileInfo(file, cb) {
                 const imgType = getImageType(name);
                 if (!zipEntry.dir && imgType) { // 是图片
                     zipEntry.async('base64')
-                        .then(content => cb({
+                        .then(content => cb(null, {
                             name,
                             size: content.length,
                             type: imgType,
                             data: `data:${imgType};base64,${content}`,
-                        }), err => cb(null, err));
+                        }), err => cb(err));
                 }
             });
-        }, err => cb(null, err));
+        }, err => cb(err));
 }
