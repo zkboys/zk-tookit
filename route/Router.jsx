@@ -11,6 +11,7 @@ let historyListen;
 let cfgOnLeave;
 let cfgOnEnter;
 let onRouterDidMount;
+let createElement;
 
 export function initRouter(options) {
     Error404 = options.Error404;
@@ -20,6 +21,7 @@ export function initRouter(options) {
     cfgOnLeave = options.onLeave;
     cfgOnEnter = options.onEnter;
     onRouterDidMount = options.onRouterDidMount;
+    createElement = options.createElement;
 }
 
 export default class extends Component {
@@ -88,6 +90,9 @@ export default class extends Component {
 
     // 这里可以注入通用props
     createElement = (RouteComponent, props) => {
+        if (createElement) {
+            return createElement(RouteComponent, props);
+        }
         return (
             <RouteComponent {...props}/>
         );
