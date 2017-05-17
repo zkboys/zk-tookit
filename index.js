@@ -8,6 +8,7 @@ export const utils = _utils;
 export ajax from './utils/promise-ajax-decorator';
 export const promiseAjax = _promiseAjax;
 export const PubSubMsg = _PubSubMsg;
+export event from './utils/event-decorator';
 export const storage = _storage;
 export const treeUtils = _treeUtils;
 
