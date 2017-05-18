@@ -29,7 +29,7 @@ exports.handlePageInitStateWatch = function (event, pathName) {
 
 exports.generateAllInitState = function () {
     var finalString = {};
-    var files = glob.sync(sourceFileName);
+    var files = glob.sync(sourceFileName, {ignore: config.routesIgnore});
     if (files && files.length) {
         for (var i = 0; i < files.length; i++) {
             var file = files[i];

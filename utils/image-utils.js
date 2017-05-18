@@ -187,28 +187,42 @@ export function getImageFileInfo(file, cb) {
     const fileType = file.type;
     if (fileType.startsWith('image')) { // 是图片
         getImageData(file).then(data => {
-            cb(null, {
+            cb(null, [{
                 name: fileName,
                 size: fileSize,
                 type: fileType,
                 data,
-            });
+            }]);
         }, err => cb(err));
         return;
     }
     JSZip.loadAsync(file)
         .then(zip => {
+            let size = Object.keys(zip.files).length;
+            const results = [];
             zip.forEach((relativePath, zipEntry) => {
                 const name = zipEntry.name;
                 const imgType = getImageType(name);
                 if (!zipEntry.dir && imgType) { // 是图片
                     zipEntry.async('base64')
-                        .then(content => cb(null, {
-                            name,
-                            size: content.length,
-                            type: imgType,
-                            data: `data:${imgType};base64,${content}`,
-                        }), err => cb(err));
+                        .then(content => {
+                            size--;
+                            results.push({
+                                name,
+                                size: content.length,
+                                type: imgType,
+                                data: `data:${imgType};base64,${content}`,
+                            });
+                            if (size <= 0) {
+                                cb(null, results);
+                            }
+                        }, err => {
+                            size--;
+                            if (size <= 0) cb(err);
+                        });
+                } else {
+                    size--;
+                    if (size <= 0) cb(Error(`请上传压缩包或者图片格式文件！[${name}]`));
                 }
             });
         }, err => cb(err));

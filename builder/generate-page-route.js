@@ -90,7 +90,7 @@ function getPathsAndPathNames(sourceFilePath, targetFileName, filter) {
         };
     var paths = [];
     var pathNames = [];
-    var files = glob.sync(sourceFilePath);
+    var files = glob.sync(sourceFilePath, {ignore: config.routesIgnore});
     if (files && files.length) {
         for (var i = 0; i < files.length; i++) {
             var file = files[i];

@@ -18,6 +18,7 @@ var pathConfigs = [
     'srcPath',
     'staticPath',
     'assetsRoot',
+    'pagePath',
 ];
 
 var htmlOptionsPaths = [
@@ -63,7 +64,8 @@ module.exports = {
     htmlOptions: config.htmlOptions,
     webpack: config.webpack,
     sourceFilePath: srcPath,
-    jsxFileName: path.join(srcPath, '**/*.jsx'),
+    routesIgnore: config.routesIgnore,
+    jsxFileName: config.pagePath || path.join(srcPath, '**/*.jsx'),
     routesFileName: path.join(srcPath, '**/routes.js'),
     allRoutesFileName: path.join(__dirname, '../route/all-routes.js'),
     pageInitStateFileName: path.join(__dirname, '../redux/page-init-state.js'),
