@@ -14,3 +14,5 @@ export UserAvatar from './user-avatar/UserAvatar';
 export ImageCropper from './image-cropper/ImageCropper';
 export ImageCropperModal from './image-cropper/ImageCropperModal';
 export Permission from './permission/Permission';
+export FormItemLayout from './form-item-layout/FormItemLayout';
+export InputClear from './input-clear/InputClear';
