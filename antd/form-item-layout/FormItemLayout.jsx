@@ -10,13 +10,15 @@ import {Form} from 'antd';
 const FormItem = Form.Item;
 export default class FormItemLayout extends Component {
     static defaultProps = {
-        labelSpaceCount: 10, // label所占空间个数，用于与其他label对齐
-        labelFontSize: 12, // label字体大小，最终width = labelSpaceCount * labelFontSize
+        labelSpaceCount: 5, // label所占空间个数，用于与其他label对齐
+        labelFontSize: 12, // label字体大小，最终labelWidth = labelSpaceCount * labelFontSize
     }
     static propTypes = {
         className: PropTypes.string,
         style: PropTypes.object,
-        labelWidth: PropTypes.number,
+        width: PropTypes.number, // label + 元素 宽度，即：FormItem总宽度
+        float: PropTypes.bool, // 是否是浮动，如果true，将左浮动
+        labelWidth: PropTypes.number, // label宽度，如果设置此值，labelSpaceCount 和 labelFontSize将失效
         labelSpaceCount: PropTypes.number,
         labelFontSize: PropTypes.number,
     }
@@ -37,8 +39,8 @@ export default class FormItemLayout extends Component {
     }
 
     /**
-     * 获取 label宽度，width属性优先
-     * 如果没有设置width，最终width = labelSpaceCount * labelFontSize
+     * 获取 label宽度，labelWidth属性优先
+     * 如果没有设置width，最终labelWidth = labelSpaceCount * labelFontSize
      * 默认width = 10 * 12 = 120
      *
      * @returns {Number}
@@ -54,6 +56,8 @@ export default class FormItemLayout extends Component {
             id,
             className,
             style,
+            width,
+            float,
             children,
         } = this.props;
 
@@ -61,9 +65,12 @@ export default class FormItemLayout extends Component {
         if (id) wrapperProps.id = id;
         if (className) wrapperProps.className = className;
         if (style) wrapperProps.style = style;
+        if (!wrapperProps.style) wrapperProps.style = {};
+        if (width && !wrapperProps.style.width) wrapperProps.style.width = width;
+        if (float && !wrapperProps.style.float) wrapperProps.style.float = 'left';
 
         const formItemProps = {...this.props};
-        const ignoreProps = ['className', 'style', 'labelWidth', 'labelSpaceCount', 'labelFontSize'];
+        const ignoreProps = ['className', 'style', 'width', 'float', 'labelWidth', 'labelSpaceCount', 'labelFontSize'];
         ignoreProps.forEach(item => {
             Reflect.deleteProperty(formItemProps, item);
         });
