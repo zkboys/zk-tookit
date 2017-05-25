@@ -42,38 +42,38 @@ export default class InputClear extends Component {
 
     render() {
         const {iconColor, showCloseIcon} = this.state;
-        const {id, form, value} = this.props;
+        const {id, form} = this.props;
 
         let injectProps = {};
-        if (showCloseIcon) {
-            injectProps.suffix = (
-                <Icon
-                    style={{
-                        transition: 'color 300ms',
-                        color: iconColor,
-                        cursor: 'pointer',
-                    }}
-                    type="close-circle"
-                    onMouseEnter={() => this.setState({iconColor: closeIconHoverColor})}
-                    onMouseLeave={() => this.setState({iconColor: closeIconColor})}
-                    onClick={() => {
-                        if (form && id) {
-                            form.setFieldsValue({[id]: undefined});
-                            this.__input.focus();
-                        }
-                    }}
-                />
-            );
-        }
+        injectProps.suffix = (
+            <Icon
+                style={{
+                    transition: 'color 0.3s ease, opacity 0.15s ease',
+                    color: iconColor,
+                    cursor: 'pointer',
+                    opacity: showCloseIcon ? 1 : 0,
+                }}
+                type="close-circle"
+                onMouseEnter={() => {
+                    this.showCloseIcon();
+                    this.setState({iconColor: closeIconHoverColor});
+                }}
+                onMouseLeave={() => this.setState({iconColor: closeIconColor})}
+                onClick={() => {
+                    if (form && id) {
+                        form.setFieldsValue({[id]: undefined});
+                        this.__input.focus();
+                    }
+                }}
+            />
+        );
         return (
             <Input
                 {...injectProps}
                 {...this.props}
                 ref={node => this.__input = node}
-                onMouseEnter={() => {
-                    if (value) this.setState({showCloseIcon: true});
-                }}
-                onMouseLeave={() => this.setState({showCloseIcon: false})}
+                onMouseEnter={() => this.showCloseIcon()}
+                onMouseLeave={() => this.hideCloseIcon()}
             />
         );
     }

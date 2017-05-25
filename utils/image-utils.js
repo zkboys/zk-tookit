@@ -127,21 +127,18 @@ export function compressImage({
 }
 
 /**
- * 根据图片base64数据，获取图片文件实际大小
- * @param base64Data
+ * 根据图片base64数据，获取图片文件实际大小，最终结果会有<3的偏差（比实际大1~3）
+ * @param imageBase64Data
  * @returns {number}
  */
-export function getImageSizeByBase64(base64Data) {
-    let arr = base64Data.split(',');
-    let mime = arr[0].match(/:(.*?);/)[1];
-    let bstr = window.atob(arr[1]);
-    let n = bstr.length;
-    let u8arr = new Uint8Array(n);
-    while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-    }
-    const file = new File([u8arr], null, {type: mime});
-    return file.size;
+export function getImageSizeByBase64(imageBase64Data) {
+    // (((4 * e.file.size) / 3) + 3) & ~3 === base64Data.length
+    // ~3 = -4
+
+    let arr = imageBase64Data.split(',');
+    const base64Data = arr[1];
+    const fileSize = ((base64Data.length - 3) * 3) / 4;
+    return window.parseInt(fileSize) + 3;
 }
 
 /**
