@@ -85,7 +85,7 @@ export function init({
 }
 
 function _setOptions(axiosInstance) {
-    axiosInstance.defaults.timeout = 5000;
+    axiosInstance.defaults.timeout = 10000;
     axiosInstance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
     axiosInstance.defaults.baseURL = '/';
     // Add a request interceptor
