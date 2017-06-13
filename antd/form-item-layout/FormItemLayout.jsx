@@ -10,23 +10,25 @@ import {Form} from 'antd';
 const FormItem = Form.Item;
 export default class FormItemLayout extends Component {
     static defaultProps = {
-        labelSpaceCount: 5, // label所占空间个数，用于与其他label对齐
-        labelFontSize: 12, // label字体大小，最终labelWidth = labelSpaceCount * labelFontSize
+        labelSpaceCount: 5,
+        labelFontSize: 12,
     }
     static propTypes = {
-        className: PropTypes.string,
-        style: PropTypes.object,
-        width: PropTypes.number, // label + 元素 宽度，即：FormItem总宽度
+        className: PropTypes.string, // 添加在FormItem父级div上的class
+        style: PropTypes.object, // 添加在FormItem 父级div上的样式
+        width: PropTypes.oneOfType([ // FormItem父级div的总宽度 label + element
+            PropTypes.string,
+            PropTypes.number,
+        ]),
         float: PropTypes.bool, // 是否是浮动，如果true，将左浮动
         labelWidth: PropTypes.number, // label宽度，如果设置此值，labelSpaceCount 和 labelFontSize将失效
-        labelSpaceCount: PropTypes.number,
-        labelFontSize: PropTypes.number,
+        labelSpaceCount: PropTypes.number, // label所占空间个数，用于与其他label对齐
+        labelFontSize: PropTypes.number, // label字体大小，最终labelWidth = labelSpaceCount * labelFontSize
     }
     state = {}
 
     componentDidMount() {
         const labelWidth = this.getLabelWidth();
-        // 处理校验信息，与具体表单元素对齐
         const antFormItemLabel = this.formItemDom.querySelector('.ant-form-item-label');
         const antFormItemControlWrapper = this.formItemDom.querySelector('.ant-form-item-control-wrapper');
         if (antFormItemLabel) {
@@ -41,13 +43,13 @@ export default class FormItemLayout extends Component {
     /**
      * 获取 label宽度，labelWidth属性优先
      * 如果没有设置width，最终labelWidth = labelSpaceCount * labelFontSize
-     * 默认width = 10 * 12 = 120
+     * 默认width = 5 * 12 = 60
      *
      * @returns {Number}
      */
     getLabelWidth() {
         const {labelWidth, labelSpaceCount, labelFontSize} = this.props;
-        if (labelWidth) return labelWidth;
+        if (labelWidth !== undefined) return labelWidth;
         return (labelSpaceCount + 2) * labelFontSize;
     }
 
