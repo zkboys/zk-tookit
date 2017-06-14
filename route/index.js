@@ -1,1 +1,0 @@
-export Router, {initRouter} from './Router';
