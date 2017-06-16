@@ -1,3 +1,4 @@
+import {cloneDeep} from 'lodash/lang';
 /**
  * 通用的一些工具方法
  * @module 通用工具方法
@@ -184,92 +185,102 @@ function findObjByKeyPath(obj, keyPath) {
 }
 
 /**
- * 从数组中删除一个元素，此方法具有副作用，修改了原数组
+ * 从数组中删除一个元素
  * @param {Array} arr 需要操作的数组
  * @param {*} item 要删除的元素，注意：内部是用'==='比对的
  */
 export function arrayRemove(arr, item) {
+    if (!arr || !Array.isArray(arr) || !arr.length) return arr;
+    const newArr = cloneDeep(arr);
     let itemIndex = -1;
-    for (let i = 0; i < arr.length; i++) {
-        if (arr[i] === item) {
+    for (let i = 0; i < newArr.length; i++) {
+        if (newArr[i] === item) {
             itemIndex = i;
             break;
         }
     }
     if (itemIndex > -1) {
-        arr.splice(itemIndex, 1);
+        newArr.splice(itemIndex, 1);
     }
+    return newArr;
 }
 
 /**
- * 从数组中删除一些元素，此方法具有副作用，修改了原数组
+ * 从数组中删除一些元素
  * @param {Array} arr 需要操作的数组
  * @param {Array} items 需要删除的元素
  */
 export function arrayRemoveAll(arr, items) {
-    items.forEach(item => {
-        arrayRemove(arr, item);
+    if (!arr || !Array.isArray(arr) || !arr.length) return arr;
+    if (!items || !Array.isArray(items) || !items.length) return arr;
+    return arr.filter(item => {
+        return !items.find(it => it === item);
     });
 }
 
 /**
- * 根据指定keyPath 添加元素，此方法具有副作用，修改了传入的obj
+ * 根据指定keyPath 添加元素
  * @param obj 要操作的数据
  * @param {string} keyPath 类似于：a.b.c，就会把value赋值给c
  * @param {*} value 要设置的数据
  * @throws Will throw error if keyPath dose not point to an object
  */
 export function objSetValue(obj, keyPath, value) {
+    const newObj = cloneDeep(obj);
     const pointLastIndex = keyPath.lastIndexOf('.');
     if (pointLastIndex < 0) {
-        if (typeof obj !== 'object') {
-            throw new Error('keyPath dose not point to an boject!');
+        if (typeof newObj !== 'object') {
+            throw new Error('keyPath dose not point to an object!');
         }
-        obj[keyPath] = value;
-        return;
+        newObj[keyPath] = value;
+        return newObj;
     }
     const key = keyPath.substr(pointLastIndex + 1, keyPath.length);
     keyPath = keyPath.substr(0, pointLastIndex);
-    let targetObj = findObjByKeyPath(obj, keyPath);
+    let targetObj = findObjByKeyPath(newObj, keyPath);
     if (typeof targetObj !== 'object') {
-        throw new Error('keyPath dose not point to an boject!');
+        throw new Error('keyPath dose not point to an object!');
     }
     targetObj[key] = value;
+    return newObj;
 }
 
 /**
- * 根据keyPath定位到指定元素，并将其删除，此方法具有副作用，修改了传入的obj
+ * 根据keyPath定位到指定元素，并将其删除
  * @param obj 要操作的数据
  * @param {string} keyPath keyPath 类似于：a.b.c，会把c删除
  * @throws Will throw error if keyPath dose not point to an object
  */
 export function objRemove(obj, keyPath) {
+    const newObj = cloneDeep(obj);
     const pointLastIndex = keyPath.lastIndexOf('.');
     if (pointLastIndex < 0) {
-        if (typeof obj !== 'object') {
+        if (typeof newObj !== 'object') {
             throw new Error('keyPath dose not point to an object!');
         }
-        delete obj[keyPath];
-        return;
+        delete newObj[keyPath];
+        return newObj;
     }
     const key = keyPath.substr(pointLastIndex + 1, keyPath.length);
     keyPath = keyPath.substr(0, pointLastIndex);
-    let targetObj = findObjByKeyPath(obj, keyPath);
+    let targetObj = findObjByKeyPath(newObj, keyPath);
     if (typeof targetObj !== 'object') {
         throw new Error('keyPath dose not point to an object!');
     }
     delete targetObj[key];
+    return newObj;
 }
 
 /**
- * 根据keyPath定位到指定数组，并添加元素，此方法具有副作用，修改了传入的obj
+ * 根据keyPath定位到指定数组，并添加元素
  * @param obj 要操作的数据
  * @param keyPath 类似于：a.b.c，通过keyPath，定位到obj中某个数组
  * @param value 需要append的元素
  * @throws Will throw error if keyPath dose not point to an array
  */
 export function arrAppendValue(obj, keyPath, value) {
-    let targetObj = findObjByKeyPath(obj, keyPath);
+    const newObj = cloneDeep(obj);
+    let targetObj = findObjByKeyPath(newObj, keyPath);
     if (!Array.isArray(targetObj)) {
         throw new Error('keyPath dose not point to an array!');
     }
@@ -278,38 +289,43 @@ export function arrAppendValue(obj, keyPath, value) {
     } else {
         targetObj.push(value);
     }
+    return newObj;
 }
 
 /**
- * 根据keyPath定位到指定数组，删除一个元素，此方法具有副作用，修改了传入的obj
+ * 根据keyPath定位到指定数组，删除一个元素
  * @param obj 要操作的数据
  * @param keyPath 类似于：a.b.c，通过keyPath，定位到obj中某个数组
  * @param value 需要删除的数组元素
  * @throws Will throw error if keyPath dose not point to an array
  */
 export function arrRemove(obj, keyPath, value) {
-    let targetObj = findObjByKeyPath(obj, keyPath);
+    const newObj = cloneDeep(obj);
+    let targetObj = findObjByKeyPath(newObj, keyPath);
     if (!Array.isArray(targetObj)) {
         throw new Error('keyPath dose not point to an array!');
     }
-    arrayRemove(targetObj, value);
+    targetObj = arrayRemove(targetObj, value);
+    return objSetValue(newObj, keyPath, targetObj);
 }
 
 /**
- * 根据keyPath定位到指定数组，删除所有跟value相同的元素，此方法具有副作用，修改了传入的obj
+ * 根据keyPath定位到指定数组，删除所有跟value相同的元素
  * @param obj 要操作的数据
  * @param keyPath 类似于：a.b.c，通过keyPath，定位到obj中某个数组
  * @param value 移除的数组元素
  * @throws Will throw error if keyPath dose not point to an array
  */
 export function arrRemoveAll(obj, keyPath, value) {
-    let targetObj = findObjByKeyPath(obj, keyPath);
+    const newObj = cloneDeep(obj);
+    let targetObj = findObjByKeyPath(newObj, keyPath);
     if (!Array.isArray(targetObj)) {
         throw new Error('keyPath dose not point to an array!');
     }
     while (targetObj.indexOf(value) > -1) {
-        arrayRemove(targetObj, value);
+        targetObj = arrayRemove(targetObj, value);
     }
+    return objSetValue(newObj, keyPath, targetObj);
 }
 
 /**

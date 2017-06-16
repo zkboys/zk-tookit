@@ -18,8 +18,8 @@ export default function (initialState) {
         [types.ARR_APPEND_VALUE](state, action) {
             const {pageScope, keyPath, value} = action;
             const newState = cloneDeep(state);
-            const pageScopeState = newState[pageScope];
-            utils.arrAppendValue(pageScopeState, keyPath, value);
+            let pageScopeState = newState[pageScope];
+            pageScopeState = utils.arrAppendValue(pageScopeState, keyPath, value);
             return {
                 ...newState,
                 [pageScope]: pageScopeState,
@@ -28,8 +28,8 @@ export default function (initialState) {
         [types.ARR_REMOVE_VALUE](state, action) {
             const {pageScope, keyPath, value} = action;
             const newState = cloneDeep(state);
-            const pageScopeState = newState[pageScope];
-            utils.arrRemove(pageScopeState, keyPath, value);
+            let pageScopeState = newState[pageScope];
+            pageScopeState = utils.arrRemove(pageScopeState, keyPath, value);
             return {
                 ...newState,
                 [pageScope]: pageScopeState,
@@ -38,8 +38,8 @@ export default function (initialState) {
         [types.ARR_REMOVE_ALL_VALUE](state, action) {
             const {pageScope, keyPath, value} = action;
             const newState = cloneDeep(state);
-            const pageScopeState = newState[pageScope];
-            utils.arrRemoveAll(pageScopeState, keyPath, value);
+            let pageScopeState = newState[pageScope];
+            pageScopeState = utils.arrRemoveAll(pageScopeState, keyPath, value);
             return {
                 ...newState,
                 [pageScope]: pageScopeState,
@@ -48,8 +48,8 @@ export default function (initialState) {
         [types.OBJ_SET_VALUE](state, action) {
             const {pageScope, keyPath, value} = action;
             const newState = cloneDeep(state);
-            const pageScopeState = newState[pageScope];
-            utils.objSetValue(pageScopeState, keyPath, value);
+            let pageScopeState = newState[pageScope];
+            pageScopeState = utils.objSetValue(pageScopeState, keyPath, value);
             return {
                 ...newState,
                 [pageScope]: pageScopeState,
@@ -58,8 +58,8 @@ export default function (initialState) {
         [types.OBJ_REMOVE_VALUE](state, action) {
             const {pageScope, keyPath} = action;
             const newState = cloneDeep(state);
-            const pageScopeState = newState[pageScope];
-            utils.objRemove(pageScopeState, keyPath);
+            let pageScopeState = newState[pageScope];
+            pageScopeState = utils.objRemove(pageScopeState, keyPath);
             return {
                 ...newState,
                 [pageScope]: pageScopeState,

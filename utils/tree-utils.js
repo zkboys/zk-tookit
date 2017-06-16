@@ -243,7 +243,7 @@ export function getCheckedKeys(treeData, checkedKeys, checked, checkNodeKey) {
         }
     } else {
         // 取消选中所有后代节点
-        arrayRemoveAll(allKeys, generationalKeys.concat(checkNodeKey));
+        allKeys = arrayRemoveAll(allKeys, generationalKeys.concat(checkNodeKey));
 
         // 判断其父节点是否还有子节点选中了，如果没有，父节点也不选中
         const node = getNodeByKey(treeData, checkNodeKey);
@@ -261,7 +261,7 @@ export function getCheckedKeys(treeData, checkedKeys, checked, checkNodeKey) {
                         }
                     }
                     if (!hasCheckedChild) {
-                        arrayRemove(allKeys, key);
+                        allKeys = arrayRemove(allKeys, key);
                     }
                 }
             });

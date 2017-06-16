@@ -5,7 +5,7 @@ import {cloneDeep} from 'lodash/lang';
 import './style.less';
 import PageContent from '../page-content/PageContent';
 import FontIcon from '../font-icon/FontIcon';
-import InputCloseSuffix from '../input-close-suffix/InputCloseSuffix';
+import InputClear from '../input-clear/InputClear';
 
 // 使用chrome浏览器
 // 提取antd所有图标方法：(注意版本)
@@ -164,7 +164,7 @@ export default class FontIconSelector extends Component {
                         size="large"
                         style={{width: '50%', float: 'right'}}
                         placeholder="输入英文名称进行查找"
-                        suffix={<InputCloseSuffix dom={this.searchInput} onEmpty={() => this.handleInputChange({target: {value: ''}})}/>}
+                        suffix={<InputClear dom={this.searchInput} onEmpty={() => this.handleInputChange({target: {value: ''}})}/>}
                     />
                 </div>
                 <div className="icons-content" style={{height}}>

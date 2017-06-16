@@ -7,7 +7,6 @@ export PaginationComponent from './pagination/PaginationComponent';
 export QueryBar from './query-bar/QueryBar';
 export QueryResult from './query-result/QueryResult';
 export ToolBar from './tool-bar/ToolBar';
-export InputCloseSuffix from './input-close-suffix/InputCloseSuffix';
 export NoData from './no-data/NoData';
 export Operator from './operator/Operator';
 export UserAvatar from './user-avatar/UserAvatar';
