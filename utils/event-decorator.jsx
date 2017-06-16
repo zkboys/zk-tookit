@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import uuidV4 from 'uuid/v4';
-import {PubSubMsg} from '../index';
+import * as PubSubMsg from './pubsubmsg';
 
 /**
  * 发布订阅高级组件
  * 将$on $emit 属性注入到目标组件props中，目标组件可以通过this.props.$on(topic, callback)方式进行使用;
- * 每次$on 注册事件是，保存了事件名称，在componentWillUnmount方法中，进行统一事件清除
+ * 每次$on 注册事件时，保存了事件名称，在componentWillUnmount方法中，进行统一事件清除
  * @example
  * import event from 'path/to/event-decorator';
  * // 装饰器方式：
