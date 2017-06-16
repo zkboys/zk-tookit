@@ -5,7 +5,6 @@ import {cloneDeep} from 'lodash/lang';
 import './style.less';
 import PageContent from '../page-content/PageContent';
 import FontIcon from '../font-icon/FontIcon';
-import InputClear from '../input-clear/InputClear';
 
 // 使用chrome浏览器
 // 提取antd所有图标方法：(注意版本)
@@ -159,12 +158,10 @@ export default class FontIconSelector extends Component {
                         <span className="current-selected-icon-class">{selectedIcon}</span>
                     </div>
                     <Input
-                        ref={node => this.searchInput = node}
                         onChange={this.handleInputChange}
                         size="large"
                         style={{width: '50%', float: 'right'}}
                         placeholder="输入英文名称进行查找"
-                        suffix={<InputClear dom={this.searchInput} onEmpty={() => this.handleInputChange({target: {value: ''}})}/>}
                     />
                 </div>
                 <div className="icons-content" style={{height}}>
