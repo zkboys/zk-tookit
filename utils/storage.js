@@ -24,7 +24,7 @@
 
 const Storage = window.localStorage;
 const sessionStorage = window.sessionStorage;
-let _keyPrefix = 'default-prefix';
+let _keyPrefix = 'default-prefix-';
 
 /**
  * 初始化配置
@@ -32,7 +32,7 @@ let _keyPrefix = 'default-prefix';
  */
 export function init(options) {
     const {keyPrefix = 'default-prefix'} = options;
-    _keyPrefix = keyPrefix;
+    _keyPrefix = `${keyPrefix}-`;
 }
 
 /**
