@@ -329,7 +329,10 @@ export function uniqueArray(array) {
     return r;
 }
 
-
+/**
+ * 获取浏览器窗口大小
+ * @returns {{width: (Number|number), height: (Number|number)}}
+ */
 export function getWindowSize() {
     const w = window;
     const d = document;
@@ -340,6 +343,12 @@ export function getWindowSize() {
     return {width, height};
 }
 
+/**
+ * 为dom元素添加事件
+ * @param element {Object} 需要添加事件的dom元素
+ * @param type {String} 事件名称，比如 'click'
+ * @param handler {function} 事件处理函数
+ */
 export function addEventListener(element, type, handler) {
     if (!element) return;
     if (element.addEventListener) {
@@ -351,6 +360,12 @@ export function addEventListener(element, type, handler) {
     }
 }
 
+/**
+ * 为dom元素移除事件
+ * @param element {Object} 需要添加事件的dom元素
+ * @param type {String} 事件名称，比如 'click'
+ * @param handler {function} 事件处理函数
+ */
 export function removeEventListener(element, type, handler) {
     if (!element) return;
     if (element.removeEventListener) {
