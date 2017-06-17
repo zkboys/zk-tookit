@@ -7,7 +7,6 @@ export default function (initialState) {
     return handleActions({
         [types.SET_STATE](state, action) {
             const {pageScope, payload} = action;
-            // TODO state 是否需要深拷贝？
             const newState = cloneDeep(state);
             const newPayload = cloneDeep(payload);
             return {

@@ -22,7 +22,7 @@
  * @module 本地存储
  */
 
-const Storage = window.localStorage;
+const localStorage = window.localStorage;
 const sessionStorage = window.sessionStorage;
 let _keyPrefix = 'default-prefix-';
 
@@ -43,7 +43,7 @@ export function init(options) {
 export function setItem(key, value) {
     key = _keyPrefix + key;
     value = JSON.stringify(value);
-    Storage.setItem(key, value);
+    localStorage.setItem(key, value);
 }
 
 /**
@@ -53,16 +53,22 @@ export function setItem(key, value) {
  */
 export function getItem(key) {
     key = _keyPrefix + key;
-    let value = Storage.getItem(key);
+    let value = localStorage.getItem(key);
     return JSON.parse(value);
 }
 
 /**
- * localStorage清空
- * @todo 这个清空容易清除其他用户的数据，修改一下，根据_keyPrefix清除
+ * localStorage 根据keyPrefix清空数据
  */
 export function clear() {
-    Storage.clear();
+    const localStorageKeys = Object.keys(localStorage);
+    if (localStorageKeys && localStorageKeys.length) {
+        localStorageKeys.forEach(item => {
+            if (item.startsWith(_keyPrefix)) {
+                localStorage.removeItem(item);
+            }
+        });
+    }
 }
 
 /**
@@ -71,7 +77,7 @@ export function clear() {
  */
 export function removeItem(key) {
     key = _keyPrefix + key;
-    Storage.removeItem(key);
+    localStorage.removeItem(key);
 }
 
 /**
@@ -106,9 +112,16 @@ export const session = {
         let value = sessionStorage.getItem(key);
         return JSON.parse(value);
     },
-    // todo 这个清空容易清除其他用户的数据，修改一下，根据_keyPrefix清除
+    // 根据 keyPrefix 清除用户数据
     clear() {
-        sessionStorage.clear();
+        const sessionStorageKeys = Object.keys(sessionStorage);
+        if (sessionStorageKeys && sessionStorageKeys.length) {
+            sessionStorageKeys.forEach(item => {
+                if (item.startsWith(_keyPrefix)) {
+                    sessionStorage.removeItem(item);
+                }
+            });
+        }
     },
     removeItem(key) {
         key = _keyPrefix + key;
