@@ -1,5 +1,5 @@
 import {createAction} from 'redux-actions';
-import * as Storage from 'zk-react/utils/storage';
+import * as Storage from 'zk-tookit/utils/storage';
 import * as types from './action-types';
 
 export default function ({pageInitState, syncKeys}) {

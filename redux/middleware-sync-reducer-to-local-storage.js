@@ -1,5 +1,5 @@
 import {isFSA} from 'flux-standard-action';
-import * as storage from 'zk-react/utils/storage';
+import * as storage from 'zk-tookit/utils/storage';
 import * as types from './action-types';
 
 export default ({dispatch, getState}) => next => action => {

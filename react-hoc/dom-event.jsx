@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import {addEventListener, removeEventListener} from './index';
+import {addEventListener, removeEventListener} from 'zk-tookit/utils';
 
 /**
  * dom事件高级组件
  * 将$addEventListener $removeEventListener 属性注入到目标组件props中，目标组件可以通过this.props.$addEventListener(element, type, handler)方式进行使用;
  * 每次$addEventListener 注册事件时，保存了事件名称，在componentWillUnmount方法中，进行统一事件清除
  * @example
- * import domEvent from 'path/to/dom-event-decorator';
+ * import {domEvent} from 'path/to/zk-tookit/react-hoc';
  * // 装饰器方式：
  * // @domEvent()
  * // class SomeComponent extends Component {...}
@@ -17,7 +17,7 @@ import {addEventListener, removeEventListener} from './index';
  *
  * @example
  * // 直接使用
- * import event from 'path/to/dom-event-decorator';
+ * import {domEvent} from 'path/to/zk-tookit/react-hoc';
  * const WrappedComponet = domEvent()(SomeComponent);
  *
  * @module dom事件高级组件

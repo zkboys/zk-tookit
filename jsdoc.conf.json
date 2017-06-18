@@ -4,9 +4,6 @@
       "./utils"
     ],
     "exclude": [
-      "./utils/route-utils.js",
-      "./utils/event-decorator.jsx",
-      "./utils/promise-ajax-decorator.jsx"
     ],
     "includePattern": ".+\\.js([doc|x])?$",
     "excludePattern": "(^|\\/|\\\\)_"

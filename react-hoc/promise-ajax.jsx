@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import * as promiseAjax from './promise-ajax';
+import * as promiseAjax from 'zk-tookit/utils/promise-ajax';
 
 /**
  * 将$ajax属性注入到目标组件props中，目标组件可以通过this.props.$ajax.get(...)方式进行使用;
@@ -15,7 +15,7 @@ import * as promiseAjax from './promise-ajax';
  *
  * @example
  * // 直接使用
- * const WrappedComponet = ajax()(SomeComponent);
+ * const WrappedComponet = ajax()(SoeComponent);
  *
  * @module ajax高阶组件
  */

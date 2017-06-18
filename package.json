@@ -1,11 +1,11 @@
 {
-  "name": "zk-react",
-  "version": "2.0.0",
-  "description": "A React.js project framework",
+  "name": "zk-tookit",
+  "version": "0.0.1",
+  "description": "A tookit about react and js...",
   "author": "wangshubin",
   "repository": {
     "type": "git",
-    "url": "https://github.com/zkboys/zk-react.git"
+    "url": "https://github.com/zkboys/zk-tookit.git"
   },
   "scripts": {
     "docs": "./node_modules/.bin/jsdoc -c ./jsdoc.conf.json"

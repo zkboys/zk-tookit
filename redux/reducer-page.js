@@ -1,6 +1,6 @@
 import {handleActions} from 'redux-actions';
 import {cloneDeep} from 'lodash/lang';
-import * as utils from 'zk-react/utils';
+import * as utils from 'zk-tookit/utils';
 import * as types from './action-types';
 
 export default function (initialState) {

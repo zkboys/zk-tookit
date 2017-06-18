@@ -1,4 +1,4 @@
-import {getStringByteLength, stringFormat} from 'zk-react/utils';
+import {getStringByteLength, stringFormat} from 'zk-tookit/utils';
 import {debounce} from 'lodash/function';
 import * as regexps from './regexp';
 
