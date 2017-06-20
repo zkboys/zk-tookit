@@ -21,6 +21,7 @@ export default class extends Component {
         showPagination: true,
         total: 0,
         dataSource: [],
+        hasPermission: () => true,
     };
 
     static propTypes = {
@@ -32,6 +33,7 @@ export default class extends Component {
         showPagination: PropTypes.bool,
         total: PropTypes.number,
         dataSource: PropTypes.array,
+        hasPermission: PropTypes.func,
     };
 
     state = {
@@ -97,6 +99,7 @@ export default class extends Component {
             showPagination,
             total,
             dataSource,
+            hasPermission,
         } = this.props;
 
         const {
@@ -131,12 +134,12 @@ export default class extends Component {
                                 type = 'primary',
                                 icon,
                                 text,
+                                permission,
                                 onClick = () => {
                                 },
                             } = item;
-                            return (
-                                <Button key={index} type={type} onClick={onClick}><FontIcon type={icon}/>{text}</Button>
-                            );
+                            if (!hasPermission(permission)) return null;
+                            return <Button key={index} type={type} onClick={onClick}><FontIcon type={icon}/>{text}</Button>;
                         })
                     }
                 </ToolBar>
