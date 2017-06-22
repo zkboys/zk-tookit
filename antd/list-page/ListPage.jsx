@@ -119,30 +119,38 @@ export default class extends Component {
 
         return (
             <PageContent className="example-users">
-                <QueryBar>
-                    <QueryItem
-                        items={queryItems}
-                        showSearchButton={showSearchButton}
-                        showResetButton={showResetButton}
-                        onSubmit={this.handleQuery}
-                    />
-                </QueryBar>
-                <ToolBar>
-                    {
-                        toolItems.map((item, index) => {
-                            const {
-                                type = 'primary',
-                                icon,
-                                text,
-                                permission,
-                                onClick = () => {
-                                },
-                            } = item;
-                            if (!hasPermission(permission)) return null;
-                            return <Button key={index} type={type} onClick={onClick}><FontIcon type={icon}/>{text}</Button>;
-                        })
-                    }
-                </ToolBar>
+                {
+                    queryItems && queryItems.length ?
+                        <QueryBar>
+                            <QueryItem
+                                items={queryItems}
+                                showSearchButton={showSearchButton}
+                                showResetButton={showResetButton}
+                                onSubmit={this.handleQuery}
+                            />
+                        </QueryBar>
+                        : null
+                }
+                {
+                    toolItems && toolItems.length ?
+                        <ToolBar>
+                            {
+                                toolItems.map((item, index) => {
+                                    const {
+                                        type = 'primary',
+                                        icon,
+                                        text,
+                                        permission,
+                                        onClick = () => {
+                                        },
+                                    } = item;
+                                    if (!hasPermission(permission)) return null;
+                                    return <Button key={index} type={type} onClick={onClick}><FontIcon type={icon}/>{text}</Button>;
+                                })
+                            }
+                        </ToolBar>
+                        : null
+                }
                 <QueryResult>
                     <Table
                         loading={loading}
