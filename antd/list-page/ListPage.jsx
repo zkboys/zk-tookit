@@ -21,6 +21,7 @@ export default class extends Component {
         showPagination: true,
         total: 0,
         dataSource: [],
+        rowKey: (record) => record.id,
         hasPermission: () => true,
     };
 
@@ -34,6 +35,7 @@ export default class extends Component {
         total: PropTypes.number,
         dataSource: PropTypes.array,
         hasPermission: PropTypes.func,
+        rowKey: PropTypes.func,
     };
 
     state = {
@@ -99,6 +101,7 @@ export default class extends Component {
             showPagination,
             total,
             dataSource,
+            rowKey,
             hasPermission,
         } = this.props;
 
@@ -155,7 +158,7 @@ export default class extends Component {
                     <Table
                         loading={loading}
                         size="large"
-                        rowKey={(record) => record.id}
+                        rowKey={rowKey}
                         columns={tableColumns}
                         dataSource={dataSource}
                         pagination={false}
