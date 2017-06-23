@@ -93,6 +93,42 @@ export function hasParent(rows, row) {
 }
 
 /**
+ * 根据key，查询其所有后代节点，一般会用于删除
+ * @param {Array} rows 具有key，parentKey关系的扁平数据结构
+ * @param {object} key 要查询的节点 key
+ * @returns {Array}
+ */
+export function getGenerationsByKey(rows, key) {
+    // 这个函数会被多次调用，对rows做深拷贝，否则会产生副作用。
+    rows = cloneDeep(rows);
+    const parentNode = rows.find(item => item.key === key);
+    if (!parentNode) return [];
+
+
+    let nodes = [parentNode];
+    let generationNodes = [cloneDeep(parentNode)];
+
+    // 存放要处理的节点
+    let toDo = nodes.map((v) => v);
+
+    while (toDo.length) {
+        // 处理一个，头部弹出一个。
+        let node = toDo.shift();
+        // 获取子节点。
+        rows.forEach(row => {
+            if (row.parentKey === node.key) {
+                let child = cloneDeep(row);
+                generationNodes.push(child);
+                // child加入toDo，继续处理
+                toDo.push(child);
+            }
+        });
+    }
+    return generationNodes;
+}
+
+
+/**
  * js构造树方法。会给节点添加parentKeys,parentNodes,parentTexts属性，方便后期数据提取
  * @param {Array} rows 具有key，parentKey关系的扁平数据结构，标题字段为text
  * @param {object} [parentNode=null] 开始节点
