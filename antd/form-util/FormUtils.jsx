@@ -61,17 +61,17 @@ export function getFormElement(item, form) {
         return (
             <Select {...elementProps}>
                 {
-                    options.map(opt => <Option key={opt.value} {...opt}>{opt.title}</Option>)
+                    options.map(opt => <Option key={opt.value} {...opt}>{opt.label}</Option>)
                 }
             </Select>
         );
     }
 
-    if (type === 'checkbox') return <Checkbox {...elementProps}>{elementProps.title}</Checkbox>;
+    if (type === 'checkbox') return <Checkbox {...elementProps}>{elementProps.label}</Checkbox>;
 
     if (type === 'checkbox-group') return <Checkbox.Group {...elementProps}/>;
 
-    if (type === 'radio') return <Radio {...elementProps}>{elementProps.title}</Radio>;
+    if (type === 'radio') return <Radio {...elementProps}>{elementProps.label}</Radio>;
 
     if (type === 'radio-group') return <Radio.Group {...elementProps}/>;
 
