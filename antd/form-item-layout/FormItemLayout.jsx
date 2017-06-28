@@ -24,6 +24,11 @@ export default class FormItemLayout extends Component {
         labelWidth: PropTypes.number, // label宽度，如果设置此值，labelSpaceCount 和 labelFontSize将失效
         labelSpaceCount: PropTypes.number, // label所占空间个数，用于与其他label对齐
         labelFontSize: PropTypes.number, // label字体大小，最终labelWidth = labelSpaceCount * labelFontSize
+        tip: PropTypes.oneOfType([ // 输入框后面的提示信息
+            PropTypes.string,
+            PropTypes.element,
+        ]),
+        tipWidth: PropTypes.number, // tip信息的宽度
     }
     state = {}
 
@@ -61,6 +66,8 @@ export default class FormItemLayout extends Component {
             width,
             float,
             children,
+            tip,
+            tipWidth,
         } = this.props;
 
         const wrapperProps = {};
@@ -72,16 +79,35 @@ export default class FormItemLayout extends Component {
         if (float && !wrapperProps.style.float) wrapperProps.style.float = 'left';
 
         const formItemProps = {...this.props};
-        const ignoreProps = ['className', 'style', 'width', 'float', 'labelWidth', 'labelSpaceCount', 'labelFontSize'];
+        const ignoreProps = ['tip', 'tipWidth', 'className', 'style', 'width', 'float', 'labelWidth', 'labelSpaceCount', 'labelFontSize'];
         ignoreProps.forEach(item => {
             Reflect.deleteProperty(formItemProps, item);
         });
+
+        if (tip) {
+            wrapperProps.style.display = 'table';
+            wrapperProps.style.tableLayout = 'fixed';
+            if (!wrapperProps.style.width) wrapperProps.style.width = '100%';
+        }
 
         return (
             <div {...wrapperProps} ref={node => this.formItemDom = node}>
                 <FormItem {...formItemProps}>
                     {children}
                 </FormItem>
+                {
+                    tip ?
+                        <div style={{
+                            display: 'table-cell',
+                            width: tipWidth,
+                            paddingLeft: 8,
+                            paddingTop: 8,
+                            color: 'rgba(0,0,0,.43)',
+                        }}>
+                            {tip}
+                        </div>
+                        : null
+                }
             </div>
         );
     }
