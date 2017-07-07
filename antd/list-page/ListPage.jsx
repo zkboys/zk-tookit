@@ -148,7 +148,16 @@ export default class extends Component {
                                         },
                                     } = item;
                                     if (!hasPermission(permission)) return null;
-                                    return <Button key={index} type={type} onClick={onClick}><FontIcon type={icon}/>{text}</Button>;
+                                    return (
+                                        <Button key={index} type={type} onClick={onClick}>
+                                            {
+                                                icon ?
+                                                    <FontIcon type={icon}/>
+                                                    : null
+                                            }
+                                            {text}
+                                        </Button>
+                                    );
                                 })
                             }
                         </ToolBar>

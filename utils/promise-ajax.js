@@ -88,6 +88,7 @@ function _setOptions(axiosInstance) {
     axiosInstance.defaults.timeout = 10000;
     axiosInstance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
     axiosInstance.defaults.baseURL = '/';
+    axiosInstance.defaults.withCredentials = true;
     // Add a request interceptor
     axiosInstance.interceptors.request.use(cfg => {
         // Do something before request is sent

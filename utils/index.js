@@ -4,6 +4,14 @@ import {cloneDeep} from 'lodash/lang';
  * @module 通用工具方法
  * */
 
+/**
+ * 字符串首字母大写
+ * @param {String} str
+ * @returns {String}
+ */
+export function firstUpperCase(str) {
+    return str.replace(/\b(\w)(\w*)/g, ($0, $1, $2) => $1.toUpperCase() + $2);
+}
 
 /**
  * 获取字符串字节长度，中文占两个字节
