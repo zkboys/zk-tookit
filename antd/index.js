@@ -1,7 +1,4 @@
-import * as _FormUtil from './form-util/FormUtils';
-
-export const FormUtil = _FormUtil;
-
+export * as FormUtil from './form-util/FormUtils';
 export EditableCell from './editable-cell/EditableCell';
 export FontIcon from './font-icon/FontIcon';
 export FontIconModal from './font-icon/FontIconModal';
