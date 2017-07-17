@@ -84,7 +84,7 @@ export default class FormItemLayout extends Component {
             Reflect.deleteProperty(formItemProps, item);
         });
 
-        if (tip) {
+        if (tip || tipWidth) {
             wrapperProps.style.display = 'table';
             wrapperProps.style.tableLayout = 'fixed';
             if (!wrapperProps.style.width) wrapperProps.style.width = '100%';
@@ -96,7 +96,7 @@ export default class FormItemLayout extends Component {
                     {children}
                 </FormItem>
                 {
-                    tip ?
+                    (tip || tipWidth) ?
                         <div style={{
                             display: 'table-cell',
                             width: tipWidth,

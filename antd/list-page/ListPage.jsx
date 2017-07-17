@@ -16,10 +16,12 @@ export default class extends Component {
         columns: [],
         toolItems: [],
         queryItems: [],
+        searchOnMount: true,
         showSearchButton: true,
         showResetButton: true,
         showPagination: true,
         total: 0,
+        tableProps: {},
         dataSource: [],
         rowKey: (record) => record.id,
         hasPermission: () => true,
@@ -29,11 +31,13 @@ export default class extends Component {
         columns: PropTypes.array.isRequired,
         toolItems: PropTypes.array,
         queryItems: PropTypes.array,
+        searchOnMount: PropTypes.bool,
         showSearchButton: PropTypes.bool,
         showResetButton: PropTypes.bool,
         showPagination: PropTypes.bool,
         total: PropTypes.number,
         dataSource: PropTypes.array,
+        tableProps: PropTypes.object,
         hasPermission: PropTypes.func,
         rowKey: PropTypes.func,
     };
@@ -51,7 +55,10 @@ export default class extends Component {
     }
 
     componentDidMount() {
-        this.search();
+        const {searchOnMount} = this.props;
+        if (searchOnMount) {
+            this.search();
+        }
     }
 
     componentWillUnmount() {
@@ -101,9 +108,15 @@ export default class extends Component {
             showPagination,
             total,
             dataSource,
+            tableProps,
+            rowSelection,
             rowKey,
             hasPermission,
         } = this.props;
+
+        if (rowSelection) {
+            tableProps.rowSelection = rowSelection;
+        }
 
         const {
             loading,
@@ -118,7 +131,7 @@ export default class extends Component {
             }
             return item;
         });
-        tableColumns.unshift({title: '序号', render: (text, record, index) => (index + 1) + ((pageNum - 1) * pageSize)});
+        tableColumns.unshift({title: '序号', width: 50, render: (text, record, index) => (index + 1) + ((pageNum - 1) * pageSize)});
 
         return (
             <PageContent className="example-users">
@@ -147,7 +160,7 @@ export default class extends Component {
                                         onClick = () => {
                                         },
                                     } = item;
-                                    if (!hasPermission(permission)) return null;
+                                    if (permission && !hasPermission(permission)) return null;
                                     return (
                                         <Button key={index} type={type} onClick={onClick}>
                                             {
@@ -171,6 +184,7 @@ export default class extends Component {
                         columns={tableColumns}
                         dataSource={dataSource}
                         pagination={false}
+                        {...tableProps}
                     />
                 </QueryResult>
                 {

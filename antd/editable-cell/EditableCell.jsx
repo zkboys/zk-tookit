@@ -26,7 +26,7 @@ export default class EditableCell extends Component {
     };
 
     static defaultProps = {
-        type: 'input', // TODO number textarea password mobile email select select-tree checkbox radio switch
+        type: 'input',
         field: '',
         placeholder: '',
         onSubmit: () => {
