@@ -49,7 +49,7 @@ export function getFormElement(item, form) {
      TODO: cascader
      * */
     if (isInputLikeElement(type)) {
-        if (type === 'input') return <InputClear {...elementProps} form={form}/>;
+        if (type === 'input-clear') return <InputClear {...elementProps} form={form}/>;
         return <Input {...elementProps}/>;
     }
 
