@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Icon, Popconfirm} from 'antd';
+import PopPrompt from '../pop-prompt/PopPrompt';
 
 export default class Operator extends Component {
     static defaultProps = {
@@ -34,6 +35,7 @@ export default class Operator extends Component {
             const onClick = opt.onClick;
             let label = opt.label;
             const confirm = opt.confirm;
+            const type = opt.type;
             let hasPer = true;
 
             if (loading) {
@@ -45,6 +47,8 @@ export default class Operator extends Component {
 
             if (permission) {
                 hasPer = hasPermission(permission);
+            } else {
+                hasPer = true;
             }
 
             if (hasPer) {
@@ -54,6 +58,30 @@ export default class Operator extends Component {
                             <a>{label}</a>
                         </Popconfirm>
                     );
+                } else if (type === 'prompt') {
+                    const {
+                        title,
+                        okText,
+                        cancelText,
+                        onCancel,
+                        onConfirm,
+                        inputProps,
+                        decorator,
+                    } = opt;
+                    operators.push(
+                        <PopPrompt
+                            title={title}
+                            okText={okText}
+                            cancelText={cancelText}
+                            onCancel={onCancel}
+                            onConfirm={onConfirm}
+                            inputProps={inputProps}
+                            decorator={decorator}
+                        >
+                            <a>{label}</a>
+                        </PopPrompt>
+                    )
+                    ;
                 } else {
                     operators.push(<a onClick={onClick}>{label}</a>);
                 }
