@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import {Popover, Input, Button, Form} from 'antd';
 
 const FormItem = Form.Item;
-
+/**
+ * pop形式的小文本输入框
+ */
 @Form.create()
 export default class PopPrompt extends Component {
     static defaultProps = {
@@ -15,6 +17,7 @@ export default class PopPrompt extends Component {
         onConfirm: () => {
         },
     };
+
     static propTypes = {
         title: PropTypes.string,
         okText: PropTypes.string,
@@ -23,13 +26,10 @@ export default class PopPrompt extends Component {
         onConfirm: PropTypes.func,
         inputProps: PropTypes.object,
     };
+
     state = {
         visible: false,
     };
-
-    componentDidMount() {
-
-    }
 
     handleConfirm = (e) => {
         e.preventDefault();
@@ -44,8 +44,7 @@ export default class PopPrompt extends Component {
     };
 
     handleCancel = () => {
-        const {onCancel} = this.props;
-        onCancel();
+        this.props.onCancel();
         this.hide();
     };
 

@@ -1,3 +1,10 @@
+import React, {Component} from 'react';
+import {Input, Icon} from 'antd';
+import PropTypes from 'prop-types';
+
+const closeIconColor = 'rgba(0, 0, 0, 0.25)';
+const closeIconHoverColor = 'rgba(0, 0, 0, 0.43)';
+
 /**
  * 给输入框添加清空按钮 suffix ，点击可清空Input，并使Input获得焦点
  * @example
@@ -12,13 +19,6 @@
  *
  * @module 扩展antd.Input加清空按钮
  */
-
-import React, {Component} from 'react';
-import {Input, Icon} from 'antd';
-import PropTypes from 'prop-types';
-
-const closeIconColor = 'rgba(0, 0, 0, 0.25)';
-const closeIconHoverColor = 'rgba(0, 0, 0, 0.43)';
 
 export default class InputClear extends Component {
 

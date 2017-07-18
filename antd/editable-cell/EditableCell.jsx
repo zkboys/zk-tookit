@@ -6,6 +6,9 @@ import './style.less';
 
 const FormItem = Form.Item;
 
+/**
+ * 可编辑单元格封装
+ */
 @Form.create()
 export default class EditableCell extends Component {
     constructor(props) {

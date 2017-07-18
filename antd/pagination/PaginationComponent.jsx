@@ -4,6 +4,9 @@ import assign from 'object-assign';
 import {Pagination} from 'antd';
 import './style.less';
 
+/**
+ * 分页封装
+ */
 export default class PaginationComponent extends Component {
     static defaultProps = {
         showSizeChanger: true,

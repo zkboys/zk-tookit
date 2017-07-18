@@ -1,6 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * 根据用户信息（name loginName avatar）获取用户头像
+ * 如果avatar存在，返回img头像
+ * 如果avatar不存在，返回（name||loginName）[0] 待背景颜色的span（只有背景色，无其他样式）
+ */
 export default class UserAvatar extends Component {
     static defaultProps = {
         className: 'user-avatar',
@@ -9,7 +14,7 @@ export default class UserAvatar extends Component {
             loginName: 'no name',
             avatar: '',
         },
-    }
+    };
 
     static propTypes = {
         className: PropTypes.string,

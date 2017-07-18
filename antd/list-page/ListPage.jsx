@@ -11,6 +11,9 @@ import {
     FontIcon,
 } from 'zk-tookit/antd';
 
+/**
+ * 列表页的封装，通过传入相应的配置，生成列表页
+ */
 export default class extends Component {
     static defaultProps = {
         columns: [],

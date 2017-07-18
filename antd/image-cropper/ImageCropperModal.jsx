@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import {Modal} from 'antd';
 import ImageCropper from './ImageCropper';
 
+/**
+ * 图片裁剪弹框
+ */
 export default class ImageCropperModal extends Component {
     static defaultProps = {
         onOK: () => {

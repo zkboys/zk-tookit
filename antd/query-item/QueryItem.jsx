@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import {Form, Button} from 'antd';
 import {getFormItem} from '../form-util/FormUtils';
 
+/**
+ * 查询条件封装，通过传入items即可生成查询条件
+ */
 @Form.create()
 export default class QueryItem extends Component {
     static defaultProps = {

@@ -1,12 +1,12 @@
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import {Form} from 'antd';
+
 /**
  * 基于antd FormItem进行布局，label固定宽度，表单元素自适应
  * 使用了antd的两个class，会依赖FormItem的结构
  *
  * */
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {Form} from 'antd';
-
 const FormItem = Form.Item;
 export default class FormItemLayout extends Component {
     static defaultProps = {

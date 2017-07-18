@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import {Icon, Popconfirm} from 'antd';
 import PopPrompt from '../pop-prompt/PopPrompt';
 
+/**
+ * 操作封装，一般用于表格最后的操作列中
+ */
 export default class Operator extends Component {
     static defaultProps = {
         items: [],

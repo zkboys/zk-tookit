@@ -12,6 +12,14 @@
 
 ```
 
+## 调试zk-tookit
+
+1. 将zk-tookit 放入zk-react-template-management项目中
+1. 在zk-tookit文件文件夹中执行 yarn link
+1. 在 zk-react-template-management 中执行 yarn link zk-tookit
+
+即可建立连接，方便调试
+
 ## TODO
 - [x] 构建优化，目前无论开发还是线上构建都太慢了，文件稍微多点（十几个？）慢点影响开发。
 - [ ] 文档整理，组件、通用方法的问当整理

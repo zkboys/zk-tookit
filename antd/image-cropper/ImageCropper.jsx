@@ -8,6 +8,9 @@ import {throttle} from 'lodash/function';
 import './style.less';
 
 const RadioGroup = Radio.Group;
+/**
+ * 图片裁剪
+ */
 export default class ImageCropper extends Component {
     state = {
         resultCanvas: <canvas/>,
