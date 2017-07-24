@@ -17,6 +17,7 @@ export default class Operator extends Component {
         items: PropTypes.arrayOf(PropTypes.shape({
             onClick: PropTypes.func,
             label: PropTypes.isRequired,
+            color: PropTypes.string,
             permission: PropTypes.string,
             loading: PropTypes.bool,
             confirm: PropTypes.object,
@@ -33,19 +34,27 @@ export default class Operator extends Component {
         let operators = [];
 
         items.forEach((opt, i) => {
-            const permission = opt.permission;
-            const loading = opt.loading;
-            const onClick = opt.onClick;
+            const {
+                permission,
+                loading,
+                onClick,
+                color,
+                confirm,
+                type,
+            } = opt;
+
             let label = opt.label;
-            const confirm = opt.confirm;
-            const type = opt.type;
             let hasPer = true;
 
             if (loading) {
                 const labelWidth = this.label[i].offsetWidth;
                 label = <span style={{display: 'inline-block', width: labelWidth, textAlign: 'center'}}>{this.loadingIcon}</span>;
             } else {
-                label = <span ref={v => this.label[i] = v}>{label}</span>;
+                const labelStyle = {};
+                if (color) {
+                    labelStyle.color = color;
+                }
+                label = <span style={labelStyle} ref={v => this.label[i] = v}>{label}</span>;
             }
 
             if (permission) {
