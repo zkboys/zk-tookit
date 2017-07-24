@@ -80,7 +80,6 @@ export function getFormElement(item, form) {
     if (type === 'data') return <DatePicker {...elementProps}/>;
 
     if (type === 'data-range') {
-        elementProps.placeholder = [elementProps.placeholder, elementProps.placeholder];
         return <DatePicker.RangePicker {...elementProps}/>;
     }
 

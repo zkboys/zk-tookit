@@ -58,7 +58,7 @@ let _onShowSuccessTip = () => {
 };
 let _isMock = () => {
 };
-
+let _hasPermission = () => true;
 /**
  * 初始化promiseAjax，接受一个options参数，options的具体参数如下：
  *
@@ -76,12 +76,14 @@ export function init({
     },
     isMock = (/* url, data, method, options */) => {
     },
+    hasPermission = (/* code */) => true,
 }) {
     setOptions(instance);
     setOptions(mockInstance, true); // isMock
     _onShowErrorTip = onShowErrorTip;
     _onShowSuccessTip = onShowSuccessTip;
     _isMock = isMock;
+    _hasPermission = hasPermission;
 }
 
 function _setOptions(axiosInstance) {
@@ -113,6 +115,16 @@ _setOptions(mockInstance);
 
 function fetch(url, data, method = 'get', options = {}) {
     let {successTip = false, errorTip = method === 'get' ? '获取数据失败！' : '操作失败！'} = options;
+
+    const {permission} = options;
+    if (permission && !_hasPermission(permission)) {
+        return new Promise((resolve, reject) => {
+            const error = new Error('您无权访问此资源');
+            _onShowErrorTip({}, error.message);
+            reject(error);
+        });
+    }
+
     const CancelToken = axios.CancelToken;
     let cancel;
     const isGet = method === 'get';

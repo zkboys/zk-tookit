@@ -94,6 +94,12 @@ export default {
             message,
         };
     },
+    positiveIntegerGT0(message = '请输入大于0的整数！') { // 大于0的整数
+        return {
+            pattern: regexps.positiveIntegerGT0,
+            message,
+        };
+    },
     numberWithTwoDecimal(message = '请输入数字，保存两位小数.') {
         return {
             pattern: regexps.numberWithTwoDecimal,

@@ -168,7 +168,7 @@ export default class extends Component {
                                         <Button key={index} type={type} onClick={onClick}>
                                             {
                                                 icon ?
-                                                    <FontIcon type={icon}/>
+                                                    <FontIcon type={icon} style={{marginRight: 8}}/>
                                                     : null
                                             }
                                             {text}

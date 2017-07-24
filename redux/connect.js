@@ -48,13 +48,18 @@ export default function defaultConnect({actions, options}) {
             LayoutComponent,
         } = component;
 
-        if (mapStateToProps && LayoutComponent) {
+        // 只要组件导出了mapStateToProps，就说明要与redux进行连接
+        // 优先获取LayoutComponent，如果不存在，获取default
+        if (mapStateToProps) {
+            let com = LayoutComponent;
+            if (!com) com = component.default;
+            if (!com) return component;
             return connect(
                 mapStateToProps,
                 mapDispatchToProps,
                 mergeProps,
                 options
-            )(LayoutComponent);
+            )(com);
         }
         return LayoutComponent || component.default || component; // 如果 component有多个导出，优先LayoutComponent，其次使用默认导出
     };
