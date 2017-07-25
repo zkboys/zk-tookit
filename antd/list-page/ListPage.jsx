@@ -68,21 +68,35 @@ export default class extends Component {
     }
 
     search = (args) => {
-        const {onSearch} = this.props;
-        const {pageNum, pageSize, query} = this.state;
-        let params = {
-            ...query,
-            pageNum,
-            pageSize,
-            ...args,
-        };
+        const {onSearch, showPagination} = this.props;
+        const {query} = this.state;
+        let params = {};
+        if (showPagination) {
+            const {pageNum, pageSize} = this.state;
+            params = {
+                ...query,
+                pageNum,
+                pageSize,
+                ...args,
+            };
+        } else {
+            params = {
+                ...query,
+                ...args,
+            };
+        }
         this.setState({loading: true});
         onSearch(params).finally(() => this.setState({loading: false}));
     };
 
     handleQuery = (query) => {
+        const {showPagination} = this.props;
         this.setState({query});
-        this.search({pageNum: 1, ...query});
+        if (showPagination) {
+            this.search({pageNum: 1, ...query});
+        } else {
+            this.search({...query});
+        }
     };
 
     handlePageNumChange = (pageNum) => {
@@ -160,10 +174,14 @@ export default class extends Component {
                                         icon,
                                         text,
                                         permission,
+                                        component,
+                                        getComponent,
                                         onClick = () => {
                                         },
                                     } = item;
                                     if (permission && !hasPermission(permission)) return null;
+                                    if (getComponent) return <span key={index}>{getComponent()}</span>;
+                                    if (component) return <span key={index}>{component}</span>;
                                     return (
                                         <Button key={index} type={type} onClick={onClick}>
                                             {
