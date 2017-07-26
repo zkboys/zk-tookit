@@ -12,7 +12,9 @@ export default class FormItemLayout extends Component {
     static defaultProps = {
         labelSpaceCount: 5,
         labelFontSize: 12,
-    }
+        tipColor: 'rgba(0,0,0,.43)',
+    };
+
     static propTypes = {
         className: PropTypes.string, // 添加在FormItem父级div上的class
         style: PropTypes.object, // 添加在FormItem 父级div上的样式
@@ -29,8 +31,10 @@ export default class FormItemLayout extends Component {
             PropTypes.element,
         ]),
         tipWidth: PropTypes.number, // tip信息的宽度
-    }
-    state = {}
+        tipColor: PropTypes.string, // tip信息的颜色
+    };
+
+    state = {};
 
     componentDidMount() {
         const labelWidth = this.getLabelWidth();
@@ -68,6 +72,7 @@ export default class FormItemLayout extends Component {
             children,
             tip,
             tipWidth,
+            tipColor,
         } = this.props;
 
         const wrapperProps = {};
@@ -79,7 +84,18 @@ export default class FormItemLayout extends Component {
         if (float && !wrapperProps.style.float) wrapperProps.style.float = 'left';
 
         const formItemProps = {...this.props};
-        const ignoreProps = ['tip', 'tipWidth', 'className', 'style', 'width', 'float', 'labelWidth', 'labelSpaceCount', 'labelFontSize'];
+        const ignoreProps = [
+            'tip',
+            'tipWidth',
+            'tipColor',
+            'className',
+            'style',
+            'width',
+            'float',
+            'labelWidth',
+            'labelSpaceCount',
+            'labelFontSize',
+        ];
         ignoreProps.forEach(item => {
             Reflect.deleteProperty(formItemProps, item);
         });
@@ -102,7 +118,7 @@ export default class FormItemLayout extends Component {
                             width: tipWidth,
                             paddingLeft: 8,
                             paddingTop: 8,
-                            color: 'rgba(0,0,0,.43)',
+                            color: tipColor,
                         }}>
                             {tip}
                         </div>

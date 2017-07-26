@@ -23,7 +23,7 @@ import {InputNumber, Input, Select, Checkbox, Radio, Switch, DatePicker, TimePic
  *
  * */
 function isInputLikeElement(type) {
-    return ['input', 'textarea', 'password', 'mobile', 'email'].includes(type);
+    return ['input', 'number', 'textarea', 'password', 'mobile', 'email'].includes(type);
 }
 
 export function getPlaceholder(item) {
@@ -40,7 +40,8 @@ export function getPlaceholder(item) {
 export function getFormElement(item, form) {
     const {type = 'input', elementProps = {}} = item;
     elementProps.placeholder = getPlaceholder(item);
-    const commonStyle = {width: '100%'};
+    const width = elementProps.width ? elementProps.width : '100%';
+    const commonStyle = {width};
     elementProps.style = elementProps.style ? {...commonStyle, ...elementProps.style} : commonStyle;
     /*
      input number textarea password mobile email
