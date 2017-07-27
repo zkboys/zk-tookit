@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Icon, Popconfirm, Dropdown, Menu} from 'antd';
-import PopPrompt from '../pop-prompt/PopPrompt';
+import {FontIcon, PopPrompt} from 'zk-tookit/antd';
 
 /**
  * 操作封装，一般用于表格最后的操作列中
@@ -93,21 +93,46 @@ export default class Operator extends Component {
         return <a onClick={onClick}>{label}</a>;
     };
 
+    getStatusSwitch = (opt, i) => {
+        const {hasPermission} = this.props;
+        const {statusSwitch, permission} = opt;
+        const {status} = statusSwitch;
+        const props = {...statusSwitch};
+
+        const icon = status ? 'check-circle' : 'fa-ban';
+        const color = status ? 'green' : 'red';
+
+        const defaultLabel = <FontIcon type={icon}/>;
+        let label = this.getLabel({...opt, label: defaultLabel, color}, i);
+
+        // 如果没有权限，不允许进行操作，只做展示
+        if (permission && !hasPermission(permission)) return label;
+
+        Reflect.deleteProperty(props, 'status');
+        return (
+            <Popconfirm {...props}>
+                <a>{label}</a>
+            </Popconfirm>
+        );
+    };
+
     getItem = (opt, i) => {
         const {hasPermission} = this.props;
         const {
             permission,
             confirm,
             prompt,
+            statusSwitch,
         } = opt;
 
-        let hasPer = permission ? hasPermission(permission) : true;
+        // getStatusSwitch 内部自己判断了权限
+        if (statusSwitch) return this.getStatusSwitch(opt, i);
 
+        let hasPer = permission ? hasPermission(permission) : true;
         if (hasPer) {
             if (confirm) return this.getConfirm(opt, i);
 
             if (prompt) return this.getPrompt(opt, i);
-
             return this.getText(opt, i);
         }
         return null;

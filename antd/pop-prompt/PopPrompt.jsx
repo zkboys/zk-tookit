@@ -9,7 +9,7 @@ const FormItem = Form.Item;
 @Form.create()
 export default class PopPrompt extends Component {
     static defaultProps = {
-        title: '内容',
+        title: '请输入',
         okText: '确认',
         cancelText: '取消',
         onCancel: () => {
