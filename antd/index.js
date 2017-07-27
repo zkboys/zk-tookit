@@ -19,3 +19,4 @@ export FormItemLayout from './form-item-layout/FormItemLayout';
 export InputClear from './input-clear/InputClear';
 export ListPage from './list-page/ListPage';
 export PopPrompt from './pop-prompt/PopPrompt';
+export ToolItem from './tool-item/ToolItem';

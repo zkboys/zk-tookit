@@ -23,7 +23,15 @@ import {InputNumber, Input, Select, Checkbox, Radio, Switch, DatePicker, TimePic
  *
  * */
 function isInputLikeElement(type) {
-    return ['input', 'number', 'textarea', 'password', 'mobile', 'email'].includes(type);
+    return [
+        'input',
+        'input-clear',
+        'number',
+        'textarea',
+        'password',
+        'mobile',
+        'email',
+    ].includes(type);
 }
 
 export function getPlaceholder(item) {
@@ -51,10 +59,9 @@ export function getFormElement(item, form) {
      * */
     if (isInputLikeElement(type)) {
         if (type === 'input-clear') return <InputClear {...elementProps} form={form}/>;
+        if (type === 'number') return <InputNumber {...elementProps}/>;
         return <Input {...elementProps}/>;
     }
-
-    if (type === 'number') return <InputNumber {...elementProps}/>;
 
     if (type === 'select') {
         const Option = Select.Option;
