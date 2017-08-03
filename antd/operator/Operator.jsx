@@ -9,9 +9,6 @@ import {FontIcon, PopPrompt} from 'zk-tookit/antd';
 export default class Operator extends Component {
     static defaultProps = {
         items: [],
-        hasPermission(/* permissionCode */) {
-            return true;
-        },
         moreWidth: 'auto',
         moreTrigger: ['click'],
     };
@@ -19,14 +16,13 @@ export default class Operator extends Component {
     static propTypes = {
         items: PropTypes.arrayOf(PropTypes.shape({
             label: PropTypes.isRequired,
+            visible: PropTypes.bool,
             color: PropTypes.string,
-            permission: PropTypes.string,
             loading: PropTypes.bool,
 
             onClick: PropTypes.func,
             confirm: PropTypes.object,
         })),
-        hasPermission: PropTypes.func,
         moreWidth: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.number,
@@ -94,8 +90,7 @@ export default class Operator extends Component {
     };
 
     getStatusSwitch = (opt, i) => {
-        const {hasPermission} = this.props;
-        const {statusSwitch, permission} = opt;
+        const {statusSwitch, disabled = false} = opt;
         const {status} = statusSwitch;
         const props = {...statusSwitch};
 
@@ -106,7 +101,7 @@ export default class Operator extends Component {
         let label = this.getLabel({...opt, label: defaultLabel, color}, i);
 
         // 如果没有权限，不允许进行操作，只做展示
-        if (permission && !hasPermission(permission)) return label;
+        if (disabled) return label;
 
         Reflect.deleteProperty(props, 'status');
         return (
@@ -117,22 +112,29 @@ export default class Operator extends Component {
     };
 
     getItem = (opt, i) => {
-        const {hasPermission} = this.props;
         const {
-            permission,
             confirm,
             prompt,
             statusSwitch,
+            visible = true,
+            disabled = false,
         } = opt;
 
-        // getStatusSwitch 内部自己判断了权限
-        if (statusSwitch) return this.getStatusSwitch(opt, i);
+        if (visible) {
+            // 因为label特殊，getStatusSwitch 内部自己判断了是否可用
+            if (disabled && statusSwitch) return this.getStatusSwitch(opt, i);
 
-        let hasPer = permission ? hasPermission(permission) : true;
-        if (hasPer) {
+            if (disabled) {
+                opt.color = '#ccc';
+                return this.getLabel(opt, i);
+            }
+
             if (confirm) return this.getConfirm(opt, i);
 
             if (prompt) return this.getPrompt(opt, i);
+
+            if (statusSwitch) return this.getStatusSwitch(opt, i);
+
             return this.getText(opt, i);
         }
         return null;

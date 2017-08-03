@@ -27,7 +27,6 @@ export default class extends Component {
         tableProps: {},
         dataSource: [],
         rowKey: (record) => record.id,
-        hasPermission: () => true,
     };
 
     static propTypes = {
@@ -41,7 +40,6 @@ export default class extends Component {
         total: PropTypes.number,
         dataSource: PropTypes.array,
         tableProps: PropTypes.object,
-        hasPermission: PropTypes.func,
         rowKey: PropTypes.func,
     };
 
@@ -128,7 +126,6 @@ export default class extends Component {
             tableProps,
             rowSelection,
             rowKey,
-            hasPermission,
         } = this.props;
 
         if (rowSelection) {
@@ -167,7 +164,7 @@ export default class extends Component {
                 {
                     toolItems && toolItems.length ?
                         <ToolBar>
-                            <ToolItem items={toolItems} hasPermission={hasPermission}/>
+                            <ToolItem items={toolItems}/>
                         </ToolBar>
                         : null
                 }

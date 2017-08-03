@@ -7,10 +7,10 @@ import './style.less';
 const FormItem = Form.Item;
 
 /**
- * 可编辑单元格封装
+ * 可编辑单元格封装，全局form使用 EditableCell，可以显示错误提示
+ * 每个 EditableCell 有自己的from，使用 export default Form.create()(EditableCell);
  */
-@Form.create()
-export default class EditableCell extends Component {
+export class EditableRowCell extends Component {
     constructor(props) {
         super(props);
         const currProps = this.props;
@@ -107,8 +107,8 @@ export default class EditableCell extends Component {
                 {
                     showEdit ?
                         <div className="editable-cell-input-wrapper">
-                            <Form onSubmit={this.handleSubmit}>
-                                <FormItem>
+                            <Form onSubmit={this.handleSubmit} layout="inline">
+                                <FormItem colon={false} label=" ">
                                     {getFieldDecorator(field, decorator)(
                                         getFormElement(this.props, form)
                                     )}
@@ -143,3 +143,7 @@ export default class EditableCell extends Component {
         );
     }
 }
+
+const EditableCell = Form.create()(EditableRowCell);
+export default EditableCell;
+

@@ -22,7 +22,7 @@ export default class ToolItem extends Component {
     }
 
     render() {
-        const {items, hasPermission} = this.props;
+        const {items} = this.props;
         return (
             <div>
                 {
@@ -32,14 +32,14 @@ export default class ToolItem extends Component {
                             type = 'primary',
                             icon,
                             text,
-                            permission,
                             component,
                             getComponent,
+                            visible = true,
                             onClick = () => {
                             },
                         } = item;
                         const itemKey = key || index;
-                        if (permission && !hasPermission(permission)) return null;
+                        if (!visible) return null;
                         if (getComponent) return <span className="zk-tookit-tool-item" key={itemKey}>{getComponent()}</span>;
                         if (component) return <span className="zk-tookit-tool-item" key={itemKey}>{component}</span>;
                         return (
