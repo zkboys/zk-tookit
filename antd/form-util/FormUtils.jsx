@@ -104,7 +104,7 @@ export function getFormItem(item, form) {
     const {getFieldDecorator} = form;
     const {field, decorator} = item;
     return (
-        <FormItemLayout key={item.field} float {...item}>
+        <FormItemLayout key={item.field} {...item}>
             {getFieldDecorator(field, decorator)(getFormElement(item, form))}
         </FormItemLayout>
     );

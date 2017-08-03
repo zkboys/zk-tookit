@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Popover, Input, Button, Form} from 'antd';
+import {getFormItem} from '../form-util/FormUtils';
 
 const FormItem = Form.Item;
 /**
@@ -33,11 +34,12 @@ export default class PopPrompt extends Component {
 
     handleConfirm = (e) => {
         e.preventDefault();
-        const {form, onConfirm} = this.props;
+        const {form, onConfirm, items} = this.props;
         form.validateFields((err, values) => {
             if (!err) {
-                const {value} = values;
-                onConfirm(value);
+                const result = items && items.length ? values : values.value;
+
+                onConfirm(result);
                 this.hide();
             }
         });
@@ -59,26 +61,33 @@ export default class PopPrompt extends Component {
 
     renderContent() {
         const {
+            form,
             form: {getFieldDecorator},
             inputProps = {},
             okText,
             cancelText,
             decorator,
+            items,
         } = this.props;
         return (
             <Form onSubmit={this.handleConfirm}>
-                <FormItem>
-                    {
-                        getFieldDecorator('value', decorator)(
-                            <Input
-                                type="textarea"
-                                {...inputProps}
-                            />
-                        )
-                    }
-                </FormItem>
+                {
+                    items && items.length ?
+                        items.map(item => getFormItem(item, form))
+                        :
+                        <FormItem>
+                            {
+                                getFieldDecorator('value', decorator)(
+                                    <Input
+                                        type="textarea"
+                                        {...inputProps}
+                                    />
+                                )
+                            }
+                        </FormItem>
+                }
                 <div
-                    style={{marginTop: 8, textAlign: 'right'}}
+                    style={{textAlign: 'right'}}
                 >
                     <Button
                         style={{marginRight: 8}}

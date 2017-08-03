@@ -48,7 +48,7 @@ export default class QueryItem extends Component {
                             <div key={index}>
                                 {
                                     data.map(item => {
-                                        return getFormItem(item, form);
+                                        return getFormItem({float: true, ...item}, form);
                                     })
                                 }
                                 {
