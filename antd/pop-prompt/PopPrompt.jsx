@@ -9,14 +9,25 @@ const FormItem = Form.Item;
  */
 @Form.create()
 export default class PopPrompt extends Component {
+    constructor(props) {
+        super(props);
+        const currProps = this.props;
+        let visible;
+        if ('visible' in currProps) {
+            visible = currProps.visible;
+        } else if ('defaultVisible' in currProps) {
+            visible = currProps.defaultVisible;
+        }
+        this.state.visible = visible;
+    }
+
     static defaultProps = {
         title: '请输入',
         okText: '确认',
         cancelText: '取消',
-        onCancel: () => {
-        },
-        onConfirm: () => {
-        },
+        onCancel: () => true,
+        onConfirm: () => true,
+        onClickLabel: () => true,
     };
 
     static propTypes = {
@@ -31,6 +42,15 @@ export default class PopPrompt extends Component {
     state = {
         visible: false,
     };
+
+    componentWillReceiveProps(nextProps) {
+        // 如果 props 传入 visible,则直接更新
+        if ('visible' in nextProps) {
+            this.setState({
+                visible: nextProps.visible,
+            });
+        }
+    }
 
     handleConfirm = (e) => {
         e.preventDefault();
@@ -55,8 +75,15 @@ export default class PopPrompt extends Component {
     }
 
     handleVisibleChange = (visible) => {
+        // 如果 props 传入 visible,则直接更新
+        if ('visible' in this.props) {
+            this.setState({
+                visible: this.props.visible,
+            });
+        } else {
+            this.setState({visible});
+        }
         // this.props.form.resetFields();
-        this.setState({visible});
     };
 
     renderContent() {
@@ -109,7 +136,7 @@ export default class PopPrompt extends Component {
     }
 
     render() {
-        const {children, title} = this.props;
+        const {children, title, onClickLabel} = this.props;
         const {visible} = this.state;
         return (
             <Popover
@@ -119,7 +146,9 @@ export default class PopPrompt extends Component {
                 title={title}
                 trigger="click"
             >
-                {children}
+                <span onClick={onClickLabel}>
+                    {children}
+                </span>
             </Popover>
         );
     }

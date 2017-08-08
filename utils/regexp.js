@@ -24,7 +24,7 @@ export const number = /[0-9]+$/;
 export const integer = /^[-]{0,1}[0-9]{1,}$/;
 
 // 正整数
-export const positiveInteger = /^[1-9]\d*|0$/;
+export const positiveInteger = /^[1-9]\d*$|0$/;
 
 // 大于0的正整数
 export const positiveIntegerGT0 = /^[1-9]+[0-9]*$/;
