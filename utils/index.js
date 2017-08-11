@@ -13,6 +13,16 @@ export function firstUpperCase(str) {
     return str.replace(/\b(\w)(\w*)/g, ($0, $1, $2) => $1.toUpperCase() + $2);
 }
 
+
+/**
+ * 字符串首字母小写
+ * @param {String} str
+ * @returns {String}
+ */
+export function firstLowerCase(str) {
+    return str.replace(/\b(\w)(\w*)/g, ($0, $1, $2) => $1.toLowerCase() + $2);
+}
+
 /**
  * 获取字符串字节长度，中文占两个字节
  * @param value
@@ -114,17 +124,20 @@ export function getRandomNum(min, max) {
  * @param {string} className 要移除的class
  */
 export function removeClass(selector, className) {
-    let dom = selector;
+    let doms = selector;
     if (typeof selector === 'string') {
-        dom = document.querySelector(selector);
+        doms = document.querySelectorAll(selector);
     }
-    if (!dom) return;
-    let domClass = dom.className;
-    if (domClass) {
-        domClass = domClass.split(' ');
-        if (!domClass || !domClass.length) return;
-        dom.className = domClass.filter(c => c !== className).join(' ');
-    }
+    if (!doms || !doms.length) return;
+    if (!doms.length) doms = [doms];
+    doms.forEach(dom => {
+        let domClass = dom.className;
+        if (domClass) {
+            domClass = domClass.split(' ');
+            if (!domClass || !domClass.length) return;
+            dom.className = domClass.filter(c => c !== className).join(' ');
+        }
+    });
 }
 
 /**
@@ -133,20 +146,23 @@ export function removeClass(selector, className) {
  * @param {string} className 要添加的class
  */
 export function addClass(selector, className) {
-    let dom = selector;
+    let doms = selector;
     if (typeof selector === 'string') {
-        dom = document.querySelector(selector);
+        doms = document.querySelectorAll(selector);
     }
-    if (!dom) return;
-    let domClass = dom.className;
-    if (domClass) {
-        domClass = domClass.split(' ');
-        if (!domClass || !domClass.length || domClass.indexOf(className) > -1) return;
-        domClass.push(className);
-        dom.className = domClass.join(' ');
-    } else {
-        dom.className = className;
-    }
+    if (!doms || !doms.length) return;
+    if (!doms.length) doms = [doms];
+    doms.forEach(dom => {
+        let domClass = dom.className;
+        if (domClass) {
+            domClass = domClass.split(' ');
+            if (!domClass || !domClass.length || domClass.indexOf(className) > -1) return;
+            domClass.push(className);
+            dom.className = domClass.join(' ');
+        } else {
+            dom.className = className;
+        }
+    });
 }
 
 /**

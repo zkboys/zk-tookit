@@ -85,9 +85,10 @@ export function getFormElement(item, form) {
 
     if (type === 'switch') return <Switch {...elementProps} style={{...elementProps.style, width: 'auto'}}/>;
 
-    if (type === 'data') return <DatePicker {...elementProps}/>;
+    // FIXME: 笔误
+    if (type === 'data' || type === 'date') return <DatePicker {...elementProps}/>;
 
-    if (type === 'data-range') {
+    if (type === 'data-range' || type === 'date-range') {
         return <DatePicker.RangePicker {...elementProps}/>;
     }
 

@@ -26,7 +26,7 @@ export function remoteCheck(ajax) {
                 if (typeof err === 'string') {
                     return callback(err);
                 }
-                callback((err && err.response && err.response.data && err.response.data.message) || '未知系统错误');
+                callback((err && err.response && err.response.data && (err.response.data.resultMsg || err.response.data.message)) || '未知系统错误');
             });
     }, 300);
 }

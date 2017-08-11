@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Icon, Form} from 'antd';
+import {FormItemLayout} from 'zk-tookit/antd';
 import {getFormElement} from '../form-util/FormUtils';
 import './style.less';
-
-const FormItem = Form.Item;
 
 /**
  * 可编辑单元格封装，全局form使用 EditableCell，可以显示错误提示
@@ -107,12 +106,12 @@ export class EditableRowCell extends Component {
                 {
                     showEdit ?
                         <div className="editable-cell-input-wrapper">
-                            <Form onSubmit={this.handleSubmit} layout="inline">
-                                <FormItem colon={false} label=" ">
+                            <Form onSubmit={this.handleSubmit}>
+                                <FormItemLayout colon={false} labelWidth={22} label=" ">
                                     {getFieldDecorator(field, decorator)(
                                         getFormElement(this.props, form)
                                     )}
-                                </FormItem>
+                                </FormItemLayout>
                             </Form>
                             {
                                 showIcon ?
