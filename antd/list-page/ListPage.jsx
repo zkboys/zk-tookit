@@ -123,10 +123,12 @@ export default class extends Component {
             showPagination,
             total,
             dataSource,
-            tableProps,
             rowSelection,
             rowKey,
         } = this.props;
+
+        // 解决如果各个组件都不传递tableProps，组件将都使用默认tableProps，而且是同一个tableProps，会产生互相干扰
+        let tableProps = {...this.props.tableProps};
 
         if (rowSelection) {
             tableProps.rowSelection = rowSelection;
