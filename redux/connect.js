@@ -42,7 +42,7 @@ export default function defaultConnect({actions, options}) {
 
                 Object.keys(fnMap).forEach(simpleAction);
 
-                return {actions: ac};
+                return {actions: ac, $actions: ac};
             },
             mergeProps,
             LayoutComponent,

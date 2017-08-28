@@ -99,6 +99,7 @@ export function getFormElement(item, form) {
     if (type === 'cascader') return <Cascader {...elementProps}/>;
 
     // TODO 其他类型，碰到需求的时候，再补充
+    // TODO 自定义组件，from相关的组件（editable-cell、query-item）等，统一自定义组件接口。
 }
 
 export function getFormItem(item, form) {

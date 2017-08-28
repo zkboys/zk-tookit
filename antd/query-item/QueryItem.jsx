@@ -8,6 +8,16 @@ import {getFormItem} from '../form-util/FormUtils';
  */
 @Form.create()
 export default class QueryItem extends Component {
+    constructor(props) {
+        super(props);
+        const {outerForm, form} = props;
+        if (outerForm) {
+            this.form = outerForm;
+        } else {
+            this.form = form;
+        }
+    }
+
     static defaultProps = {
         items: [],
         onSubmit: () => {
@@ -17,12 +27,13 @@ export default class QueryItem extends Component {
         onSubmit: PropTypes.func,
         items: PropTypes.array,
         layout: PropTypes.string,
+        outerForm: PropTypes.object, // 外部传入的props
     };
 
     handleSubmit = (e) => {
         e.preventDefault();
         const {onSubmit} = this.props;
-        this.props.form.validateFieldsAndScroll((err, values) => {
+        this.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 // TODO values中的日期，moment转换为str格式
                 onSubmit(values);
@@ -31,7 +42,8 @@ export default class QueryItem extends Component {
     };
 
     render() {
-        const {form, items, showSearchButton = true, showResetButton = true} = this.props;
+        const {items, showSearchButton = true, showResetButton = true} = this.props;
+        const form = this.form;
         return (
             <Form onSubmit={this.handleSubmit}>
                 {
@@ -72,7 +84,7 @@ export default class QueryItem extends Component {
                                                         style={{marginLeft: 8, marginBottom: 16}}
                                                         type="ghost"
                                                         size="large"
-                                                        onClick={() => this.props.form.resetFields()}
+                                                        onClick={() => this.form.resetFields()}
                                                     >
                                                         重置
                                                     </Button>

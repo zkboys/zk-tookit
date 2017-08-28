@@ -36,7 +36,7 @@ export class EditableRowCell extends Component {
     };
 
     static propTypes = {
-        globalForm: PropTypes.object, // antd 中提供的form
+        globalForm: PropTypes.object, // antd 中提供的form fixme: 改名为outerForm，所有form相关的组件都可这样封装，外部传入from可以提高灵活性；内部form可以简化组件。
         field: PropTypes.string.isRequired,
         placeholder: PropTypes.string, // 提示
         type: PropTypes.string, // 编辑类型，默认input

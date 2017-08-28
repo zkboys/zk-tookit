@@ -30,7 +30,7 @@ export default class extends Component {
     };
 
     static propTypes = {
-        columns: PropTypes.array.isRequired,
+        columns: PropTypes.array.isRequired, // FIXME: 这个将被启用，table 的 props 统一使用tableProps传入
         toolItems: PropTypes.array,
         queryItems: PropTypes.array,
         searchOnMount: PropTypes.bool,
@@ -38,9 +38,11 @@ export default class extends Component {
         showResetButton: PropTypes.bool,
         showPagination: PropTypes.bool,
         total: PropTypes.number,
-        dataSource: PropTypes.array,
+        dataSource: PropTypes.array, // FIXME: 这个将被启用，table 的 props 统一使用tableProps传入
         tableProps: PropTypes.object,
-        rowKey: PropTypes.func,
+        rowSelection: PropTypes.object, // FIXME: 这个将被启用，table 的 props 统一使用tableProps传入
+        rowKey: PropTypes.func, // FIXME: 这个将被启用，table 的 props 统一使用tableProps传入
+        form: PropTypes.object, // 表单对象
     };
 
     state = {
@@ -125,6 +127,7 @@ export default class extends Component {
             dataSource,
             rowSelection,
             rowKey,
+            form,
         } = this.props;
 
         // 解决如果各个组件都不传递tableProps，组件将都使用默认tableProps，而且是同一个tableProps，会产生互相干扰
@@ -155,6 +158,7 @@ export default class extends Component {
                     queryItems && queryItems.length ?
                         <QueryBar>
                             <QueryItem
+                                outerForm={form}
                                 items={queryItems}
                                 showSearchButton={showSearchButton}
                                 showResetButton={showResetButton}
