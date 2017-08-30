@@ -13,6 +13,6 @@
   "dependencies": {
     "antd": "^2.12.5",
     "docdash": "^0.4.0",
-    "jsdoc": "^3.4.3"
+    "jsdoc": "^3.5.4"
   }
 }

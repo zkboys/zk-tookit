@@ -1,5 +1,7 @@
-/*
+/**
  * form相关封装的一些基础方法，EditCell、QueryItem、FormPage等组件可能用到
+ *
+ * @module antd/form-utils
  * */
 import React from 'react';
 import {InputClear, FormItemLayout} from 'zk-tookit/antd';
@@ -88,9 +90,7 @@ export function getFormElement(item, form) {
     // FIXME: 笔误
     if (type === 'data' || type === 'date') return <DatePicker {...elementProps}/>;
 
-    if (type === 'data-range' || type === 'date-range') {
-        return <DatePicker.RangePicker {...elementProps}/>;
-    }
+    if (type === 'data-range' || type === 'date-range') return <DatePicker.RangePicker {...elementProps}/>;
 
     if (type === 'month') return <DatePicker.MonthPicker {...elementProps}/>;
 
@@ -102,6 +102,12 @@ export function getFormElement(item, form) {
     // TODO 自定义组件，from相关的组件（editable-cell、query-item）等，统一自定义组件接口。
 }
 
+/**
+ *
+ * @param item
+ * @param form
+ * @returns {XML}
+ */
 export function getFormItem(item, form) {
     const {getFieldDecorator} = form;
     const {field, decorator} = item;

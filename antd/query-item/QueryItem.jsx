@@ -1,13 +1,36 @@
+/**
+ *
+ * 查询条件封装，通过传入items即可生成查询条件form表单；
+ *
+ * @param {Object[]} items 查询条件各个项，各项具体参数请参考：{@link module:antd/form-utils}
+ * @param {Boolean} [showSearchButton = true] 是否显示查询按钮
+ * @param {Boolean} [showResetButton = true] 是否显示重置按钮
+ * @param {String | jsx} [searchButtonText = 查询] 查询按钮文案，可以是string 或者 jsx
+ * @param {String | jsx} [resetButtonText = 查询] 重置按钮文案，可以是string 或者 jsx
+ * @param {Object} [outerForm] 外部提供的form对象，如果未提供，组件将使用内部自己的form；
+ * 使用外部提供的form可以使用form的api对组件进行各种操作，适用于比较复杂的需求场景
+ * @param {Function} [onSubmit] 点击提交按钮触发的回调
+ *
+ * @see module:antd/form-utils
+ *
+ * @example
+ *
+ * <QueryItem
+ *      items={[
+ *          {type: 'input', filed: 'name'},
+ *          {type: 'number', filed: 'age'},
+ *      ]}
+ * />
+ *
+ * @module antd/QueryItem 查询条件
+ * */
+
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Form, Button} from 'antd';
-import {getFormItem} from '../form-util/FormUtils';
+import {getFormItem} from '../form-util/form-utils';
 
-/**
- * 查询条件封装，通过传入items即可生成查询条件
- */
-@Form.create()
-export default class QueryItem extends Component {
+class QueryItem extends Component {
     constructor(props) {
         super(props);
         const {outerForm, form} = props;
@@ -20,14 +43,20 @@ export default class QueryItem extends Component {
 
     static defaultProps = {
         items: [],
-        onSubmit: () => {
-        },
+        showSearchButton: true,
+        showResetButton: true,
+        searchButtonText: '查询',
+        resetButtonText: '重置',
+        onSubmit: () => true,
     };
     static propTypes = {
+        items: PropTypes.array.isRequired,
+        showSearchButton: PropTypes.bool,
+        showResetButton: PropTypes.bool,
+        searchButtonText: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+        resetButtonText: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+        outerForm: PropTypes.object,
         onSubmit: PropTypes.func,
-        items: PropTypes.array,
-        layout: PropTypes.string,
-        outerForm: PropTypes.object, // 外部传入的props
     };
 
     handleSubmit = (e) => {
@@ -42,7 +71,13 @@ export default class QueryItem extends Component {
     };
 
     render() {
-        const {items, showSearchButton = true, showResetButton = true} = this.props;
+        const {
+            items,
+            showSearchButton,
+            showResetButton,
+            searchButtonText,
+            resetButtonText,
+        } = this.props;
         const form = this.form;
         return (
             <Form onSubmit={this.handleSubmit}>
@@ -74,7 +109,7 @@ export default class QueryItem extends Component {
                                                         size="large"
                                                         htmlType="submit"
                                                     >
-                                                        查询
+                                                        {searchButtonText}
                                                     </Button>
                                                     : null
                                             }
@@ -86,7 +121,7 @@ export default class QueryItem extends Component {
                                                         size="large"
                                                         onClick={() => this.form.resetFields()}
                                                     >
-                                                        重置
+                                                        {resetButtonText}
                                                     </Button>
                                                     : null
                                             }
@@ -102,3 +137,5 @@ export default class QueryItem extends Component {
         );
     }
 }
+
+export default Form.create()(QueryItem);

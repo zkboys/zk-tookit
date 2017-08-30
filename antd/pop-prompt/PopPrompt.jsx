@@ -1,14 +1,16 @@
+/**
+ * pop形式的小文本输入框
+ * @module antd扩展组件
+ * */
+
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Popover, Input, Button, Form} from 'antd';
-import {getFormItem} from '../form-util/FormUtils';
+import {getFormItem} from '../form-util/form-utils';
 
 const FormItem = Form.Item;
-/**
- * pop形式的小文本输入框
- */
-@Form.create()
-export default class PopPrompt extends Component {
+
+class PopPrompt extends Component {
     constructor(props) {
         super(props);
         const currProps = this.props;
@@ -153,3 +155,5 @@ export default class PopPrompt extends Component {
         );
     }
 }
+
+export default Form.create()(PopPrompt);

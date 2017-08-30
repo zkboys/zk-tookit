@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Icon, Form} from 'antd';
 import {FormItemLayout} from 'zk-tookit/antd';
-import {getFormElement} from '../form-util/FormUtils';
+import {getFormElement} from '../form-util/form-utils';
 import './style.less';
 
 /**
@@ -71,6 +71,8 @@ export class EditableRowCell extends Component {
             });
             // 更新后执行回调函数
             if (onEditChange) onEditChange(showEdit);
+        } else {
+            this.setState({showEdit});
         }
     };
 
