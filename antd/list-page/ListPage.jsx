@@ -1,3 +1,7 @@
+/**
+ * 列表页的封装，通过传入相应的配置，生成列表页
+ */
+
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Table} from 'antd';
@@ -11,37 +15,26 @@ import {
     ToolItem,
 } from 'zk-tookit/antd';
 
-/**
- * 列表页的封装，通过传入相应的配置，生成列表页
- */
 export default class extends Component {
     static defaultProps = {
-        columns: [],
-        toolItems: [],
-        queryItems: [],
         searchOnMount: true,
         showSearchButton: true,
         showResetButton: true,
         showPagination: true,
+        showIndexColumn: true,
         total: 0,
-        tableProps: {},
-        dataSource: [],
-        rowKey: (record) => record.id,
     };
 
     static propTypes = {
-        columns: PropTypes.array.isRequired, // FIXME: 这个将被启用，table 的 props 统一使用tableProps传入
-        toolItems: PropTypes.array,
-        queryItems: PropTypes.array,
         searchOnMount: PropTypes.bool,
         showSearchButton: PropTypes.bool,
         showResetButton: PropTypes.bool,
         showPagination: PropTypes.bool,
+        showIndexColumn: PropTypes.bool,
+        toolItems: PropTypes.array,
+        queryItems: PropTypes.array,
         total: PropTypes.number,
-        dataSource: PropTypes.array, // FIXME: 这个将被启用，table 的 props 统一使用tableProps传入
         tableProps: PropTypes.object,
-        rowSelection: PropTypes.object, // FIXME: 这个将被启用，table 的 props 统一使用tableProps传入
-        rowKey: PropTypes.func, // FIXME: 这个将被启用，table 的 props 统一使用tableProps传入
         form: PropTypes.object, // 表单对象
     };
 
@@ -50,21 +43,13 @@ export default class extends Component {
         pageNum: 1,
         pageSize: 20,
         loading: false,
-        dataSource: [],
-        total: 0,
     };
-
-    componentWillMount() {
-    }
 
     componentDidMount() {
         const {searchOnMount} = this.props;
         if (searchOnMount) {
             this.search();
         }
-    }
-
-    componentWillUnmount() {
     }
 
     search = (args) => {
@@ -117,25 +102,16 @@ export default class extends Component {
 
     render() {
         const {
-            columns,
-            toolItems,
-            queryItems,
+            columns = [],
+            toolItems = [],
+            queryItems = [],
             showSearchButton,
             showResetButton,
             showPagination,
+            tableProps = {},
             total,
-            dataSource,
-            rowSelection,
-            rowKey,
             form,
         } = this.props;
-
-        // 解决如果各个组件都不传递tableProps，组件将都使用默认tableProps，而且是同一个tableProps，会产生互相干扰
-        let tableProps = {...this.props.tableProps};
-
-        if (rowSelection) {
-            tableProps.rowSelection = rowSelection;
-        }
 
         const {
             loading,
@@ -150,6 +126,7 @@ export default class extends Component {
             }
             return item;
         });
+
         tableColumns.unshift({title: '序号', width: 50, render: (text, record, index) => (index + 1) + ((pageNum - 1) * pageSize)});
 
         return (
@@ -178,9 +155,6 @@ export default class extends Component {
                     <Table
                         loading={loading}
                         size="large"
-                        rowKey={rowKey}
-                        columns={tableColumns}
-                        dataSource={dataSource}
                         pagination={false}
                         {...tableProps}
                     />

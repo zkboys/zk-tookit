@@ -1,29 +1,13 @@
 /**
- * form相关封装的一些基础方法，EditCell、QueryItem、FormPage等组件可能用到
+ * form相关封装的一些基础方法，EditCell、QueryItem、FormPage等组件可能用到；
+ * type可用类型有：input number textarea password mobile email select select-tree checkbox radio switch data time data-time cascader；
  *
- * @module antd/form-utils
+ * @module antd/form-utils 表单工具
  * */
 import React from 'react';
 import {InputClear, FormItemLayout} from 'zk-tookit/antd';
 import {InputNumber, Input, Select, Checkbox, Radio, Switch, DatePicker, TimePicker, Cascader} from 'antd';
 
-// input number textarea password mobile email select select-tree checkbox radio switch data time data-time cascader
-/*
- * item 大多是 FormItemLayout 所需参数 及 表单元素所需参数
- type: 'input',
- field: 'loginName',
- label: '登录名',
- labelSpaceCount: 3,
- width: '25%',
- placeholder: '请输入登录名',
- decorator: {
- rules: [
- {required: false, message: '请输入用户名'},
- ],
- },
- elementProps: {} 元素的一些props，具体参考antd
- *
- * */
 function isInputLikeElement(type) {
     return [
         'input',
@@ -36,6 +20,11 @@ function isInputLikeElement(type) {
     ].includes(type);
 }
 
+/**
+ * 基于item配置，获取表单元素的placeholder
+ * @param {Object} item 表单元素的配置
+ * @returns {String} 表单元素的placeholder
+ */
 export function getPlaceholder(item) {
     const {type = 'input', label, placeholder, elementProps = {}} = item;
     if (elementProps.placeholder) return elementProps.placeholder;
@@ -47,18 +36,20 @@ export function getPlaceholder(item) {
     return `请选择${label}`;
 }
 
+/**
+ *  获取表单元素
+ *
+ * @param {Object} item 表单元素的配置，大多是 FormItemLayout 所需参数 及 表单元素所需参数：
+ * type、field、label、labelSpaceCount、width、placeholder、decorator、elementProps、layout
+ * @param {Object} form antd 的form对象
+ * @returns {XML} 根据item生成的表单元素
+ */
 export function getFormElement(item, form) {
     const {type = 'input', elementProps = {}} = item;
     elementProps.placeholder = getPlaceholder(item);
     const width = elementProps.width ? elementProps.width : '100%';
     const commonStyle = {width};
     elementProps.style = elementProps.style ? {...commonStyle, ...elementProps.style} : commonStyle;
-    /*
-     input number textarea password mobile email
-     select select-tree checkbox checkbox-group radio radio-group
-     switch data data-time data-range month time
-     TODO: cascader
-     * */
     if (isInputLikeElement(type)) {
         if (type === 'input-clear') return <InputClear {...elementProps} form={form}/>;
         if (type === 'number') return <InputNumber {...elementProps}/>;
@@ -87,10 +78,9 @@ export function getFormElement(item, form) {
 
     if (type === 'switch') return <Switch {...elementProps} style={{...elementProps.style, width: 'auto'}}/>;
 
-    // FIXME: 笔误
-    if (type === 'data' || type === 'date') return <DatePicker {...elementProps}/>;
+    if (type === 'date') return <DatePicker {...elementProps}/>;
 
-    if (type === 'data-range' || type === 'date-range') return <DatePicker.RangePicker {...elementProps}/>;
+    if (type === 'date-range') return <DatePicker.RangePicker {...elementProps}/>;
 
     if (type === 'month') return <DatePicker.MonthPicker {...elementProps}/>;
 
@@ -103,10 +93,10 @@ export function getFormElement(item, form) {
 }
 
 /**
- *
+ * 获取FormItem组件
  * @param item
  * @param form
- * @returns {XML}
+ * @returns {XML} FormItemLayout组件
  */
 export function getFormItem(item, form) {
     const {getFieldDecorator} = form;

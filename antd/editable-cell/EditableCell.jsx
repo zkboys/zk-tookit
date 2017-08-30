@@ -1,6 +1,7 @@
 /**
- * 可编辑单元格封装，结合antd 的table column render进行使用，field、placeholder、type、decorator、elementProps等表单相关的属性，请参考{@link module:antd/form-utils}
- * @see module:antd/form-utils
+ * 可编辑单元格封装，结合antd 的table column render进行使用；
+ * field、placeholder、type、decorator、elementProps等表单相关的属性，请参考{@link module:antd/form-utils 表单工具}
+ * @see module:antd/form-utils 表单工具
  *
  * @param {Object} [outerForm] 外部form，如果不传，将使用内部from对象，一般整行编辑模式会用到
  * @param {*} [text] 非编辑模式，表格显示的值
@@ -15,45 +16,6 @@
  * @param {String} [type] 表单元素的类型
  * @param {Object} [decorator] form 的 decorator 参数，参见{@link https://ant.design/components/form-cn/}
  * @param {Object} [elementProps] 表单元素属性
- *
- * @example
- * ...
- * <Table
- *    columns={[
- *        {
- *            title: '姓名',
- *            width: 300,
- *            dataIndex: 'name',
- *            key: 'name',
- *            render: (text, record) => {
- *                const {id} = record;
- *                return (
- *                    <EditableCell
- *                        text={text}
- *                        placeholder="请输入姓名"
- *                        field="name"
- *                        defaultShowEdit
- *                        onSubmit={value => {
- *                            // ajax请求，进行数据更新
- *                            const {dataSource} = this.state;
- *                            const data = dataSource.find(item => item.id === id);
- *                            const name = value.name;
- *
- *                            if (data) data.name = name;
- *                            this.setState({dataSource});
- *                        }}
- *                        decorator={{rules: [{required: true, message: '请输入姓名！'}]}}
- *                    />
- *                );
- *            },
- *        },
- *    ]}
- *    dataSource={this.state.dataSource}
- *    rowKey={record => record.id}
- *    pagination={false}
- * />
- * ...
- *
  *
  * @module antd/EditableCell 可编辑单元格
  * */

@@ -1,6 +1,18 @@
 /**
  * pop形式的小文本输入框
- * @module antd扩展组件
+ *
+ * @see module:antd/form-utils 表单工具
+ *
+ * @param {String} [title=请输入] 弹框title
+ * @param {String} [okText=确认] 确定按钮文案
+ * @param {String} [cancelText=取消] 取消按钮文案
+ * @param {Function} [onCancel] 取消按钮回到
+ * @param {Function} [onConfirm] 确定按钮回调
+ * @param {Function} [onClickLabel] label点击事件，一般用来控制visible
+ * @param {Object} [inputProps] 表单元素属性
+ * @param {Object[]} [items] 自定义表单元素项
+
+ * @module antd/PopPrompt 提示输入
  * */
 
 import React, {Component} from 'react';
@@ -38,7 +50,9 @@ class PopPrompt extends Component {
         cancelText: PropTypes.string,
         onCancel: PropTypes.func,
         onConfirm: PropTypes.func,
+        onClickLabel: PropTypes.func,
         inputProps: PropTypes.object,
+        items: PropTypes.array,
     };
 
     state = {

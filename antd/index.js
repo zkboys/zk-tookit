@@ -1,6 +1,3 @@
-/**
- * @module antd
- */
 export * as FormUtil from './form-util/form-utils';
 export EditableCell from './editable-cell/EditableCell';
 export FontIcon from './font-icon/FontIcon';
