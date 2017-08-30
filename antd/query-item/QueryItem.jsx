@@ -1,6 +1,7 @@
 /**
  *
  * 查询条件封装，通过传入items即可生成查询条件form表单；
+ * @see module:antd/form-utils
  *
  * @param {Object[]} items 查询条件各个项，各项具体参数请参考：{@link module:antd/form-utils}
  * @param {Boolean} [showSearchButton = true] 是否显示查询按钮
@@ -10,8 +11,6 @@
  * @param {Object} [outerForm] 外部提供的form对象，如果未提供，组件将使用内部自己的form；
  * 使用外部提供的form可以使用form的api对组件进行各种操作，适用于比较复杂的需求场景
  * @param {Function} [onSubmit] 点击提交按钮触发的回调
- *
- * @see module:antd/form-utils
  *
  * @example
  *
