@@ -30,4 +30,4 @@ export const positiveInteger = /^[1-9]\d*$|0$/;
 export const positiveIntegerGT0 = /^[1-9]+[0-9]*$/;
 
 // 数字、保存两位小数
-export const numberWithTwoDecimal = /^\d+(\.\d)?(\d)?$/;
+export const numberWithTwoDecimal = /^(0|[1-9]\d*)(\.\d{1,2})?$/;
