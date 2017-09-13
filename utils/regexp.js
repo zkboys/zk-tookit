@@ -18,7 +18,7 @@ export const cardNumber = /(^\d{15}$)|(^\d{17}([0-9]|X|x)$)/;
 export const email = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
 
 // 纯数字，不包括 + -
-export const number = /[0-9]+$/;
+export const number = /^[0-9]*$/;
 
 // 整数
 export const integer = /^[-]{0,1}[0-9]{1,}$/;

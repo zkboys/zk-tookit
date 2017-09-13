@@ -158,7 +158,7 @@ export default class extends Component {
                     queryItems && queryItems.length ?
                         <QueryBar>
                             <QueryItem
-                                outerForm={form}
+                                outerForm={form} // fixme: 会改成form
                                 items={queryItems}
                                 showSearchButton={showSearchButton}
                                 showResetButton={showResetButton}

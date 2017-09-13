@@ -11,6 +11,12 @@ export default class ModalComponent extends Component {
         }
     }
 
+    static info = Modal.info;
+    static success = Modal.success;
+    static error = Modal.error;
+    static warning = Modal.warning;
+    static confirm = Modal.confirm;
+
     render() {
         return (
             <Modal {...this.props}>

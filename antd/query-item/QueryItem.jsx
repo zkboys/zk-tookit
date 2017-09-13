@@ -10,7 +10,7 @@ import {getFormItem} from '../form-util/FormUtils';
 export default class QueryItem extends Component {
     constructor(props) {
         super(props);
-        const {outerForm, form} = props;
+        const {outerForm, form} = props; // fixme： 去掉 outerForm，可以使用一个form，另外编写一个组件，render时候通过判断是否传递了form，区分不同渲染，const QueryItemWithForm = Form.create()(QueryItem) <QueryItemWithForm/>
         if (outerForm) {
             this.form = outerForm;
         } else {
