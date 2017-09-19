@@ -5,6 +5,7 @@ import {FontIcon, PopPrompt} from 'zk-tookit/antd';
 
 /**
  * 操作封装，一般用于表格最后的操作列中
+ * TODO 不适用a标签，使用span + 样式
  */
 export default class Operator extends Component {
     static defaultProps = {

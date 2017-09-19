@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Popover, Input, Button, Form} from 'antd';
+import {Popover, Button, Form} from 'antd';
 import {getFormItem} from '../form-util/FormUtils';
 
 const FormItem = Form.Item;
 /**
  * pop形式的小文本输入框
+ *
  */
+
+// TODO 是否提供外部form功能？
 @Form.create()
 export default class PopPrompt extends Component {
     constructor(props) {
@@ -21,6 +24,16 @@ export default class PopPrompt extends Component {
         this.state.visible = visible;
     }
 
+    static propTypes = {
+        title: PropTypes.string,
+        okText: PropTypes.string,
+        cancelText: PropTypes.string,
+        onCancel: PropTypes.func,
+        onConfirm: PropTypes.func,
+        onVisibleChange: PropTypes.func,
+        inputProps: PropTypes.object,
+    };
+
     static defaultProps = {
         title: '请输入',
         okText: '确认',
@@ -28,15 +41,7 @@ export default class PopPrompt extends Component {
         onCancel: () => true,
         onConfirm: () => true,
         onClickLabel: () => true,
-    };
-
-    static propTypes = {
-        title: PropTypes.string,
-        okText: PropTypes.string,
-        cancelText: PropTypes.string,
-        onCancel: PropTypes.func,
-        onConfirm: PropTypes.func,
-        inputProps: PropTypes.object,
+        onVisibleChange: () => true,
     };
 
     state = {
@@ -77,12 +82,18 @@ export default class PopPrompt extends Component {
     handleVisibleChange = (visible) => {
         // 如果 props 传入 visible,则直接更新
         if ('visible' in this.props) {
-            this.setState({
-                visible: this.props.visible,
-            });
-        } else {
-            this.setState({visible});
+            visible = this.props.visible;
         }
+        this.setState({visible}, () => {
+            if (visible) {
+                if (this.textArea) {
+                    this.textArea.focus();
+                    this.textArea.select && this.textArea.select();
+                    this.textArea.setSelectionRange && this.textArea.setSelectionRange(0, this.textArea.value.length);
+                }
+            }
+        });
+        this.props.onVisibleChange && this.props.onVisibleChange();
         // this.props.form.resetFields();
     };
 
@@ -105,8 +116,9 @@ export default class PopPrompt extends Component {
                         <FormItem>
                             {
                                 getFieldDecorator('value', decorator)(
-                                    <Input
-                                        type="textarea"
+                                    <textarea
+                                        className="ant-input"
+                                        ref={node => this.textArea = node}
                                         {...inputProps}
                                     />
                                 )

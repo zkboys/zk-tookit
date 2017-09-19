@@ -19,6 +19,7 @@
  *                    `=---='                    *
  * ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ *
  *             佛祖保佑       永无BUG              *
+ *         此代码经过开光处理，不可能存在bug！        *
  * * * * * * * * * * * * * * * * * * * * * * * **/
 
 /**
@@ -121,7 +122,7 @@ export default class ZkAxios {
         let instance = this.instance;
 
         /*
-         * 封装内部做处理，如果需要，通过如下方式，或者其他方法自行处理
+         * 封装内不做处理，如果需要，通过如下方式，或者其他方法自行处理
          * axiosInstance.interceptors.request.use(cfg => {
          *   // Do something before request is sent
          *   return cfg;

@@ -15,7 +15,7 @@ export default class UserAvatar extends Component {
             avatar: '',
         },
     };
-
+    // TODO 修改为 className text url
     static propTypes = {
         className: PropTypes.string,
         user: PropTypes.shape({

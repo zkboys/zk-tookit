@@ -1,5 +1,6 @@
 /*
  * 通用正则表达式
+ * TODO: 编写测试，需要好好验证一下这里面的正则
  * */
 
 // 手机号
@@ -18,13 +19,13 @@ export const cardNumber = /(^\d{15}$)|(^\d{17}([0-9]|X|x)$)/;
 export const email = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
 
 // 纯数字，不包括 + -
-export const number = /^[0-9]*$/;
+export const number = /^[0-9]*$/; // fixme: '0000' 这个正则也可以
 
 // 整数
-export const integer = /^[-]{0,1}[0-9]{1,}$/;
+export const integer = /^[-]?[0-9]+$/; // fixme: '0000' 这个正则也可以
 
 // 正整数
-export const positiveInteger = /^[1-9]\d*$|0$/;
+export const positiveInteger = /^[1-9]\d*$|0$/; // fixme: '0000' 这个正则也可以
 
 // 大于0的正整数
 export const positiveIntegerGT0 = /^[1-9]+[0-9]*$/;
