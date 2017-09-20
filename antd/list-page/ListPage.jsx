@@ -23,6 +23,7 @@ export default class extends Component {
         showSearchButton: true,
         showResetButton: true,
         showPagination: true,
+        showSequenceNumber: true,
         total: 0,
         tableProps: {},
         dataSource: [],
@@ -37,6 +38,7 @@ export default class extends Component {
         showSearchButton: PropTypes.bool,
         showResetButton: PropTypes.bool,
         showPagination: PropTypes.bool,
+        showSequenceNumber: PropTypes.bool,
         total: PropTypes.number,
         dataSource: PropTypes.array, // FIXME: 这个将被启用，table 的 props 统一使用tableProps传入
         tableProps: PropTypes.object,
@@ -123,6 +125,7 @@ export default class extends Component {
             showSearchButton,
             showResetButton,
             showPagination,
+            showSequenceNumber,
             total,
             dataSource,
             rowSelection,
@@ -150,7 +153,14 @@ export default class extends Component {
             }
             return item;
         });
-        tableColumns.unshift({title: '序号', width: 50, render: (text, record, index) => (index + 1) + ((pageNum - 1) * pageSize)});
+
+
+        showSequenceNumber && tableColumns.unshift({
+            title: '序号',
+            key: '__num__',
+            width: 50,
+            render: (text, record, index) => (index + 1) + ((pageNum - 1) * pageSize),
+        });
 
         return (
             <PageContent className="example-users">
