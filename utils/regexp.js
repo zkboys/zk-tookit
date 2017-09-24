@@ -24,10 +24,16 @@ export const number = /^[0-9]*$/; // fixme: '0000' 这个正则也可以
 // 整数
 export const integer = /^[-]?[0-9]+$/; // fixme: '0000' 这个正则也可以
 
-// 正整数
-export const positiveInteger = /^[1-9]\d*$|0$/; // fixme: '0000' 这个正则也可以
+// 正整数 fixme 这个是自然数，不是正整数，正整数不包含0
+export const positiveInteger = /^[1-9]\d*$|^0?$/;
 
-// 大于0的正整数
+// 正整数
+// export const positiveInteger = /^[1-9]\d*$/;
+
+// 自然数
+export const naturalNumber = /^[1-9]\d*$|^0?$/;
+
+// 大于0的正整数 fixme 正整数，就特么是大于0的
 export const positiveIntegerGT0 = /^[1-9]+[0-9]*$/;
 
 // 数字、保存两位小数
