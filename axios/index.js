@@ -72,6 +72,7 @@
  * @module ajax工具
  * */
 import axios from 'axios';
+import {stringify} from 'qs';
 
 export default class ZkAxios {
     /**
@@ -84,10 +85,10 @@ export default class ZkAxios {
      * @param isMock 区分哪些请求需要mock，比如：url以约定'/mock'开头的请求，使用mock等方式。
      */
     constructor({
-        onShowSuccessTip = (/* response, successTip  */) => true,
-        onShowErrorTip = (/* err, errorTip */) => true,
-        isMock = (/* url, data, method, options */) => false,
-    } = {}) {
+                    onShowSuccessTip = (/* response, successTip  */) => true,
+                    onShowErrorTip = (/* err, errorTip */) => true,
+                    isMock = (/* url, data, method, options */) => false,
+                } = {}) {
         this.instance = axios.create();
         this.mockInstance = axios.create();
         this.setDefaultOption(this.instance);
@@ -103,20 +104,30 @@ export default class ZkAxios {
     setDefaultOption(instance) {
         instance.defaults.timeout = 10000;
         instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+        instance.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
         instance.defaults.baseURL = '/';
         instance.defaults.withCredentials = true; // 跨域携带cookie
     }
 
-    ajax(url, data, method = 'get', options = {}) {
+    /**
+     *
+     * @param url
+     * @param data
+     * @param method
+     * @param options 配置数据，最常用是【successTip】属性，也可以吧url data method覆盖掉；
+     * @returns {Promise}
+     */
+    ajax(url, data = {}, method = 'get', options = {}) {
+        data = data || {};
         let {
-            successTip = false,
-            errorTip = method === 'get' ? '获取数据失败！' : '操作失败！',
+            successTip = false, // 默认false，不展示
+            errorTip = method === 'get' ? '获取数据失败！' : '操作失败！', // 默认失败提示
         } = options;
 
         const CancelToken = axios.CancelToken;
         let cancel;
 
-        // const isGet = method === 'get';
+        const isGet = method === 'get';
         const isMock = this.isMock(url, data, method, options);
 
         let instance = this.instance;
@@ -133,12 +144,29 @@ export default class ZkAxios {
          *
          * */
 
-        // if (isGet && !isMock) {
-        //     url = mosaicUrl(url, data);
-        // }
-
         if (isMock) {
             instance = this.mockInstance;
+        }
+
+        /*
+        *
+        * Content-Type application/x-www-form-urlencoded 存在问题
+        * 参见：https://github.com/axios/axios/issues/362
+        *
+        * */
+        const defaultsContentType = instance.defaults.headers[method]['Content-Type'] || '';
+        const contentType = (options.headers && options.headers['Content-Type']) || '';
+        if (
+            (defaultsContentType && defaultsContentType.indexOf('application/x-www-form-urlencoded') > -1)
+            || contentType.indexOf('application/x-www-form-urlencoded') > -1
+        ) {
+            data = stringify(data);
+        }
+
+        let params = {};
+        if (isGet) {
+            params = data; // params 是get请求拼接到url上的
+            data = {}; // data 是put、post 等请求发送的数据
         }
 
         const ajaxPromise = new Promise((resolve, reject) => {
@@ -146,6 +174,7 @@ export default class ZkAxios {
                 method,
                 url,
                 data,
+                params,
                 cancelToken: new CancelToken(c => cancel = c),
                 ...options,
             }).then(response => {
@@ -182,46 +211,46 @@ export default class ZkAxios {
     /**
      * 发送一个post请求，一般用于添加操作
      * @param {string} url 请求路径
-     * @param {object} [params] 传输给后端的数据
+     * @param {object} [data] 传输给后端的数据
      * @param {object} [options] axios 配置参数
      * @returns {Promise}
      */
-    post(url, params, options) {
-        return this.ajax(url, params, 'post', options);
+    post(url, data, options) {
+        return this.ajax(url, data, 'post', options);
     }
 
 
     /**
      * 发送一个put请求，一般用于更新操作
      * @param {string} url 请求路径
-     * @param {object} [params] 传输给后端的数据
+     * @param {object} [data] 传输给后端的数据
      * @param {object} [options] axios 配置参数
      * @returns {Promise}
      */
-    put(url, params, options) {
-        return this.ajax(url, params, 'put', options);
+    put(url, data, options) {
+        return this.ajax(url, data, 'put', options);
     }
 
     /**
      * 发送一个patch请求，一般用于更新部分数据
      * @param {string} url 请求路径
-     * @param {object} [params] 传输给后端的数据
+     * @param {object} [data] 传输给后端的数据
      * @param {object} [options] axios 配置参数
      * @returns {Promise}
      */
-    patch(url, params, options) {
-        return this.ajax(url, params, 'patch', options);
+    patch(url, data, options) {
+        return this.ajax(url, data, 'patch', options);
     }
 
     /**
      * 发送一个delete请求，一般用于删除数据，params会被忽略（http协议中定义的）
      * @param {string} url 请求路径
-     * @param {object} [params] 传输给后端的数据
+     * @param {object} [data] 传输给后端的数据
      * @param {object} [options] axios 配置参数
      * @returns {Promise}
      */
-    del(url, params, options) {
-        return this.ajax(url, params, 'delete', options);
+    del(url, data, options) {
+        return this.ajax(url, data, 'delete', options);
     }
 
     singleGets = {};

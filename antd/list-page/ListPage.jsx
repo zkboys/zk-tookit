@@ -28,6 +28,8 @@ export default class extends Component {
         tableProps: {},
         dataSource: [],
         rowKey: (record) => record.id,
+
+        pageNum: 1,
     };
 
     static propTypes = {
@@ -45,15 +47,17 @@ export default class extends Component {
         rowSelection: PropTypes.object, // FIXME: 这个将被启用，table 的 props 统一使用tableProps传入
         rowKey: PropTypes.func, // FIXME: 这个将被启用，table 的 props 统一使用tableProps传入
         form: PropTypes.object, // 表单对象
+
+        pageNum: PropTypes.number,
+        onPageNumChange: PropTypes.func,
     };
 
     state = {
         query: {},
-        pageNum: 1,
-        pageSize: 20,
         loading: false,
         dataSource: [],
         total: 0,
+        pageSize: 20,
     };
 
     componentWillMount() {
@@ -74,7 +78,8 @@ export default class extends Component {
         const {query} = this.state;
         let params = {};
         if (showPagination) {
-            const {pageNum, pageSize} = this.state;
+            const {pageNum} = this.props;
+            const {pageSize} = this.state;
             params = {
                 ...query,
                 pageNum,
@@ -92,29 +97,17 @@ export default class extends Component {
     };
 
     handleQuery = (query) => {
-        const {showPagination} = this.props;
-        this.setState({query});
-        if (showPagination) {
-            this.search({pageNum: 1, ...query});
-        } else {
-            this.search({...query});
-        }
+        const {pageNum} = this.props;
+        this.setState({query}, () => this.search({pageNum, ...query}));
     };
 
     handlePageNumChange = (pageNum) => {
-        this.setState({pageNum});
-        this.search({pageNum});
+        const {onPageNumChange} = this.props;
+        onPageNumChange && onPageNumChange(pageNum);
     };
 
     handlePageSizeChange = pageSize => {
-        this.setState({
-            pageNum: 1,
-            pageSize,
-        });
-        this.search({
-            pageNum: 1,
-            pageSize,
-        });
+        this.setState({pageSize}, () => this.search({pageSize}));
     };
 
     render() {
@@ -140,11 +133,9 @@ export default class extends Component {
             tableProps.rowSelection = rowSelection;
         }
 
-        const {
-            loading,
-            pageNum,
-            pageSize,
-        } = this.state;
+        const {loading, pageSize} = this.state;
+        let {pageNum} = this.props;
+        pageNum = pageNum <= 0 ? 1 : pageNum;
 
         // columns key可以缺省，默认与dataIndex，如果有相同dataIndex列，需要指定key；
         const tableColumns = columns.map(item => {
@@ -158,7 +149,7 @@ export default class extends Component {
         showSequenceNumber && tableColumns.unshift({
             title: '序号',
             key: '__num__',
-            width: 50,
+            width: 60,
             render: (text, record, index) => (index + 1) + ((pageNum - 1) * pageSize),
         });
 
