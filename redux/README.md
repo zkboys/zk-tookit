@@ -1,4 +1,6 @@
 # redux 封装
+redux 到底要解决什么问题？管理被多个组件所依赖或者影响的状态；
+一个action需要被多个reducer处理吗？
 
 ## 关于redux
 actions可以被各个页面组件和reducers复用
@@ -15,7 +17,7 @@ actions可以被各个页面组件和reducers复用
         utils,
     });
 
-    src/layout/home.js
+    // src/layout/home.js
     export function mapStateToProps(state) {
         return {
             ...state.home, // 这个home指的就是 combineReducers中的key
