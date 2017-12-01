@@ -107,7 +107,7 @@ export default class extends Component {
     };
 
     handlePageSizeChange = pageSize => {
-        this.setState({pageSize}, () => this.search({pageSize}));
+        this.setState({pageSize}, () => this.search({pageNum: 1, pageSize}));
     };
 
     render() {
