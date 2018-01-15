@@ -96,9 +96,18 @@ export default class extends Component {
         onSearch(params).finally(() => this.setState({loading: false}));
     };
 
-    handleQuery = (query) => {
+    handleQuery = (query = {}) => {
         const {pageNum} = this.props;
-        this.setState({query}, () => this.search({pageNum, ...query}));
+        const {showPagination} = this.props;
+        let params = query;
+        if (showPagination) {
+            params = {
+                ...query,
+                pageNum,
+            };
+        }
+
+        this.setState({query}, () => this.search(params));
     };
 
     handlePageNumChange = (pageNum) => {

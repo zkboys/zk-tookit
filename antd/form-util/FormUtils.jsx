@@ -3,7 +3,7 @@
  * */
 import React from 'react';
 import {InputClear, FormItemLayout} from 'zk-tookit/antd';
-import {InputNumber, Input, Select, Checkbox, Radio, Switch, DatePicker, TimePicker, Cascader} from 'antd';
+import {InputNumber, Input, Select, TreeSelect, Checkbox, Radio, Switch, DatePicker, TimePicker, Cascader} from 'antd';
 
 // input number textarea password mobile email select select-tree checkbox radio switch data time data-time cascader
 /*
@@ -74,6 +74,8 @@ export function getFormElement(item, form) {
             </Select>
         );
     }
+
+    if (type === 'select-tree') return <TreeSelect {...elementProps} treeData={elementProps.options}/>
 
     if (type === 'checkbox') return <Checkbox {...elementProps}>{elementProps.label}</Checkbox>;
 

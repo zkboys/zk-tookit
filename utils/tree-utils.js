@@ -384,6 +384,7 @@ export function updateNode(treeData, newNode) {
  * @returns {object} 最顶层节点
  */
 export function getTopNodeByNode(treeData, node) {
+    if (!node) return null;
     if (node && !node.parentKey) return node;
     let parentNode = null;
     const loop = (data) => { // 查找node的父节点
