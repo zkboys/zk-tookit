@@ -8,15 +8,6 @@ import {getFormItem} from '../form-util/FormUtils';
  */
 @Form.create()
 export default class QueryItem extends Component {
-    constructor(props) {
-        super(props);
-        const {outerForm, form} = props; // fixme： 去掉 outerForm，可以使用一个form，另外编写一个组件，render时候通过判断是否传递了form，区分不同渲染，const QueryItemWithForm = Form.create()(QueryItem) <QueryItemWithForm/>
-        if (outerForm) {
-            this.form = outerForm;
-        } else {
-            this.form = form;
-        }
-    }
 
     static defaultProps = {
         items: [],
@@ -27,13 +18,12 @@ export default class QueryItem extends Component {
         onSubmit: PropTypes.func,
         items: PropTypes.array,
         layout: PropTypes.string,
-        outerForm: PropTypes.object, // 外部传入的props
     };
 
     handleSubmit = (e) => {
         e.preventDefault();
         const {onSubmit} = this.props;
-        this.form.validateFieldsAndScroll((err, values) => {
+        this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 // TODO values中的日期，moment转换为str格式
                 onSubmit(values);
@@ -43,7 +33,7 @@ export default class QueryItem extends Component {
 
     render() {
         const {items, showSearchButton = true, showResetButton = true} = this.props;
-        const form = this.form;
+        const form = this.props.form;
         return (
             <Form onSubmit={this.handleSubmit}>
                 {
@@ -84,7 +74,7 @@ export default class QueryItem extends Component {
                                                         style={{marginLeft: 8, marginBottom: 16}}
                                                         type="ghost"
                                                         size="large"
-                                                        onClick={() => this.form.resetFields()}
+                                                        onClick={() => this.props.form.resetFields()}
                                                     >
                                                         重置
                                                     </Button>

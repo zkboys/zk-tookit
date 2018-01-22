@@ -75,7 +75,7 @@ export function getFormElement(item, form) {
         );
     }
 
-    if (type === 'select-tree') return <TreeSelect {...elementProps} treeData={elementProps.options}/>
+    if (type === 'select-tree') return <TreeSelect {...elementProps} treeData={elementProps.options}/>;
 
     if (type === 'checkbox') return <Checkbox {...elementProps}>{elementProps.label}</Checkbox>;
 

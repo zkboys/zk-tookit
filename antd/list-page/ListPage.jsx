@@ -162,13 +162,14 @@ export default class extends Component {
             render: (text, record, index) => (index + 1) + ((pageNum - 1) * pageSize),
         });
 
+        const queryItemFormProps = form ? {form} : {};
         return (
             <PageContent className="example-users">
                 {
                     queryItems && queryItems.length ?
                         <QueryBar>
                             <QueryItem
-                                outerForm={form} // fixme: 会改成form
+                                {...queryItemFormProps}
                                 items={queryItems}
                                 showSearchButton={showSearchButton}
                                 showResetButton={showResetButton}
